@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:29:27 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/10/24 14:30:02 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/10/24 17:32:54 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 int		builtin_cd(char *path)
 {
-	
+	return (chdir(path));
 }

@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 14:14:04 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/10/24 18:03:15 by nghaddar         ###   ########.fr       */
+/*   Created: 2024/10/24 17:31:56 by nghaddar          #+#    #+#             */
+/*   Updated: 2024/10/24 18:18:10 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int		builtin_echo(char *s, char optN)
+char	*builtin_pwd(void)
 {
-	ft_putstr(s);
-	if (!optN)
-		ft_putchar('\n');
-	return (0);
+	char *ret;
+
+	ret = malloc(256);
+	ret = getcwd(ret, 256);
+	return (ret);
 }
