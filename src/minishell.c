@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:47:28 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/24 14:46:28 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/24 17:27:46 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ int	main(int argc, char **argv, char **envp)
 		char	*input;
 		
 		input = readline("minishell>");
-		t_sep *list = tokenizer(input);
-		print_list(list);
+		t_token_list *list = lexer(input);
 		free(input);
 		free_list(list);
 		ft_putchar('\n');
