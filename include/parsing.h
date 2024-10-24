@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:09:54 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/24 17:37:34 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/24 23:11:05 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,8 @@ void			handle_double_quote(char *input, int *i, t_token_list **tokens);
 //utils2
 void			handle_cmd_arg(char *input, int *i, t_token_list **tokens);
 t_token			*create_token(const char *value, t_token_type type);
+void			add_token(t_token_list **tokens, t_token *new_token);
+void			handle_and(char *input, int *i, t_token_list **tokens);
+
 
 #endif

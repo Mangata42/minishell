@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:47:28 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/24 17:27:46 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/24 21:58:37 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	main(int argc, char **argv, char **envp)
 		
 		input = readline("minishell>");
 		t_token_list *list = lexer(input);
+		print_token_list(list);
 		free(input);
-		free_list(list);
 		ft_putchar('\n');
 	}
 }

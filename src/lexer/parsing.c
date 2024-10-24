@@ -6,11 +6,11 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:09:04 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/24 17:14:55 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/24 23:10:13 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 t_token_list *lexer(char *input)
 {
@@ -35,6 +35,8 @@ t_token_list *lexer(char *input)
 			handle_single_quote(input, &i, &tokens);
 		else if (input[i] == '\"')
 			handle_double_quote(input, &i, &tokens);
+		else if (input[i] == '&' && input[i + 1] == '&')
+			handle_and(input, &i, &tokens);
 		else
 			handle_cmd_arg(input, &i, &tokens);
 	}
