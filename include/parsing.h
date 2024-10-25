@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:09:54 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/24 23:11:05 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/25 10:04:41 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ typedef enum e_token_type
 	TOKEN_STRING,
 	TOKEN_AND,
 	TOKEN_OR,
-	TOKEN_EOF
+	TOKEN_EOF,
+	TOKEN_WILDCARDS
 }	t_token_type;
 
 typedef struct s_token
@@ -54,6 +55,7 @@ void			handle_cmd_arg(char *input, int *i, t_token_list **tokens);
 t_token			*create_token(const char *value, t_token_type type);
 void			add_token(t_token_list **tokens, t_token *new_token);
 void			handle_and(char *input, int *i, t_token_list **tokens);
+void			handle_wildcards(char *input, int *i, t_token_list **tokens);
 
 
 #endif

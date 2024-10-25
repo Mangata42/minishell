@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:09:54 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/24 23:11:40 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/25 12:06:15 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	handle_cmd_arg(char *input, int *i, t_token_list **tokens)
 	int		j;
 
 	j = 0;
-	while (input[*i] && !isspace(input[*i]) && input[*i] != '|' && input[*i] != '>' && input[*i] != '<')
+	while (input[*i] && !ft_isspace(input[*i]) && input[*i] != '|' && input[*i] != '>' && input[*i] != '<')
 		buffer[j++] = input[(*i)++];
 	buffer[j] = '\0';
 	add_token(tokens, create_token(ft_strdup(buffer), TOKEN_COMMAND));
@@ -26,8 +26,14 @@ void	handle_cmd_arg(char *input, int *i, t_token_list **tokens)
 
 void	handle_and(char *input, int *i, t_token_list **tokens)
 {
-	add_token(tokens, create_token(strdup("&&"), TOKEN_AND));
+	add_token(tokens, create_token(ft_strdup("&&"), TOKEN_AND));
 	(*i) += 2;
+}
+
+void	handle_wildcards(char *input, int *i, t_token_list **tokens)
+{
+	add_token(tokens, create_token(ft_strdup("*"), TOKEN_WILDCARDS));
+	(*i)++;
 }
 
 t_token *create_token(const char *value, t_token_type type)
@@ -35,7 +41,7 @@ t_token *create_token(const char *value, t_token_type type)
 	t_token *new_token = malloc(sizeof(t_token));
 	if (!new_token)
 		return NULL;
-	new_token->value = strdup(value);
+	new_token->value = ft_strdup(value);
 	if (!new_token->value)
 	{
 		free(new_token);

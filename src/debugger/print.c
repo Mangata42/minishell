@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 21:48:27 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/24 22:02:37 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/25 10:13:06 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ void print_token_type(t_token_type type)
 		break;
 	case TOKEN_EOF:
 		printf("End of File: ");
+		break;
+	case TOKEN_WILDCARDS:
+		printf("Wildcrad");
 		break;
 	default:
 		printf("Unknown token type: ");

@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:47:28 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/24 21:58:37 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/25 12:06:30 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,14 @@ int	main(int argc, char **argv, char **envp)
 		char	*input;
 		
 		input = readline("minishell>");
+		if (!input)
+			break;
+		if (*input)
+			add_history(input);
 		t_token_list *list = lexer(input);
 		print_token_list(list);
 		free(input);
 		ft_putchar('\n');
 	}
+	write_history("history_file.txt");
 }
