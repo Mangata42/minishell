@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 21:48:27 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/26 20:51:45 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/10/26 21:54:03 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,6 @@ void	print_token_list(t_token_list *TokenList)
 		printf("%s\n", TokenCursor->value);
 		TokenCursor = TokenCursor->Next;
 	}
+
+	printf("\n== TOKEN LIST : %u ==\n", TokenList->size);
 }
