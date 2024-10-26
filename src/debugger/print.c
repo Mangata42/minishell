@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 21:48:27 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/25 12:44:12 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/26 20:51:45 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void print_token_type(t_token_type type)
 		printf("End of File: ");
 		break;
 	case TOKEN_WILDCARDS:
-		printf("Wildcrad: ");
+		printf("Wildcard: ");
 		break;
 	case TOKEN_EXPAND:
 		printf("Expand: ");
@@ -64,13 +64,15 @@ void print_token_type(t_token_type type)
 	}
 }
 
-void	print_token_list(t_token_list *list)
+void	print_token_list(t_token_list *TokenList)
 {
-	t_token_list *current = list;
-	while (current)
+	t_token *TokenCursor;
+
+	TokenCursor = TokenList->First;
+	while (TokenCursor)
 	{
-		print_token_type(current->token->type);
-		printf("%s\n", current->token->value);
-		current = current->next;
+		print_token_type(TokenCursor->type);
+		printf("%s\n", TokenCursor->value);
+		TokenCursor = TokenCursor->Next;
 	}
 }
