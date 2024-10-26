@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:09:04 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/25 10:05:29 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/26 10:55:35 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	is_whitespace(char c, int *i)
 	return (false);
 }
 
-t_token_list	*tokenize(char *input, t_token *tokens, int i)
+t_token_list	*tokenize(char *input, t_token *tokens, int i, t_shell *shell)
 {
 	while (input[i])
 	{
@@ -42,17 +42,19 @@ t_token_list	*tokenize(char *input, t_token *tokens, int i)
 			handle_and(input, &i, &tokens);
 		else if (input[i] == '*')
 			handle_wildcards(input, &i, &tokens);
+		else if (input[i] == '$')
+			handle_expand(input, &i, &tokens, &shell);
 		else
 			handle_cmd_arg(input, &i, &tokens);
 	}
 	return (tokens);
 }
 
-t_token_list	*lexer(char *input)
+t_token_list	*lexer(char *input, t_shell *shell)
 {
 	t_token_list	*tokens;
 
 	tokens = NULL;
-	tokens = tokenize(input, tokens, 0);
+	tokens = tokenize(input, tokens, 0, &shell);
 	return (tokens);
 }

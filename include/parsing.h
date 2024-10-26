@@ -6,12 +6,14 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:09:54 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/25 10:04:41 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/26 11:11:41 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
+
+#include "shell.h"
 
 typedef enum e_token_type
 {
@@ -27,7 +29,8 @@ typedef enum e_token_type
 	TOKEN_AND,
 	TOKEN_OR,
 	TOKEN_EOF,
-	TOKEN_WILDCARDS
+	TOKEN_WILDCARDS,
+	TOKEN_EXPAND
 }	t_token_type;
 
 typedef struct s_token
@@ -43,7 +46,7 @@ typedef struct s_token_list
 	struct s_token_list	*prev;
 }	t_token_list;
 
-t_token_list	*lexer(char *input);
+t_token_list	*lexer(char *input, t_shell *shell);
 //utils1
 void			handle_pipe(char *input, int *i, t_token_list **tokens);
 void			handle_rout(char *input, int *i, t_token_list **tokens);
@@ -56,6 +59,7 @@ t_token			*create_token(const char *value, t_token_type type);
 void			add_token(t_token_list **tokens, t_token *new_token);
 void			handle_and(char *input, int *i, t_token_list **tokens);
 void			handle_wildcards(char *input, int *i, t_token_list **tokens);
-
+//utils3
+void			handle_expand(char *input, int *, t_token **tokens, t_shell *shell);
 
 #endif

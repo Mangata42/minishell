@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 09:47:28 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/26 11:04:43 by fflamion         ###   ########.fr       */
+/*   Created: 2024/10/26 10:34:59 by fflamion          #+#    #+#             */
+/*   Updated: 2024/10/26 10:36:44 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+void	free_shell(t_shell *shell)
 {
-	t_shell shell;
-	initialize_shell(&shell, envp);
-	while (42)
+	int i;
+
+	i = 0;
+	if (shell->envp)
 	{
-		char	*input;
-		
-		input = readline("minishell>");
-		if (!input)
-			break;
-		if (*input)
-			add_history(input);
-		t_token_list *list = lexer(input, &shell);
-		print_token_list(list);
-		free(input);
-		ft_putchar('\n');
+		while(shell->envp[i])
+		{
+			free(shell->envp[i]);
+			i++;
+		}
+		free(shell->envp);
 	}
-	write_history("history_file.txt");
 }

@@ -1,7 +1,7 @@
 # Variables
 NAME = libft.a
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Iincludes
+CFLAGS = -Wall -Wextra -Werror -Iincludes -fPIC
 SRC_DIR = src
 SRCS = $(wildcard $(SRC_DIR)/*/*.c)
 OBJS = $(SRCS:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 21:48:27 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/25 10:13:06 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/25 12:44:12 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ void print_token_type(t_token_type type)
 		printf("End of File: ");
 		break;
 	case TOKEN_WILDCARDS:
-		printf("Wildcrad");
+		printf("Wildcrad: ");
+		break;
+	case TOKEN_EXPAND:
+		printf("Expand: ");
 		break;
 	default:
 		printf("Unknown token type: ");
@@ -61,7 +64,7 @@ void print_token_type(t_token_type type)
 	}
 }
 
-void print_token_list(t_token_list *list)
+void	print_token_list(t_token_list *list)
 {
 	t_token_list *current = list;
 	while (current)
