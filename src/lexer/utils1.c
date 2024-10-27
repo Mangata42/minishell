@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:04:19 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/26 21:04:37 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:23:09 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void handle_pipe(char *input, unsigned int *i, t_token_list *TokenList)
+void h_pipe(char *input, uint16_t *i, t_token_list *TokenList)
 {
 	if (input[*i + 1] == '|')
 	{
@@ -26,7 +26,7 @@ void handle_pipe(char *input, unsigned int *i, t_token_list *TokenList)
 	}
 }
 
-void handle_rout(char *input, unsigned int *i, t_token_list *TokenList)
+void h_rout(char *input, uint16_t *i, t_token_list *TokenList)
 {
 	if (input[*i + 1] == '>')
 	{
@@ -40,7 +40,7 @@ void handle_rout(char *input, unsigned int *i, t_token_list *TokenList)
 	}
 }
 
-void handle_rin(char *input, unsigned int *i, t_token_list *TokenList)
+void h_rin(char *input, uint16_t *i, t_token_list *TokenList)
 {
 	if (input[*i + 1] == '<')
 	{
@@ -54,10 +54,10 @@ void handle_rin(char *input, unsigned int *i, t_token_list *TokenList)
 	}
 }
 
-void handle_single_quote(char *input, unsigned int *i, t_token_list *TokenList)
+void h_s_q(char *input, uint16_t *i, t_token_list *TokenList)
 {
 	char buffer[256];
-	unsigned int j = 0;
+	uint16_t j = 0;
 
 	(*i)++;
 	while (input[*i] && input[*i] != '\'')
@@ -74,22 +74,38 @@ void handle_single_quote(char *input, unsigned int *i, t_token_list *TokenList)
 	}
 }
 
-void handle_double_quote(char *input, unsigned int *i, t_token_list *TokenList)
+void	h_d_q(char *input, uint16_t *i, t_token_list *TokenList, t_shell *shell)
 {
-	char buffer[256];
-	unsigned int j = 0;
+	char	buffer[256];
+	size_t	j;
 
+	j = 0;
 	(*i)++;
 	while (input[*i] && input[*i] != '\"')
-		buffer[j++] = input[(*i)++];
+	{
+		if (input[*i] == '$')
+		{
+			if (j > 0)
+			{
+				buffer[j] = '\0';
+				add_token(TokenList, create_token(ft_strdup(buffer), TOKEN_STRING));
+				j = 0;
+			}
+			h_exp(input, i, TokenList, shell);
+		}
+		else
+		{
+			if (j < sizeof(buffer) - 1)
+				buffer[j++] = input[*i];
+			(*i)++;
+		}
+	}
 	buffer[j] = '\0';
+	if (j > 0)
+		add_token(TokenList, create_token(ft_strdup(buffer), TOKEN_STRING));
 	if (input[*i] == '\"')
-	{
-		add_token(TokenList, create_token(buffer, TOKEN_STRING));
 		(*i)++;
-	}
 	else
-	{
 		printf("Error: Missing closing double quote\n");
-	}
 }
+

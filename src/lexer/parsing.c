@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:09:04 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/26 21:49:55 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:23:09 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-bool	is_whitespace(char c, unsigned int *i)
+bool	is_whitespace(char c, uint16_t *i)
 {
 	if (ft_isspace(c))
 	{
@@ -25,7 +25,7 @@ bool	is_whitespace(char c, unsigned int *i)
 t_token_list	*lexer(char *input, t_shell *shell)
 {
 	t_token_list *TokenList;
-	unsigned int i = 0;
+	uint16_t i = 0;
 
 	if (!(TokenList = init_token_list()))
 		return (NULL);
@@ -34,23 +34,23 @@ t_token_list	*lexer(char *input, t_shell *shell)
 	{
 		while (is_whitespace(input[i], &i)) ;
 		if (input[i] == '|')
-			handle_pipe(input, &i, TokenList);
+			h_pipe(input, &i, TokenList);
 		else if (input[i] == '>')
-			handle_rout(input, &i, TokenList);
+			h_rout(input, &i, TokenList);
 		else if (input[i] == '<')
-			handle_rin(input, &i, TokenList);
+			h_rin(input, &i, TokenList);
 		else if (input[i] == '\'')
-			handle_single_quote(input, &i, TokenList);
+			h_s_q(input, &i, TokenList);
 		else if (input[i] == '\"')
-			handle_double_quote(input, &i, TokenList);
+			h_d_q(input, &i, TokenList, shell);
 		else if (input[i] == '&' && input[i + 1] == '&')
 			handle_and(&i, TokenList);
 		else if (input[i] == '*')
 			handle_wildcards(&i, TokenList);
 		else if (input[i] == '$')
-			handle_expand(input, &i, TokenList, shell);
+			h_exp(input, &i, TokenList, shell);
 		else
-			handle_cmd_arg(input, &i, TokenList);
+			h_cmd_arg(input, &i, TokenList);
 	}
 	return (TokenList);
 }

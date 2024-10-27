@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:50:53 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/26 11:10:52 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/27 16:31:09 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # include <dirent.h>
 # include <stdbool.h>
 
-
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -32,5 +31,6 @@
 # include "builtins.h"
 # include "parsing.h"
 # include "shell.h"
+# include "builtins.h"
 
 #endif

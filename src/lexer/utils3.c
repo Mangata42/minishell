@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 12:36:26 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/26 20:55:09 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:23:56 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-void handle_brace_expand(char *input, unsigned int *i, t_token_list *TokenList)
+void handle_brace_expand(char *input, uint16_t *i, t_token_list *TokenList)
 {
 	char buffer[256];
-	unsigned int j = 0;
+	size_t j = 0;
 
 	(*i)++;
 	while (input[*i] && input[*i] != '}')
@@ -44,11 +44,10 @@ void handle_brace_expand(char *input, unsigned int *i, t_token_list *TokenList)
 	}
 }
 
-
-void handle_alnum_expand(char *input, unsigned int *i, t_token_list *TokenList)
+void handle_alnum_expand(char *input, uint16_t *i, t_token_list *TokenList, char **envp)
 {
 	char buffer[256];
-	unsigned int j = 0;
+	size_t j = 0;
 
 	while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))
 	{
@@ -57,20 +56,18 @@ void handle_alnum_expand(char *input, unsigned int *i, t_token_list *TokenList)
 		(*i)++;
 	}
 	buffer[j] = '\0';
-	if (j > 0)
-		add_token(TokenList, create_token(buffer, TOKEN_EXPAND));
-	else
-		add_token(TokenList, create_token("$", TOKEN_STRING));
+
+	char *value = get_env_value(buffer, envp);
+	add_token(TokenList, create_token(ft_strdup(value), TOKEN_EXPAND));
 }
 
-
-void handle_expand(char *input, unsigned int *i, t_token_list *TokenList, t_shell *shell)
+void h_exp(char *input, uint16_t *i, t_token_list *TokenList, t_shell *shell)
 {
 	(*i)++;
 	if (input[*i] == '?')
 	{
 		char *status;
-		
+
 		status = ft_itoa(shell->exit_status);
 		add_token(TokenList, create_token(status, TOKEN_EXPAND));
 		(*i)++;
@@ -81,7 +78,6 @@ void handle_expand(char *input, unsigned int *i, t_token_list *TokenList, t_shel
 	}
 	else
 	{
-		handle_alnum_expand(input, i, TokenList);
+		handle_alnum_expand(input, i, TokenList, shell->envp);
 	}
 }
-
