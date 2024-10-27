@@ -12,75 +12,73 @@
 
 #include "../../include/minishell.h"
 
-t_t_list *init_t_list()
+t_t_list	*init_t_list(void)
 {
-	t_t_list *NewT_List;
+	t_t_list	*new_t_list;
 
-	NewT_List = malloc(sizeof(t_t_list));
-	if (!NewT_List)
+	new_t_list = malloc(sizeof(t_t_list));
+	if (!new_t_list)
 		return (NULL);
-	
-	NewT_List->first = NULL;
-	NewT_List->last = NULL;
-	NewT_List->size = 0;
-	return (NewT_List);
+	new_t_list->first = NULL;
+	new_t_list->last = NULL;
+	new_t_list->size = 0;
+	return (new_t_list);
 }
 
-
-void free_token_list(t_t_list *T_ListToFree)
+void	free_token_list(t_t_list *t_list_to_free)
 {
-	t_token *TokenCursor;
-	t_token *ToFree;
+	t_token	*token_cursor;
+	t_token	*to_free;
 
-	if (T_ListToFree) // if T_List actually exists
+	if (t_list_to_free)
 	{
-		TokenCursor = T_ListToFree->first;
-		while (TokenCursor)
+		token_cursor = t_list_to_free->first;
+		while (token_cursor)
 		{
-			ToFree = TokenCursor;
-			TokenCursor = ToFree->next;
-			if (ToFree->value) // to avoid double free or non-malloc'ed values
-				free(ToFree->value);
-			free(ToFree);
+			to_free = token_cursor;
+			token_cursor = to_free->next;
+			if (to_free->value)
+				free(to_free->value);
+			free(to_free);
 		}
-		free(T_ListToFree);
+		free(t_list_to_free);
 	}
 }
 
-t_token *create_token(const char *value, t_token_type type)
+t_token	*create_token(const char *value, t_token_type type)
 {
-	t_token *NewToken = malloc(sizeof(t_token));
+	t_token	*new_token;
 
-	if (!NewToken)
+	new_token = malloc(sizeof(t_token));
+	if (!new_token)
 		return (NULL);
-	
-	NewToken->next = NULL;
-	NewToken->prev = NULL;
-	NewToken->type = type;
-	NewToken->value = ft_strdup(value);
-	if (!NewToken->value)
+	new_token->next = NULL;
+	new_token->prev = NULL;
+	new_token->type = type;
+	new_token->value = ft_strdup(value);
+	if (!new_token->value)
 	{
-		free(NewToken);
-		return NULL;
+		free(new_token);
+		return (NULL);
 	}
-	return (NewToken);
+	return (new_token);
 }
 
-void	add_token(t_t_list *T_List, t_token *NewToken)
+void	add_token(t_t_list *t_list, t_token *new_token)
 {
-	if (!T_List || !NewToken)
+	if (!t_list || !new_token)
 		return ;
-
-	if (!T_List->first)
+	if (!t_list->first)
 	{
-		T_List->first = NewToken;
-		T_List->last = NewToken;
-	} else
-	{
-		NewToken->prev = T_List->last;
-		NewToken->next = NULL;
-		T_List->last->next = NewToken;
-		T_List->last = NewToken;
+		t_list->first = new_token;
+		t_list->last = new_token;
 	}
-	T_List->size++;
+	else
+	{
+		new_token->prev = t_list->last;
+		new_token->next = NULL;
+		t_list->last->next = new_token;
+		t_list->last = new_token;
+	}
+	t_list->size++;
 }
