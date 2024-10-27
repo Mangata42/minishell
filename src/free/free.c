@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 10:34:59 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/27 17:31:42 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/27 18:14:46 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 void	free_shell(t_sh *shell)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (shell->envp)
 	{
-		while(shell->envp[i])
+		while (shell->envp[i])
 		{
-			free(shell->envp[i]);
+			free (shell->envp[i]);
 			i++;
 		}
-		free(shell->envp);
+		free (shell->envp);
 	}
 }
