@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenListUtils.c                                   :+:      :+:    :+:   */
+/*   T_ListUtils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,38 +12,38 @@
 
 #include "../../include/minishell.h"
 
-t_token_list *init_token_list()
+t_t_list *init_t_list()
 {
-	t_token_list *NewTokenList;
+	t_t_list *NewT_List;
 
-	NewTokenList = malloc(sizeof(t_token_list));
-	if (!NewTokenList)
+	NewT_List = malloc(sizeof(t_t_list));
+	if (!NewT_List)
 		return (NULL);
 	
-	NewTokenList->First = NULL;
-	NewTokenList->Last = NULL;
-	NewTokenList->size = 0;
-	return (NewTokenList);
+	NewT_List->first = NULL;
+	NewT_List->last = NULL;
+	NewT_List->size = 0;
+	return (NewT_List);
 }
 
 
-void free_token_list(t_token_list *TokenListToFree)
+void free_token_list(t_t_list *T_ListToFree)
 {
 	t_token *TokenCursor;
 	t_token *ToFree;
 
-	if (TokenListToFree) // if TokenList actually exists
+	if (T_ListToFree) // if T_List actually exists
 	{
-		TokenCursor = TokenListToFree->First;
+		TokenCursor = T_ListToFree->first;
 		while (TokenCursor)
 		{
 			ToFree = TokenCursor;
-			TokenCursor = ToFree->Next;
+			TokenCursor = ToFree->next;
 			if (ToFree->value) // to avoid double free or non-malloc'ed values
 				free(ToFree->value);
 			free(ToFree);
 		}
-		free(TokenListToFree);
+		free(T_ListToFree);
 	}
 }
 
@@ -54,8 +54,8 @@ t_token *create_token(const char *value, t_token_type type)
 	if (!NewToken)
 		return (NULL);
 	
-	NewToken->Next = NULL;
-	NewToken->Prev = NULL;
+	NewToken->next = NULL;
+	NewToken->prev = NULL;
 	NewToken->type = type;
 	NewToken->value = ft_strdup(value);
 	if (!NewToken->value)
@@ -66,21 +66,21 @@ t_token *create_token(const char *value, t_token_type type)
 	return (NewToken);
 }
 
-void	add_token(t_token_list *TokenList, t_token *NewToken)
+void	add_token(t_t_list *T_List, t_token *NewToken)
 {
-	if (!TokenList || !NewToken)
+	if (!T_List || !NewToken)
 		return ;
 
-	if (!TokenList->First)
+	if (!T_List->first)
 	{
-		TokenList->First = NewToken;
-		TokenList->Last = NewToken;
+		T_List->first = NewToken;
+		T_List->last = NewToken;
 	} else
 	{
-		NewToken->Prev = TokenList->Last;
-		NewToken->Next = NULL;
-		TokenList->Last->Next = NewToken;
-		TokenList->Last = NewToken;
+		NewToken->prev = T_List->last;
+		NewToken->next = NULL;
+		T_List->last->next = NewToken;
+		T_List->last = NewToken;
 	}
-	TokenList->size++;
+	T_List->size++;
 }

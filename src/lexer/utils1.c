@@ -6,55 +6,55 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:04:19 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/27 17:23:09 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:31:42 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void h_pipe(char *input, uint16_t *i, t_token_list *TokenList)
+void h_pipe(char *input, uint16_t *i, t_t_list *T_List)
 {
 	if (input[*i + 1] == '|')
 	{
-		add_token(TokenList, create_token("||", TOKEN_OR));
+		add_token(T_List, create_token("||", TOKEN_OR));
 		(*i) += 2;
 	}
 	else
 	{
-		add_token(TokenList, create_token("|", TOKEN_PIPE));
+		add_token(T_List, create_token("|", TOKEN_PIPE));
 		(*i)++;
 	}
 }
 
-void h_rout(char *input, uint16_t *i, t_token_list *TokenList)
+void h_rout(char *input, uint16_t *i, t_t_list *T_List)
 {
 	if (input[*i + 1] == '>')
 	{
-		add_token(TokenList, create_token(">>", TOKEN_APPEND));
+		add_token(T_List, create_token(">>", TOKEN_APPEND));
 		(*i) += 2;
 	}
 	else
 	{
-		add_token(TokenList, create_token(">", TOKEN_REDIRECTION_OUT));
+		add_token(T_List, create_token(">", TOKEN_REDIRECTION_OUT));
 		(*i)++;
 	}
 }
 
-void h_rin(char *input, uint16_t *i, t_token_list *TokenList)
+void h_rin(char *input, uint16_t *i, t_t_list *T_List)
 {
 	if (input[*i + 1] == '<')
 	{
-		add_token(TokenList, create_token("<<", TOKEN_HEREDOC));
+		add_token(T_List, create_token("<<", TOKEN_HEREDOC));
 		(*i) += 2;
 	}
 	else
 	{
-		add_token(TokenList, create_token("<", TOKEN_REDIRECTION_IN));
+		add_token(T_List, create_token("<", TOKEN_REDIRECTION_IN));
 		(*i)++;
 	}
 }
 
-void h_s_q(char *input, uint16_t *i, t_token_list *TokenList)
+void h_s_q(char *input, uint16_t *i, t_t_list *T_List)
 {
 	char buffer[256];
 	uint16_t j = 0;
@@ -65,7 +65,7 @@ void h_s_q(char *input, uint16_t *i, t_token_list *TokenList)
 	buffer[j] = '\0';
 	if (input[*i] == '\'')
 	{
-		add_token(TokenList, create_token(buffer, TOKEN_STRING));
+		add_token(T_List, create_token(buffer, TOKEN_STRING));
 		(*i)++;
 	}
 	else
@@ -74,7 +74,7 @@ void h_s_q(char *input, uint16_t *i, t_token_list *TokenList)
 	}
 }
 
-void	h_d_q(char *input, uint16_t *i, t_token_list *TokenList, t_shell *shell)
+void	h_d_q(char *input, uint16_t *i, t_t_list *T_List, t_sh *shell)
 {
 	char	buffer[256];
 	size_t	j;
@@ -88,10 +88,10 @@ void	h_d_q(char *input, uint16_t *i, t_token_list *TokenList, t_shell *shell)
 			if (j > 0)
 			{
 				buffer[j] = '\0';
-				add_token(TokenList, create_token(ft_strdup(buffer), TOKEN_STRING));
+				add_token(T_List, create_token(ft_strdup(buffer), TOKEN_STRING));
 				j = 0;
 			}
-			h_exp(input, i, TokenList, shell);
+			h_exp(input, i, T_List, shell);
 		}
 		else
 		{
@@ -102,7 +102,7 @@ void	h_d_q(char *input, uint16_t *i, t_token_list *TokenList, t_shell *shell)
 	}
 	buffer[j] = '\0';
 	if (j > 0)
-		add_token(TokenList, create_token(ft_strdup(buffer), TOKEN_STRING));
+		add_token(T_List, create_token(ft_strdup(buffer), TOKEN_STRING));
 	if (input[*i] == '\"')
 		(*i)++;
 	else

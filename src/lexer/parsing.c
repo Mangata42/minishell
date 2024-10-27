@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:09:04 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/27 17:23:09 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/27 18:02:14 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,35 +22,35 @@ bool	is_whitespace(char c, uint16_t *i)
 	return (false);
 }
 
-t_token_list	*lexer(char *input, t_shell *shell)
+t_t_list	*lexer(char *input, t_sh *shell)
 {
-	t_token_list *TokenList;
+	t_t_list *T_List;
 	uint16_t i = 0;
 
-	if (!(TokenList = init_token_list()))
+	if (!(T_List = init_t_list()))
 		return (NULL);
 
 	while (input[i])
 	{
 		while (is_whitespace(input[i], &i)) ;
 		if (input[i] == '|')
-			h_pipe(input, &i, TokenList);
+			h_pipe(input, &i, T_List);
 		else if (input[i] == '>')
-			h_rout(input, &i, TokenList);
+			h_rout(input, &i, T_List);
 		else if (input[i] == '<')
-			h_rin(input, &i, TokenList);
+			h_rin(input, &i, T_List);
 		else if (input[i] == '\'')
-			h_s_q(input, &i, TokenList);
+			h_s_q(input, &i, T_List);
 		else if (input[i] == '\"')
-			h_d_q(input, &i, TokenList, shell);
+			h_d_q(input, &i, T_List, shell);
 		else if (input[i] == '&' && input[i + 1] == '&')
-			handle_and(&i, TokenList);
+			handle_and(&i, T_List);
 		else if (input[i] == '*')
-			handle_wildcards(&i, TokenList);
+			handle_wildcards(&i, T_List);
 		else if (input[i] == '$')
-			h_exp(input, &i, TokenList, shell);
+			h_exp(input, &i, T_List, shell);
 		else
-			h_cmd_arg(input, &i, TokenList);
+			h_cmd_arg(input, &i, T_List);
 	}
-	return (TokenList);
+	return (T_List);
 }

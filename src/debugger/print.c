@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 21:48:27 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/27 14:09:28 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:43:54 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,20 +65,20 @@ void print_token_type(t_token_type type)
 	}
 }
 
-void print_token_list(t_token_list *TokenList)
+void print_t_list(t_t_list *T_List)
 {
     t_token *TokenCursor;
     unsigned int index = 0;
 
-    if (!TokenList || !TokenList->First)
+    if (!T_List || !T_List->first)
     {
         printf(RED "Token list is empty.\n" RESET);
         return;
     }
 
-    printf(CYAN "\n== TOKEN LIST (" YELLOW "%u" CYAN " tokens) ==\n" RESET, TokenList->size);
+    printf(CYAN "\n== TOKEN LIST (" YELLOW "%u" CYAN " tokens) ==\n" RESET, T_List->size);
 
-    TokenCursor = TokenList->First;
+    TokenCursor = T_List->first;
     while (TokenCursor)
     {
         printf(BLUE "Token %u:\n" RESET, index);
@@ -106,7 +106,7 @@ void print_token_list(t_token_list *TokenList)
         printf("\n  " MAGENTA "Value  : " RESET "\"%s\"\n", TokenCursor->value);
         printf(CYAN "-----------------------------\n" RESET);
 
-        TokenCursor = TokenCursor->Next;
+        TokenCursor = TokenCursor->next;
         index++;
     }
 

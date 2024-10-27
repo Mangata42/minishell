@@ -6,13 +6,13 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 10:34:59 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/26 10:36:44 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:31:42 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	free_shell(t_shell *shell)
+void	free_shell(t_sh *shell)
 {
 	int i;
 
