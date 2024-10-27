@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:09:04 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/26 10:55:35 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/26 19:14:20 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	is_whitespace(char c, int *i)
 	return (false);
 }
 
-t_token_list	*tokenize(char *input, t_token *tokens, int i, t_shell *shell)
+t_token_list	*tokenize(char *input, t_token_list *tokens, int i, t_shell *shell)
 {
 	while (input[i])
 	{
@@ -37,13 +37,13 @@ t_token_list	*tokenize(char *input, t_token *tokens, int i, t_shell *shell)
 		else if (input[i] == '\'')
 			handle_single_quote(input, &i, &tokens);
 		else if (input[i] == '\"')
-			handle_double_quote(input, &i, &tokens);
+			handle_double_quote(input, &i, &tokens, shell);
 		else if (input[i] == '&' && input[i + 1] == '&')
 			handle_and(input, &i, &tokens);
 		else if (input[i] == '*')
 			handle_wildcards(input, &i, &tokens);
 		else if (input[i] == '$')
-			handle_expand(input, &i, &tokens, &shell);
+			handle_expand(input, &i, &tokens, shell);
 		else
 			handle_cmd_arg(input, &i, &tokens);
 	}
@@ -53,8 +53,8 @@ t_token_list	*tokenize(char *input, t_token *tokens, int i, t_shell *shell)
 t_token_list	*lexer(char *input, t_shell *shell)
 {
 	t_token_list	*tokens;
-
+	
 	tokens = NULL;
-	tokens = tokenize(input, tokens, 0, &shell);
+	tokens = tokenize(input, tokens, 0, shell);
 	return (tokens);
 }

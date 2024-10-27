@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 21:48:27 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/25 12:44:12 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/26 15:47:12 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,17 @@ void	print_token_list(t_token_list *list)
 		print_token_type(current->token->type);
 		printf("%s\n", current->token->value);
 		current = current->next;
+	}
+}
+
+void	print_env(char **envp)
+{
+	int i;
+
+	i = 0;
+	while (envp[i] != NULL)
+	{
+		printf("%s\n", envp[i]);
+		i++;
 	}
 }

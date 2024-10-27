@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:50:53 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/26 11:10:52 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/26 15:48:57 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@
 # include "builtins.h"
 # include "parsing.h"
 # include "shell.h"
+# include "debugger.h"
 
 #endif

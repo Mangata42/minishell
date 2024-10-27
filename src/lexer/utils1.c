@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:04:19 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/25 12:14:11 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/26 19:25:33 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void handle_rin(char *input, int *i, t_token_list **tokens)
 	}
 }
 
-void handle_single_quote(char *input, int *i, t_token_list **tokens)
+void handle_single_quote(char *input, int *i, t_token_list *tokens)
 {
 	char buffer[256];
 	int j = 0;
@@ -74,14 +74,29 @@ void handle_single_quote(char *input, int *i, t_token_list **tokens)
 	}
 }
 
-void handle_double_quote(char *input, int *i, t_token_list **tokens)
+void handle_double_quote(char *input, int *i, t_token_list *tokens, t_shell *shell)
 {
 	char buffer[256];
-	int j = 0;
+	int j;
 
+	j = 0;
 	(*i)++;
 	while (input[*i] && input[*i] != '\"')
-		buffer[j++] = input[(*i)++];
+	{
+		
+		if (input[*i] == '$')
+		{
+			if (j > 0)
+			{
+				buffer[j] = '\0';
+				add_token(tokens, create_token(ft_strdup(buffer), TOKEN_STRING));
+				j = 0;
+			}
+			handle_expand(input, i, tokens, shell);
+		}
+		else
+			buffer[j++] = input[(*i)++];
+	}
 	buffer[j] = '\0';
 	if (input[*i] == '\"')
 	{
@@ -89,7 +104,5 @@ void handle_double_quote(char *input, int *i, t_token_list **tokens)
 		(*i)++;
 	}
 	else
-	{
 		printf("Error: Missing closing double quote\n");
-	}
 }

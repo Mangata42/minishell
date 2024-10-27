@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 10:23:12 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/26 11:07:49 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/26 17:02:24 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,24 @@ void	update_exit_status(t_shell *shell, int status)
 		shell->exit_status = WEXITSTATUS(status);
 	else
 		shell->exit_status = 1;
+}
+
+char *get_env_value(const char *name, char **envp)
+{
+	int		i;
+	size_t	name_len;
+	
+	i = 0;
+	if (!name || !envp)
+		return (NULL);
+	name_len = ft_strlen(name);
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], name, name_len) == 0 && envp[i][name_len] == '=')
+		{
+			return (&envp[i][name_len + 1]);
+		}
+		i++;
+	}
+	return (NULL);
 }

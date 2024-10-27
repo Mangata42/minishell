@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:09:54 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/26 11:11:41 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/26 19:17:20 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,14 @@ void			handle_pipe(char *input, int *i, t_token_list **tokens);
 void			handle_rout(char *input, int *i, t_token_list **tokens);
 void			handle_rin(char *input, int *i, t_token_list **tokens);
 void			handle_single_quote(char *input, int *i, t_token_list **tokens);
-void			handle_double_quote(char *input, int *i, t_token_list **tokens);
+void			handle_double_quote(char *input, int *i, t_token_list **tokens, t_shell *shell);
 //utils2
 void			handle_cmd_arg(char *input, int *i, t_token_list **tokens);
 t_token			*create_token(const char *value, t_token_type type);
 void			add_token(t_token_list **tokens, t_token *new_token);
 void			handle_and(char *input, int *i, t_token_list **tokens);
 void			handle_wildcards(char *input, int *i, t_token_list **tokens);
-//utils3
-void			handle_expand(char *input, int *, t_token **tokens, t_shell *shell);
+//utils3S
+void			handle_expand(char *input, int *i, t_token_list **tokens, t_shell *shell);
 
 #endif

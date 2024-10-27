@@ -6,18 +6,17 @@
 #    By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/23 14:35:20 by nghaddar          #+#    #+#              #
-#    Updated: 2024/10/24 18:10:11 by fflamion         ###   ########.fr        #
+#    Updated: 2024/10/26 19:12:38 by fflamion         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# CFLAGS = -Wall -Werror -Wextra -Iincludes -Ilibft -g
-CGLAGS = -g -I includes -I libft
+CFLAGS = -Wall -Werror -Wextra -Iincludes -Ilibft -g
+# CGLAGS = -g -I includes -I libft
 
 LIBFT_TARGET = libft/libft.a
 
 SRC_DIR = src
-SRC_FILES = $(shell find src -name '*.c')
-# SRC_FILES = $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/lexer/builtins/*.c)
+SRC_FILES = $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*/*.c)
 OBJS = $(SRC_FILES:.c=.o)
 
 NAME = minishell
@@ -25,7 +24,7 @@ NAME = minishell
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT_TARGET)
-	gcc $(CFLAGS) $(OBJS) -L libft -l ft -l readline -o $(NAME)
+	gcc $(CFLAGS) $(OBJS) -L libft -l ft -lreadline -o $(NAME)
 
 %.o: %.c
 	gcc $(CFLAGS) -c $< -o $@
