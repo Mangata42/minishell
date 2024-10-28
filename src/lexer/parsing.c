@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:09:04 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/27 18:24:35 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:39:47 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,11 @@ t_t_list	*lexer(char *input, t_sh *shell)
 	t_list = init_t_list();
 	if (!t_list)
 		return (NULL);
+	while (input[i] && is_whitespace(input[i], &i))
+		;
+	if (input[i] == '\0')
+		return (t_list);
+	i = 0;
 	while (input[i])
 	{
 		while (is_whitespace(input[i], &i))
