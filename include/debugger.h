@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 21:57:07 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/27 17:33:29 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/28 18:20:36 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@
 # define WHITE		"\033[37m"
 
 void	print_t_list(t_t_list *list);
+void	print_env(char **envp);
 
 #endif

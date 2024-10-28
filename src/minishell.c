@@ -6,13 +6,11 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:47:28 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/28 14:44:13 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/28 18:21:43 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void	print_t_list(t_t_list *list);
 
 int	process_input(char *input, t_sh *shell)
 {
@@ -51,6 +49,7 @@ int	main(void)
 	t_sh			shell;
 	extern char		**environ;
 
+	print_env(environ);
 	initialize_shell(&shell, environ);
 	main_loop(&shell);
 	write_history("history_file.txt");

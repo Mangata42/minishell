@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:09:54 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/27 17:32:47 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/28 16:06:57 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,6 @@ void			handle_wildcards(uint16_t *i, t_t_list *t_list);
 
 // lexer utils3
 void			h_exp(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell);
+char			*parse_env_var(char *input, uint16_t *i, t_sh *shell);
 
 #endif

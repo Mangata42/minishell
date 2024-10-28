@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 10:23:12 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/27 18:16:20 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/28 18:22:53 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	initialize_shell(t_sh *shell, char **envp)
 {
+	if ()
 	shell->exit_status = 0;
 	shell->envp = envp;
 }
