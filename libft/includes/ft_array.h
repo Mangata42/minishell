@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 13:12:33 by fflamion          #+#    #+#             */
-/*   Updated: 2024/09/07 13:42:31 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/28 12:34:31 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "libft.h"
 
 char	**ft_split(char const *s, char c);
+char	*ft_strtok(char *str, const char *sep);
 char	*ft_strchr(const char *str, int c);
 char	*ft_strcpy(char *dest, const char *src);
 char	*ft_strdup(const char *s);

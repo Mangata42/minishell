@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 12:36:26 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/27 18:34:22 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/28 12:31:19 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ void	handle_brace_expand(char *input, uint16_t *i, t_t_list *t_list)
 	}
 	(*i)++;
 	buffer[j] = '\0';
-	word = strtok(buffer, " ");
+	word = ft_strtok(buffer, " ");
 	while (word != NULL)
 	{
 		add_token(t_list, create_token(word, TOKEN_EXPAND));
-		word = strtok(NULL, " ");
+		word = ft_strtok(NULL, " ");
 	}
 }
 
