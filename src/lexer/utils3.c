@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 12:36:26 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/28 12:31:19 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:11:59 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ void	h_alnum_ex(char *input, uint16_t *i, t_t_list *token_list, char **envp)
 	buffer[j] = '\0';
 	value = get_env_value(buffer, envp);
 	if (value)
-		add_token(token_list, create_token(ft_strdup(value), TOKEN_EXPAND));
+		add_token(token_list, create_token((value), TOKEN_EXPAND));
 	else
-		add_token(token_list, create_token(ft_strdup(""), TOKEN_EXPAND));
+		add_token(token_list, create_token((""), TOKEN_EXPAND));
 }
 
 void	h_exp(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
