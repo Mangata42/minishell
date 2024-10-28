@@ -6,22 +6,17 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 12:36:26 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/26 19:21:19 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/27 18:34:22 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-void	handle_brace_expand(char *input, int *i, t_token_list **tokens)
+void	handle_brace_expand(char *input, uint16_t *i, t_t_list *t_list)
 {
 	char	buffer[256];
-	int		j;
-	char	**words;
-	int		k;
+	size_t	j;
+	char	*word;
 
 	j = 0;
 	(*i)++;
@@ -32,29 +27,25 @@ void	handle_brace_expand(char *input, int *i, t_token_list **tokens)
 		(*i)++;
 	}
 	if (input[*i] != '}')
-		return ((void)printf("Error: Missing closing brace\n"));
+	{
+		fprintf(stderr, "Error: Missing closing brace\n");
+		return ;
+	}
 	(*i)++;
 	buffer[j] = '\0';
-
-	words = ft_split(buffer, ' ');
-	if (!words)
-		return;
-	k = 0;
-	while (words[k])
+	word = strtok(buffer, " ");
+	while (word != NULL)
 	{
-		add_token(tokens, create_token(ft_strdup(words[k]), TOKEN_EXPAND));
-		free(words[k]);
-		k++;
+		add_token(t_list, create_token(word, TOKEN_EXPAND));
+		word = strtok(NULL, " ");
 	}
-	free(words);
 }
 
-
-void	handle_alnum_expand(char *input, int *i, t_token_list **tokens, char **envp)
+void	h_alnum_ex(char *input, uint16_t *i, t_t_list *token_list, char **envp)
 {
-	char	buffer[256];
-	int		j;
-	char	*value;
+	char			buffer[256];
+	unsigned int	j;
+	char			*value;
 
 	j = 0;
 	while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))
@@ -66,27 +57,24 @@ void	handle_alnum_expand(char *input, int *i, t_token_list **tokens, char **envp
 	buffer[j] = '\0';
 	value = get_env_value(buffer, envp);
 	if (value)
-		add_token(tokens, create_token(ft_strdup(value), TOKEN_EXPAND));
+		add_token(token_list, create_token(ft_strdup(value), TOKEN_EXPAND));
 	else
-		add_token(tokens, create_token(ft_strdup(""), TOKEN_EXPAND));
+		add_token(token_list, create_token(ft_strdup(""), TOKEN_EXPAND));
 }
 
-
-void handle_expand(char *input, int *i, t_token_list **tokens, t_shell *shell)
+void	h_exp(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
 {
+	char	*status;
+
 	(*i)++;
 	if (input[*i] == '?')
 	{
-		char *status;
-		
 		status = ft_itoa(shell->exit_status);
-		if (!status)
-			printf("gere le avant\n");
-		add_token(tokens, create_token(status, TOKEN_EXPAND));
+		add_token(t_list, create_token(status, TOKEN_EXPAND));
 		(*i)++;
 	}
 	else if (input[*i] == '{')
-		handle_brace_expand(input, i, tokens);
+		handle_brace_expand(input, i, t_list);
 	else
-		handle_alnum_expand(input, i, tokens, shell->envp);
+		h_alnum_ex(input, i, t_list, shell->envp);
 }

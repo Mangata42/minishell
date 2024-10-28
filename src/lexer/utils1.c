@@ -6,103 +6,97 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:04:19 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/26 19:25:33 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/27 18:29:15 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void handle_pipe(char *input, int *i, t_token_list **tokens)
+void	h_pipe(char *input, uint16_t *i, t_t_list *t_list)
 {
 	if (input[*i + 1] == '|')
 	{
-		add_token(tokens, create_token(ft_strdup("||"), TOKEN_OR));
+		add_token(t_list, create_token("||", TOKEN_OR));
 		(*i) += 2;
 	}
 	else
 	{
-	add_token(tokens, create_token(ft_strdup("|"), TOKEN_PIPE));
-	(*i)++;
+		add_token(t_list, create_token("|", TOKEN_PIPE));
+		(*i)++;
 	}
 }
 
-void handle_rout(char *input, int *i, t_token_list **tokens)
+void	h_rout(char *input, uint16_t *i, t_t_list *t_list)
 {
 	if (input[*i + 1] == '>')
 	{
-		add_token(tokens, create_token(ft_strdup(">>"), TOKEN_APPEND));
+		add_token(t_list, create_token(">>", TOKEN_APPEND));
 		(*i) += 2;
 	}
 	else
 	{
-		add_token(tokens, create_token(ft_strdup(">"), TOKEN_REDIRECTION_OUT));
+		add_token(t_list, create_token(">", TOKEN_REDIRECTION_OUT));
 		(*i)++;
 	}
 }
 
-void handle_rin(char *input, int *i, t_token_list **tokens)
+void	h_rin(char *input, uint16_t *i, t_t_list *t_list)
 {
 	if (input[*i + 1] == '<')
 	{
-		add_token(tokens, create_token(ft_strdup("<<"), TOKEN_HEREDOC));
+		add_token(t_list, create_token("<<", TOKEN_HEREDOC));
 		(*i) += 2;
 	}
 	else
 	{
-		add_token(tokens, create_token(ft_strdup("<"), TOKEN_REDIRECTION_IN));
+		add_token(t_list, create_token("<", TOKEN_REDIRECTION_IN));
 		(*i)++;
 	}
 }
 
-void handle_single_quote(char *input, int *i, t_token_list *tokens)
+void	h_s_q(char *input, uint16_t *i, t_t_list *t_list)
 {
-	char buffer[256];
-	int j = 0;
+	char		buffer[256];
+	uint16_t	j;
 
+	j = 0;
 	(*i)++;
-	while (input[*i] && input[*i] != '\'')
+	while (input[*i] && input[*i] != '\'' && j < sizeof(buffer) - 1)
 		buffer[j++] = input[(*i)++];
 	buffer[j] = '\0';
 	if (input[*i] == '\'')
 	{
-		add_token(tokens, create_token(ft_strdup(buffer), TOKEN_STRING));
+		add_token(t_list, create_token(buffer, TOKEN_STRING));
 		(*i)++;
 	}
 	else
-	{
-		printf("Error: Missing closing single quote\n");
-	}
+		fprintf(stderr, "Error: Missing closing single quote\n");
 }
 
-void handle_double_quote(char *input, int *i, t_token_list *tokens, t_shell *shell)
+void	h_d_q(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
 {
-	char buffer[256];
-	int j;
+	char	buffer[256];
+	size_t	j;
 
 	j = 0;
 	(*i)++;
 	while (input[*i] && input[*i] != '\"')
 	{
-		
-		if (input[*i] == '$')
+		if (input[*i] == '$' && j > 0)
 		{
-			if (j > 0)
-			{
-				buffer[j] = '\0';
-				add_token(tokens, create_token(ft_strdup(buffer), TOKEN_STRING));
-				j = 0;
-			}
-			handle_expand(input, i, tokens, shell);
+			buffer[j] = '\0';
+			add_token(t_list, create_token(buffer, TOKEN_STRING));
+			j = 0;
+			h_exp(input, i, t_list, shell);
 		}
-		else
+		else if (j < sizeof(buffer) - 1)
 			buffer[j++] = input[(*i)++];
 	}
 	buffer[j] = '\0';
+	if (j > 0)
+		add_token(t_list, create_token(buffer, TOKEN_STRING));
 	if (input[*i] == '\"')
-	{
-		add_token(tokens, create_token(ft_strdup(buffer), TOKEN_STRING));
 		(*i)++;
-	}
 	else
-		printf("Error: Missing closing double quote\n");
+		fprintf(stderr, "Error: Missing closing double quote\n");
 }

@@ -1,39 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initializer.c                                      :+:      :+:    :+:   */
+/*   initShell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 10:23:12 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/26 17:02:24 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/27 18:16:20 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	initialize_shell(t_shell *shell, char **envp)
+void	initialize_shell(t_sh *shell, char **envp)
 {
-	int	i;
-	int	env_count;
-
-	env_count = 0;
-	i = 0;
 	shell->exit_status = 0;
-	while(envp[env_count])
-	{
-		env_count++;
-	}
-	shell->envp = ft_safe_malloc(sizeof(char *) * (env_count + 1));
-	while (i < env_count)
-	{
-		shell->envp[i] = ft_strdup(envp[i]);
-		i++;
-	}
-	shell->envp[env_count] = NULL;
+	shell->envp = envp;
 }
 
-void	update_exit_status(t_shell *shell, int status)
+void	update_exit_status(t_sh *shell, int status)
 {
 	if (WIFEXITED(status))
 		shell->exit_status = WEXITSTATUS(status);
@@ -41,21 +26,17 @@ void	update_exit_status(t_shell *shell, int status)
 		shell->exit_status = 1;
 }
 
-char *get_env_value(const char *name, char **envp)
+char	*get_env_value(const char *name, char **envp)
 {
 	int		i;
-	size_t	name_len;
-	
+	size_t	len;
+
 	i = 0;
-	if (!name || !envp)
-		return (NULL);
-	name_len = ft_strlen(name);
+	len = ft_strlen(name);
 	while (envp[i])
 	{
-		if (ft_strncmp(envp[i], name, name_len) == 0 && envp[i][name_len] == '=')
-		{
-			return (&envp[i][name_len + 1]);
-		}
+		if (ft_strncmp(envp[i], name, len) == 0 && envp[i][len] == '=')
+			return (&envp[i][len + 1]);
 		i++;
 	}
 	return (NULL);

@@ -3,29 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strPreppend.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:07:42 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/10/23 14:03:20 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:39:15 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strPreppend(char *str, char *toPreppend)
+char	*ft_strpreppend(char *str, char *topreppend)
 {
-	char *newStr;
-	int i = -1;
-	int y = -1;
+	char	*newstr;
+	int		i;
+	int		y;
 
-	if (!(newStr = malloc(ft_strlen(str) + ft_strlen(toPreppend) + 1)))
+	y = -1;
+	i = -1;
+	newstr = malloc(ft_strlen(str) + ft_strlen(topreppend) + 1);
+	if (!(newstr))
 		return (NULL);
-	
-	while (toPreppend[++i])
-		newStr[i] = toPreppend[i];
+	while (topreppend[++i])
+		newstr[i] = topreppend[i];
 	while (str[++y])
-		newStr[i++] = str[y];
-		
-	newStr[i++] = '\0';
-	return (newStr);
+		newstr[i++] = str[y];
+	newstr[i++] = '\0';
+	return (newstr);
 }

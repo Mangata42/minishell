@@ -6,71 +6,36 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:09:54 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/26 19:13:24 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/27 18:35:32 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	handle_cmd_arg(char *input, int *i, t_token_list **tokens)
+void	h_cmd_arg(char *input, uint16_t *i, t_t_list *t_list)
 {
 	char	buffer[256];
 	int		j;
 
 	j = 0;
-	while (input[*i] && !ft_isspace(input[*i]) && input[*i] != '|' && input[*i] != '>' && input[*i] != '<')
+	while (input[*i] && !ft_isspace(input[*i])
+		&& input[*i] != '|' && input[*i] != '>'
+		&& input[*i] != '<' && j < (int) sizeof(buffer) - 1)
+	{
 		buffer[j++] = input[(*i)++];
+	}
 	buffer[j] = '\0';
-	add_token(tokens, create_token(ft_strdup(buffer), TOKEN_COMMAND));
+	add_token(t_list, create_token(buffer, TOKEN_COMMAND));
 }
 
-void	handle_and(char *input, int *i, t_token_list **tokens)
+void	handle_and(uint16_t *i, t_t_list *t_list)
 {
-	add_token(tokens, create_token(ft_strdup("&&"), TOKEN_AND));
+	add_token(t_list, create_token("&&", TOKEN_AND));
 	(*i) += 2;
 }
 
-void	handle_wildcards(char *input, int *i, t_token_list **tokens)
+void	handle_wildcards(uint16_t *i, t_t_list *t_list)
 {
-	add_token(tokens, create_token(ft_strdup("*"), TOKEN_WILDCARDS));
+	add_token(t_list, create_token("*", TOKEN_WILDCARDS));
 	(*i)++;
-}
-
-t_token *create_token(const char *value, t_token_type type)
-{
-	t_token *new_token = malloc(sizeof(t_token));
-	if (!new_token)
-		return NULL;
-	new_token->value = ft_strdup(value);
-	if (!new_token->value)
-	{
-		free(new_token);
-		return NULL;
-	}
-	new_token->type = type;
-	return new_token;
-}
-
-void add_token(t_token_list **tokens, t_token *new_token)
-{
-	if (!tokens || !new_token)
-		return;
-	t_token_list *new_node = malloc(sizeof(t_token_list));
-	if (!new_node)
-		return;
-	new_node->token = new_token;
-	new_node->next = NULL;
-	if (!(*tokens))
-	{
-		new_node->prev = NULL;
-		*tokens = new_node;
-	}
-	else
-	{
-		t_token_list *last = *tokens;
-		while (last->next)
-			last = last->next;
-		last->next = new_node;
-		new_node->prev = last;
-	}
 }
