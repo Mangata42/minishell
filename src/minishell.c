@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:47:28 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/28 14:38:39 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:44:13 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	main_loop(t_sh *shell)
 			break ;
 		}
 		free(input);
-		ft_putchar('\n');
 	}
 }
 

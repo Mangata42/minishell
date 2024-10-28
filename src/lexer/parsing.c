@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:09:04 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/28 14:39:47 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/28 15:20:16 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ t_t_list	*lexer(char *input, t_sh *shell)
 	{
 		while (is_whitespace(input[i], &i))
 			;
+		if (input[i] == '\0')
+			break;
 		handle_token(input, &i, t_list, shell);
 	}
 	return (t_list);
