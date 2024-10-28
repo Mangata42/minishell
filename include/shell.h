@@ -1,19 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 14:10:57 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/10/27 16:29:52 by fflamion         ###   ########.fr       */
+/*   Created: 2024/10/26 11:09:34 by fflamion          #+#    #+#             */
+/*   Updated: 2024/10/27 17:31:42 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#ifndef SHELL_H
+# define SHELL_H
 
-int		builtin_echo(char *s, char optN);
-int		builtin_cd(char *path);
+typedef struct s_shell
+{
+	int		exit_status;
+	char	**envp;
+}				t_sh;
+
+void	update_exit_status(t_sh *shell, int status);
+void	initialize_shell(t_sh *shell, char **envp);
+char	*get_env_value(const char *name, char **envp);
 
 #endif

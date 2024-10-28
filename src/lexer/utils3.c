@@ -1,0 +1,80 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils3.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/25 12:36:26 by fflamion          #+#    #+#             */
+/*   Updated: 2024/10/27 18:34:22 by fflamion         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../include/minishell.h"
+
+void	handle_brace_expand(char *input, uint16_t *i, t_t_list *t_list)
+{
+	char	buffer[256];
+	size_t	j;
+	char	*word;
+
+	j = 0;
+	(*i)++;
+	while (input[*i] && input[*i] != '}')
+	{
+		if (j < sizeof(buffer) - 1)
+			buffer[j++] = input[*i];
+		(*i)++;
+	}
+	if (input[*i] != '}')
+	{
+		fprintf(stderr, "Error: Missing closing brace\n");
+		return ;
+	}
+	(*i)++;
+	buffer[j] = '\0';
+	word = strtok(buffer, " ");
+	while (word != NULL)
+	{
+		add_token(t_list, create_token(word, TOKEN_EXPAND));
+		word = strtok(NULL, " ");
+	}
+}
+
+void	h_alnum_ex(char *input, uint16_t *i, t_t_list *token_list, char **envp)
+{
+	char			buffer[256];
+	unsigned int	j;
+	char			*value;
+
+	j = 0;
+	while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))
+	{
+		if (j < sizeof(buffer) - 1)
+			buffer[j++] = input[*i];
+		(*i)++;
+	}
+	buffer[j] = '\0';
+	value = get_env_value(buffer, envp);
+	if (value)
+		add_token(token_list, create_token(ft_strdup(value), TOKEN_EXPAND));
+	else
+		add_token(token_list, create_token(ft_strdup(""), TOKEN_EXPAND));
+}
+
+void	h_exp(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
+{
+	char	*status;
+
+	(*i)++;
+	if (input[*i] == '?')
+	{
+		status = ft_itoa(shell->exit_status);
+		add_token(t_list, create_token(status, TOKEN_EXPAND));
+		(*i)++;
+	}
+	else if (input[*i] == '{')
+		handle_brace_expand(input, i, t_list);
+	else
+		h_alnum_ex(input, i, t_list, shell->envp);
+}
