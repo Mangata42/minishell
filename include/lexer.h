@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:09:54 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/29 13:54:15 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/29 14:52:04 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSING_H
-# define PARSING_H
-
-# include "shell.h"
+#ifndef LEXER_H
+# define LEXER_H
 
 typedef enum e_token_type
 {
@@ -37,6 +35,7 @@ typedef struct s_token
 {
 	t_token_type		type;
 	char				*value;
+	uint16_t			index;
 	struct s_token		*next;
 	struct s_token		*prev;
 }	t_token;

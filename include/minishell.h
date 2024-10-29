@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:50:53 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/29 13:53:57 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/29 14:44:07 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@
 
 # include "../libft/includes/libft.h"
 # include "builtins.h"
-# include "lexer.h"
 # include "shell.h"
+# include "parser.h"
+# include "lexer.h"
 # include "builtins.h"
 # include "debugger.h"
 

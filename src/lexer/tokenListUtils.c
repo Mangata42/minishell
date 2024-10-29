@@ -55,6 +55,7 @@ t_token	*create_token(const char *value, t_token_type type)
 	new_token->next = NULL;
 	new_token->prev = NULL;
 	new_token->type = type;
+	new_token->index = 0;
 	new_token->value = ft_strdup(value);
 	if (!new_token->value)
 	{
@@ -70,11 +71,13 @@ void	add_token(t_t_list *t_list, t_token *new_token)
 		return ;
 	if (!t_list->first)
 	{
+		new_token->index = 0;
 		t_list->first = new_token;
 		t_list->last = new_token;
 	}
 	else
 	{
+		new_token->index = t_list->last->index + 1;
 		new_token->prev = t_list->last;
 		new_token->next = NULL;
 		t_list->last->next = new_token;
