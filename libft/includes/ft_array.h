@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_array.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 13:12:33 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/28 12:34:31 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:53:19 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_substr(const char *s, unsigned int start, size_t len);
+char	*ft_strpreppend(char *str, char *topreppend);
 
 #endif

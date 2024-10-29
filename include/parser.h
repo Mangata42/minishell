@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:43:43 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/10/29 14:53:37 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:59:24 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 #include "lexer.h"
 
-void	parser(t_t_list *token_list, t_sh *shell);
+int		parser(t_t_list *token_list);
 
 #endif
