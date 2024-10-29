@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 12:36:26 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/28 14:11:59 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/28 16:06:40 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,22 @@ void	h_exp(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
 		handle_brace_expand(input, i, t_list);
 	else
 		h_alnum_ex(input, i, t_list, shell->envp);
+}
+
+char	*parse_env_var(char *input, uint16_t *i, t_sh *shell)
+{
+	char	var_name[256];
+	char	*env_value;
+	size_t	var_len;
+
+	var_len = 0;
+	while (input[*i] && ft_isalnum(input[*i]) && var_len < sizeof(var_name) - 1)
+	{
+		var_name[var_len] = input[*i];
+		var_len++;
+		(*i)++;
+	}
+	var_name[var_len] = '\0';
+	env_value = get_env_value(var_name, shell->envp);
+	return (env_value ? env_value : "");
 }

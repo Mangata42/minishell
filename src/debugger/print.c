@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 21:48:27 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/27 18:38:05 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/28 18:20:23 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	print_t_list(t_t_list *t_list)
 
 	if (!t_list || !t_list->first)
 	{
-		printf(RED "Token list is empty.\n" RESET);
+		// printf(RED "Token list is empty.\n" RESET);
 		return ;
 	}
 	printf(CYAN "\n== TOKEN LIST (" YELLOW "%u" CYAN " tokens) ==\n" RESET, t_list->size);
@@ -56,4 +56,16 @@ void	print_t_list(t_t_list *t_list)
 		index++;
 	}
 	printf(CYAN "== END OF TOKEN LIST ==\n\n" RESET);
+}
+
+void	print_env(char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		printf("%s\n", envp[i]);
+		i++;
+	}
 }

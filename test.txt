@@ -1,1 +1,1 @@
-"string" 'string to'| cat shell || << >> < > && *
+$USER

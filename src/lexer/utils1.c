@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:04:19 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/27 18:29:15 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/28 16:11:22 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,18 +76,19 @@ void	h_s_q(char *input, uint16_t *i, t_t_list *t_list)
 void	h_d_q(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
 {
 	char	buffer[256];
+	char	*env_value;
 	size_t	j;
 
 	j = 0;
 	(*i)++;
 	while (input[*i] && input[*i] != '\"')
 	{
-		if (input[*i] == '$' && j > 0)
+		if (input[*i] == '$')
 		{
-			buffer[j] = '\0';
-			add_token(t_list, create_token(buffer, TOKEN_STRING));
-			j = 0;
-			h_exp(input, i, t_list, shell);
+			(*i)++;
+			env_value = parse_env_var(input, i, shell);
+			while (*env_value && j < sizeof(buffer) - 1)
+				buffer[j++] = *env_value++;
 		}
 		else if (j < sizeof(buffer) - 1)
 			buffer[j++] = input[(*i)++];
@@ -98,5 +99,5 @@ void	h_d_q(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
 	if (input[*i] == '\"')
 		(*i)++;
 	else
-		fprintf(stderr, "Error: Missing closing double quote\n");
+		printf("Error: Missing closing double quote\n");
 }
