@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:04:19 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/28 16:11:22 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/29 16:17:02 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,22 @@ void	h_rout(char *input, uint16_t *i, t_t_list *t_list)
 
 void	h_rin(char *input, uint16_t *i, t_t_list *t_list)
 {
+	t_token	*heredoc_token;
+	char	delimiter[256];
+	int		j;
+
 	if (input[*i + 1] == '<')
 	{
-		add_token(t_list, create_token("<<", TOKEN_HEREDOC));
+		heredoc_token = create_token("<<", TOKEN_HEREDOC);
+		add_token(t_list, heredoc_token);
 		(*i) += 2;
+		while (input[*i] && ft_isspace(input[*i]))
+			(*i)++;
+		j = 0;
+		while (input[*i] && !ft_isspace(input[*i]) && j < 255)
+			delimiter[j++] = input[(*i)++];
+		delimiter[j] = '\0';
+		handle_heredoc(heredoc_token, delimiter);
 	}
 	else
 	{
@@ -53,6 +65,7 @@ void	h_rin(char *input, uint16_t *i, t_t_list *t_list)
 		(*i)++;
 	}
 }
+
 
 void	h_s_q(char *input, uint16_t *i, t_t_list *t_list)
 {

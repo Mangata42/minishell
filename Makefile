@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+         #
+#    By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/23 14:35:20 by nghaddar          #+#    #+#              #
-#    Updated: 2024/10/29 14:50:27 by nghaddar         ###   ########.fr        #
+#    Updated: 2024/10/29 17:48:13 by fflamion         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,10 +17,13 @@ LIBFT_TARGET = libft/libft.a
 
 SRC_DIR = src
 SRC_FILES = $(shell find src -name '*.c')
-# SRC_FILES = $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/lexer/builtins/*.c)
 OBJS = $(SRC_FILES:.c=.o)
 
 NAME = minishell
+
+VALGRIND = valgrind --suppressions=readline.supp --trace-children=yes --track-fds=yes --leak-check=full --show-leak-kinds=all
+# VALGRIND = valgrind --suppressions=readline.supp
+
 
 all: $(NAME)
 
@@ -43,4 +46,10 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+# Cible pour exécuter Valgrind avec suppression
+leak: all
+	echo "{\nignore_libreadline_leaks\n Memcheck:Leak\n ...\n obj:/libreadline.so.\n }" > readline.supp
+	$(VALGRIND) ./$(NAME)
+	rm -f readline.supp
+
+.PHONY: all clean fclean re leak

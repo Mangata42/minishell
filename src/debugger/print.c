@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 21:48:27 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/29 15:01:46 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:35:47 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	print_t_list(t_t_list *t_list)
 		printf("  " MAGENTA "Type   : " RESET);
 		print_token_type(token_cursor->type);
 		printf("\n  " MAGENTA "Value  : " RESET "\"%s\"", token_cursor->value);
-		printf("\n  " MAGENTA "Index  :  " RESET "\"%u\"\n", token_cursor->index);
 		printf(CYAN "-----------------------------\n" RESET);
 		token_cursor = token_cursor->next;
 		index++;
