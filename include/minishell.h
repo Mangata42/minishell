@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:50:53 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/30 11:49:54 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:05:01 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <dirent.h>
 # include <stdbool.h>
 # include <fcntl.h>
+# include <errno.h>
 
 # include <signal.h>
 # include <readline/readline.h>

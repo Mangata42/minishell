@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 21:48:27 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/30 11:48:04 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:05:28 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,37 @@ void	print_token_type(t_token_type type)
 	};
 	int	index;
 
-	index = (type >= 0 && type <= TOKEN_EXPAND) ? type : TOKEN_EXPAND + 1;
+	// index = (type >= 0 && type <= TOKEN_EXPAND) ? type : TOKEN_EXPAND + 1;
+
+	if (type & TOKEN_COMMAND)
+		index = 0;
+	if (type & TOKEN_ARGUMENT)
+		index = 1;
+	if (type & TOKEN_PIPE)
+		index = 2;
+	if (type & TOKEN_REDIRECTION_IN)
+		index = 3;
+	if (type & TOKEN_REDIRECTION_OUT)
+		index = 4;
+	if (type & TOKEN_APPEND)
+		index = 5;
+	if (type & TOKEN_HEREDOC)
+		index = 6;
+	if (type & TOKEN_VARIABLE)
+		index = 7;
+	if (type & TOKEN_STRING)
+		index = 8;
+	if (type & TOKEN_AND)
+		index = 9;
+	if (type & TOKEN_OR)
+		index = 10;
+	if (type & TOKEN_EOF)
+		index = 11;
+	if (type & TOKEN_WILDCARDS)
+		index = 12;
+	if (type & TOKEN_EXPAND)
+		index = 12;
+		
 	printf("%s%s%s", color_codes[index], types[index], RESET);
 }
 
