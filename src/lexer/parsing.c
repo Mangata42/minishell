@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:09:04 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/30 17:06:08 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/10/30 23:16:04 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	handle_token(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
 		handle_wildcards(i, t_list);
 	else if (input[*i] == '$')
 		h_exp(input, i, t_list, shell);
+	else if(ft_strchr("!@#%^&()_-=+", input[*i]))
+		handle_inconnu(input, i, t_list); 
 	else
 		h_cmd_arg(input, i, t_list);
 }

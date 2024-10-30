@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:09:54 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/30 21:51:37 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/10/30 22:52:42 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef enum e_token_type
 	TOKEN_EOF = (uint8_t)1 << 11,
 	TOKEN_WILDCARDS = (uint8_t)1 << 12,
 	TOKEN_EXPAND = (uint8_t)1 << 13,
+	TOKEN_INCONNU = (uint8_t)1 << 14,
 }	t_token_type;
 
 typedef struct s_token
@@ -75,4 +76,5 @@ char			*parse_env_var(char *input, uint16_t *i, t_sh *shell);
 
 // lexer utils4
 void			handle_heredoc(t_token *heredoc_token, char *delimiter);
+void			handle_inconnu(char *input, uint16_t *i, t_t_list *t_list);
 #endif

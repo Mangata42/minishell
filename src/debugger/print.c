@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 21:48:27 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/30 18:45:08 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/10/30 23:15:26 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ void	print_token_type(t_token_type type)
 		"End of File", "Wildcard", "Expand", "Unknown token type"
 	};
 	int	index;
-
-	// index = (type >= 0 && type <= TOKEN_EXPAND) ? type : TOKEN_EXPAND + 1;
 
 	if (type & TOKEN_COMMAND)
 		index = 0;
@@ -58,6 +56,8 @@ void	print_token_type(t_token_type type)
 		index = 12;
 	if (type & TOKEN_EXPAND)
 		index = 13;
+	if (type & TOKEN_INCONNU)
+		index = 14;
 		
 	printf("%s%s%s", color_codes[index], types[index], RESET);
 }
