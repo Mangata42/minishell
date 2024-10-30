@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:48:46 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/10/30 22:27:23 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/10/30 22:34:11 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		verif_pipe(t_token *pipe_token)
 	return (0);
 }
 
-int		verif_redir_in_set(t_token *redir_in_token)
+int		verif_redir_in_out_set(t_token *redir_in_token)
 {
 	t_token_type n_type;
 	int			 check_mask;
@@ -84,7 +84,7 @@ int	parser(t_t_list *token_list)
 			status = verif_pipe(token_cursor);
 		else if (token_cursor->type & (TOKEN_REDIRECTION_IN | TOKEN_HEREDOC 
 										| TOKEN_REDIRECTION_OUT | TOKEN_APPEND))
-			status = verif_redir_in_set(token_cursor);
+			status = verif_redir_in_out_set(token_cursor);
 		else if (token_cursor->type & (TOKEN_AND | TOKEN_OR))
 			status = verif_operand_set(token_cursor);
 		if (status)
