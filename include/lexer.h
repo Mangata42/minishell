@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:09:54 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/30 17:04:06 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/10/30 21:51:37 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef enum e_token_type
 	TOKEN_OR = (uint8_t)1 << 10,
 	TOKEN_EOF = (uint8_t)1 << 11,
 	TOKEN_WILDCARDS = (uint8_t)1 << 12,
-	TOKEN_EXPAND = (uint8_t)1 << 13
+	TOKEN_EXPAND = (uint8_t)1 << 13,
 }	t_token_type;
 
 typedef struct s_token
