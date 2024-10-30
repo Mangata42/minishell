@@ -6,29 +6,31 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:09:54 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/29 14:52:04 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/10/30 16:14:36 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 
+#include "minishell.h"
+
 typedef enum e_token_type
 {
-	TOKEN_COMMAND,
-	TOKEN_ARGUMENT,
-	TOKEN_PIPE,
-	TOKEN_REDIRECTION_IN,
-	TOKEN_REDIRECTION_OUT,
-	TOKEN_APPEND,
-	TOKEN_HEREDOC,
-	TOKEN_VARIABLE,
-	TOKEN_STRING,
-	TOKEN_AND,
-	TOKEN_OR,
-	TOKEN_EOF,
-	TOKEN_WILDCARDS,
-	TOKEN_EXPAND
+	TOKEN_COMMAND = (uint8_t)1 << 0,
+	TOKEN_ARGUMENT = (uint8_t)1 << 1,
+	TOKEN_PIPE = (uint8_t)1 << 2,
+	TOKEN_REDIRECTION_IN = (uint8_t)1 << 3,
+	TOKEN_REDIRECTION_OUT = (uint8_t)1 << 4,
+	TOKEN_APPEND = (uint8_t)1 << 5,
+	TOKEN_HEREDOC = (uint8_t)1 << 6,
+	TOKEN_VARIABLE = (uint8_t)1 << 7,
+	TOKEN_STRING = (uint8_t)1 << 8,
+	TOKEN_AND = (uint8_t)1 << 9,
+	TOKEN_OR = (uint8_t)1 << 10,
+	TOKEN_EOF = (uint8_t)1 << 11,
+	TOKEN_WILDCARDS = (uint8_t)1 << 12,
+	TOKEN_EXPAND = (uint8_t)1 << 13
 }	t_token_type;
 
 typedef struct s_token

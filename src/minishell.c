@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:47:28 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/29 15:51:21 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/10/30 16:53:18 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	process_input(char *input, t_sh *shell)
 	t_list = lexer(input, shell);
 	if (!t_list)
 		return (1);
-	parser(t_list);
 	print_t_list(t_list);
+	parser(t_list);
 	free_token_list(t_list);
 	return (0);
 }
@@ -50,9 +50,9 @@ int	main(void)
 	t_sh			shell;
 	extern char		**environ;
 
-	// print_env(environ);
 	initialize_shell(&shell, environ);
 	main_loop(&shell);
 	write_history("history_file.txt");
+
 	return (0);
 }

@@ -6,12 +6,13 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:48:46 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/10/29 18:21:01 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/10/30 16:33:20 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+// Should verify command or not??
 char	*findCommandLocation(char *cmd)
 {
 	int		execPathIndex = 0;
@@ -49,37 +50,118 @@ char	*findCommandLocation(char *cmd)
 
 int		verif_cmd(t_token *cmd_token)
 {
-	t_token_type p_type;
+	/*TODO : add the condition REDIR_IN -> FILE -> CMD */
+	t_token_type	p_type;
+	int				check_mask;
 
-	if (cmd_token->index == 0)
+	if (!cmd_token->index)
 		return (0);
 
-	printf("%s: parsing error\n", cmd_token->value);
+	check_mask = (TOKEN_AND | TOKEN_OR | TOKEN_HEREDOC | TOKEN_PIPE);
 	p_type = cmd_token->prev->type;
-	if (p_type != TOKEN_AND
-		&& p_type != TOKEN_OR
-		&& p_type != TOKEN_HEREDOC
-		&& p_type != TOKEN_PIPE)
+	if (!(check_mask & p_type)){
+		printf("%s: parsing error\n", cmd_token->value);
 		return (1);
+	}
 }
 
 int		verif_args_set(t_token *args_token)
 {
-	t_token_type p_type;
-	int			val_to_check;
-	int			val_asked;
+	t_token_type	p_type;
+	int				variable_check_mask;
 
-	if (args_token->index == 0)
+	if (!args_token->index)
 	{
 		printf("%s: parsing error\n", args_token->value);
 		return (1);
 	}
+	
+	p_type = args_token->prev->type;
+	variable_check_mask = (TOKEN_PIPE | TOKEN_REDIRECTION_OUT | TOKEN_APPEND
+							| TOKEN_COMMAND);
+	if (args_token->type & (TOKEN_STRING | TOKEN_EXPAND | TOKEN_ARGUMENT 
+							| TOKEN_WILDCARDS))
+		if (p_type != TOKEN_COMMAND){
+			printf("%s: parsing error\n", args_token->value);
+			return (1);
+		}
+		
+	if (args_token->type == TOKEN_VARIABLE && !(variable_check_mask & p_type)){
+		printf("%s: parsing error\n", args_token->value);
+		return (1);
+	}
 
-	val_to_check = (TOKEN_STRING || TOKEN_EXPAND || TOKEN_ARGUMENT);
-	val_asked = (TOKEN_COMMAND || TOKEN_PIPE || TOKEN_REDIRECTION_OUT || TOKEN_APPEND);
-	if (val_to_check == val_asked)
-		return (0)
-	if (args_token->type == TOKEN_STRING && (p_type == ))
+	return (0);
+}
+
+int		verif_pipe(t_token *pipe_token)
+{
+	t_token_type p_type;
+	int			 check_mask;
+
+	if (!pipe_token->index)
+	{
+		printf("pipe parsing error\n");
+		return (1);
+	}
+
+	p_type = pipe_token->prev->type;
+	check_mask = (TOKEN_COMMAND | TOKEN_VARIABLE);
+
+	if (!(check_mask & p_type))
+	{
+		printf("pipe parsing error\n");
+		return (1);
+	}
+	
+	return (0);
+}
+
+int		verif_redir_in_set(t_token *redir_in_token)
+{
+	if (!redir_in_token->index == 0)
+		return (1);
+	return (0);
+}
+
+int		verif_redir_out_set(t_token *redir_out_token)
+{
+	t_token_type p_type;
+	int			 check_mask;
+
+	p_type = redir_out_token->type;
+	check_mask = (TOKEN_ARGUMENT | TOKEN_STRING | TOKEN_WILDCARDS | TOKEN_EXPAND
+					| TOKEN_COMMAND | TOKEN_VARIABLE | TOKEN_HEREDOC);
+	
+	if (!redir_out_token->index || !(p_type & check_mask))
+	{
+		printf("redirection out parse error\n");
+		return (1);
+	}
+	return (0);
+}
+
+int		verif_operand_set(t_token *operand_token)
+{
+	t_token_type p_type;
+	int			 check_mask;
+	
+	if (!operand_token->index)
+	{
+		printf("operand parse error\n");
+		return (1);
+	}
+	
+	p_type = operand_token->prev->type;
+	check_mask = (TOKEN_ARGUMENT | TOKEN_STRING | TOKEN_WILDCARDS | TOKEN_EXPAND
+					| TOKEN_COMMAND); 
+	if (!(p_type & check_mask))
+	{
+		printf("operand parse error\n");
+		return (1);
+	}
+	
+	return (0);
 }
 
 int	parser(t_t_list *token_list)
@@ -91,26 +173,20 @@ int	parser(t_t_list *token_list)
 	{
 		if (token_cursor->type == TOKEN_COMMAND)
 			status = verif_cmd(token_cursor);
-		else if (token_cursor->type == TOKEN_ARGUMENT ||
-					token_cursor->type == TOKEN_VARIABLE ||
-					token_cursor->type == TOKEN_STRING ||
-					token_cursor->type == TOKEN_EXPAND ||
-					token_cursor->type == TOKEN_WILDCARDS)
+		else if (token_cursor->type & (TOKEN_ARGUMENT |TOKEN_VARIABLE
+		 | TOKEN_STRING | TOKEN_EXPAND | TOKEN_WILDCARDS))
 			status = verif_args_set(token_cursor);
-		// else if (token_cursor->type == TOKEN_PIPE)
-		// 	status = verif_pipe(token_cursor);
-		// else if (token_cursor->type == TOKEN_REDIRECTION_IN)
-		// 	status = verif_redir_in(token_cursor);
-		// else if (token_cursor->type == TOKEN_HEREDOC)
-		// 	status = verif_heredoc(token_cursor);
-		// else if (token_cursor->type == TOKEN_REDIRECTION_OUT ||
-		// 			token_cursor->type == TOKEN_APPEND)
-		// 	status = verif_redir_out_set(token_cursor);
-		// else if (token_cursor->type == TOKEN_AND ||
-		// 	token_cursor->type == TOKEN_OR)
-		// 	status = verif_operand_set(token_cursor);
+		else if (token_cursor->type == TOKEN_PIPE)
+			status = verif_pipe(token_cursor);
+		else if (token_cursor->type & (TOKEN_REDIRECTION_IN | TOKEN_HEREDOC))
+			status = verif_redir_in_set(token_cursor);
+		else if (token_cursor->type & (TOKEN_REDIRECTION_OUT | TOKEN_APPEND))
+			status = verif_redir_out_set(token_cursor);
+		else if (token_cursor->type & (TOKEN_AND | TOKEN_OR))
+			status = verif_operand_set(token_cursor);
 		if (status)
 			return (status);
 		token_cursor = token_cursor->next;
 	}
+	return (0);
 }
