@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 21:48:27 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/30 17:05:28 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/10/30 18:45:08 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	print_token_type(t_token_type type)
 	if (type & TOKEN_WILDCARDS)
 		index = 12;
 	if (type & TOKEN_EXPAND)
-		index = 12;
+		index = 13;
 		
 	printf("%s%s%s", color_codes[index], types[index], RESET);
 }
