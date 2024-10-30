@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:34:38 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/30 17:56:50 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/30 18:59:20 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	handle_sigint(int signum)
 	write(1, "\n", 1);
 	write(1, color_set.colors[color_set.index], 7);
 	write(1, "minishell> ", 11);
-	write(1, "\033[0m", 7);
+	write(1, reset_color, 4);
 	color_set.index = (color_set.index + 1) % color_set.color_count;
 }
 
