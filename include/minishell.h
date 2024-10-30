@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:50:53 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/29 15:59:58 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/30 11:49:54 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <sys/types.h>
 # include <dirent.h>
 # include <stdbool.h>
-#include <fcntl.h>
+# include <fcntl.h>
 
 # include <signal.h>
 # include <readline/readline.h>
@@ -35,5 +35,6 @@
 # include "lexer.h"
 # include "builtins.h"
 # include "debugger.h"
+# include "signal.h"
 
 #endif

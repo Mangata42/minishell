@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:47:28 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/30 10:51:40 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/30 11:29:15 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	main(void)
 	extern char		**environ;
 
 	// print_env(environ);
+	setup_signals();
 	initialize_shell(&shell, environ);
 	main_loop(&shell);
 	write_history("history_file.txt");

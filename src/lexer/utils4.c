@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:54:03 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/29 16:49:23 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/30 11:30:42 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,3 @@ void	handle_heredoc(t_token *heredoc_token, char *delimiter)
 	free(heredoc_token->value);
 	heredoc_token->value = ft_strdup("heredoc.txt");
 }
-

@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:09:54 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/29 16:49:47 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/30 11:49:36 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,5 @@ void			h_exp(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell);
 char			*parse_env_var(char *input, uint16_t *i, t_sh *shell);
 
 // lexer utils4
-void	handle_heredoc(t_token *heredoc_token, char *delimiter);
+void			handle_heredoc(t_token *heredoc_token, char *delimiter);
 #endif

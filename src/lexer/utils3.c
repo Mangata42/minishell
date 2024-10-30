@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 12:36:26 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/28 16:06:40 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/30 11:43:03 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,8 @@ char	*parse_env_var(char *input, uint16_t *i, t_sh *shell)
 	}
 	var_name[var_len] = '\0';
 	env_value = get_env_value(var_name, shell->envp);
-	return (env_value ? env_value : "");
+	if (env_value)
+		return (env_value);
+	else
+		return ("");
 }

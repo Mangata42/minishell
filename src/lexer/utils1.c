@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:04:19 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/29 16:17:02 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/30 11:46:14 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	h_rin(char *input, uint16_t *i, t_t_list *t_list)
 	}
 }
 
-
 void	h_s_q(char *input, uint16_t *i, t_t_list *t_list)
 {
 	char		buffer[256];
@@ -107,8 +106,7 @@ void	h_d_q(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
 			buffer[j++] = input[(*i)++];
 	}
 	buffer[j] = '\0';
-	if (j > 0)
-		add_token(t_list, create_token(buffer, TOKEN_STRING));
+	add_token(t_list, create_token(buffer, TOKEN_STRING));
 	if (input[*i] == '\"')
 		(*i)++;
 	else
