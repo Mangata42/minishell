@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:09:54 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/31 08:30:12 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/31 08:57:49 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	h_cmd_arg(char *input, uint16_t *i, t_t_list *t_list, char **envp)
 	if (command_exists(buffer, envp))
 		add_token(t_list, create_token(buffer, TOKEN_COMMAND));
 	else
-		add_token(t_list, create_token(buffer, TOKEN_INCONNU));
+		add_token(t_list, create_token(buffer, TOKEN_ARGUMENT));
 }
 
 void	handle_and(uint16_t *i, t_t_list *t_list)

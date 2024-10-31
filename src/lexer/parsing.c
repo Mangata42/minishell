@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:09:04 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/31 08:23:11 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/31 09:02:55 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	handle_token(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
 		handle_wildcards(i, t_list);
 	else if (input[*i] == '$')
 		h_exp(input, i, t_list, shell);
-	else if(ft_strchr("!@#%^&()_-=+", input[*i]))
+	else if(ft_strchr("!@#%^&()_=+", input[*i]))
 		handle_inconnu(input, i, t_list); 
 	else
 		h_cmd_arg(input, i, t_list, shell->envp);

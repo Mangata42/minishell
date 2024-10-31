@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:34:38 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/30 18:59:20 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/31 09:23:11 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,27 @@ typedef struct s_colors
 
 void	init_colors(t_colors *color_set)
 {
-	color_set->colors[0] = "\033[0;31m";
-	color_set->colors[1] = "\033[0;32m";
-	color_set->colors[2] = "\033[0;33m";
-	color_set->colors[3] = "\033[0;34m";
-	color_set->colors[4] = "\033[0;35m";
-	color_set->colors[5] = "\033[0;36m";
-	color_set->colors[6] = "\033[1;31m";
-	color_set->colors[7] = "\033[1;32m";
-	color_set->colors[8] = "\033[1;33m";
-	color_set->colors[9] = "\033[1;34m";
-	color_set->colors[10] = "\033[1;35m";
-	color_set->colors[11] = "\033[1;36m";
-	color_set->colors[12] = "\033[0;90m";
-	color_set->colors[13] = "\033[0;91m";
-	color_set->colors[14] = "\033[0;92m";
-	color_set->colors[15] = "\033[0;93m";
+	color_set->colors[0] = "\033[0;90m";
+	color_set->colors[1] = "\033[0;37m";
+	color_set->colors[2] = "\033[0;37m";
+	color_set->colors[3] = "\033[1;90m";
+	color_set->colors[4] = "\033[1;37m";
+	color_set->colors[5] = "\033[1;90m";
+	color_set->colors[6] = "\033[1;90m";
+	color_set->colors[7] = "\033[0;37m";
+	color_set->colors[8] = "\033[1;90m";
+	color_set->colors[9] = "\033[0;37m";
+	color_set->colors[10] = "\033[1;97m";
+	color_set->colors[11] = "\033[1;97m";
+	color_set->colors[12] = "\033[1;90m";
+	color_set->colors[13] = "\033[0;37m";
+	color_set->colors[14] = "\033[0;90m";
+	color_set->colors[15] = "\033[1;97m";
+
 	color_set->color_count = 16;
 	color_set->index = 0;
 }
+
 
 void	handle_sigint(int signum)
 {
