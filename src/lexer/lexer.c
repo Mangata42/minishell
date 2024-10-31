@@ -1,16 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:09:04 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/31 09:02:55 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/31 11:49:38 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+int	is_builtin_command(char *cmd)
+{
+	return (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "history")
+			|| !ft_strcmp(cmd, "exit") || !ft_strcmp(cmd, "alias")
+			|| !ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "unset"));
+}
 
 bool	is_whitespace(char c, uint16_t *i)
 {
@@ -41,7 +48,9 @@ void	handle_token(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
 	else if (input[*i] == '$')
 		h_exp(input, i, t_list, shell);
 	else if(ft_strchr("!@#%^&()_=+", input[*i]))
-		handle_inconnu(input, i, t_list); 
+		handle_inconnu(input, i, t_list);
+	else if (is_builtin_command(&input[*i]))
+		handle_builtin_command(input, i, t_list);
 	else
 		h_cmd_arg(input, i, t_list, shell->envp);
 }

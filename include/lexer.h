@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:09:54 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/31 08:22:13 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/31 11:50:49 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ char			*parse_env_var(char *input, uint16_t *i, t_sh *shell);
 // lexer utils4
 void			handle_heredoc(t_token *heredoc_token, char *delimiter);
 void			handle_inconnu(char *input, uint16_t *i, t_t_list *t_list);
+void			handle_builtin_command(char *input, uint16_t *i, t_t_list *t_list);
 
 //lexxer utils5
 bool		command_exists(char *command, char **envp);

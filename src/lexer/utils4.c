@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:54:03 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/30 23:16:39 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/10/31 11:50:58 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,20 @@ void	handle_inconnu(char *input, uint16_t *i, t_t_list *t_list)
 	buffer[1] = '\0';
 	add_token(t_list, create_token(buffer, TOKEN_INCONNU));
 	(*i)++;
+}
+
+void	handle_builtin_command(char *input, uint16_t *i, t_t_list *t_list)
+{
+	char	buffer[256];
+	int		j;
+
+	j = 0;
+	while (input[*i] && !ft_isspace(input[*i])
+		&& input[*i] != '|' && input[*i] != '>'
+		&& input[*i] != '<' && j < (int) sizeof(buffer) - 1)
+	{
+		buffer[j++] = input[(*i)++];
+	}
+	buffer[j] = '\0';
+	add_token(t_list, create_token(buffer, TOKEN_COMMAND));
 }
