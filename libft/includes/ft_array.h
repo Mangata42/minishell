@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_array.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 13:12:33 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/30 17:05:48 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/10/31 08:24:45 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 
 # include "libft.h"
 
+char	*ft_strjoin_free(char *s1, const char *s2);
 char	**ft_split(char const *s, char c);
+void	ft_free_split(char **split);
 char	*ft_strtok(char *str, const char *sep);
 char	*ft_strchr(const char *str, int c);
 char	*ft_strcpy(char *dest, const char *src);
