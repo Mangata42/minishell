@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:48:46 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/10/31 14:53:13 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/10/31 22:05:42 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	parser(t_t_list *token_list)
 			status = verif_redir_in_out_set(token_cursor);
 		else if (token_cursor->type & (TOKEN_AND | TOKEN_OR))
 			status = verif_operand_set(token_cursor);
-		else
+		else if (token_cursor->type == TOKEN_INCONNU)
 			status = verif_unknown(token_cursor);
 			
 		if (status)
