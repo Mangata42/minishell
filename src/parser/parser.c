@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:48:46 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/10/31 14:33:21 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/10/31 14:53:13 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,10 @@ int		verif_operand_set(t_token *operand_token)
 
 int		verif_unknown(t_token *unknown_token)
 {
-	printf("minishell: syntax error near unexpected token `%s'\n", unknown_token->value);
+	// if (unknown_token->next)
+		printf("minishell: syntax error near unexpected token : `%s'\n", unknown_token->value);
+	// else
+		// printf("minishell: syntax error near unexpected token `newline'\n");
 	return (1);
 }
 
