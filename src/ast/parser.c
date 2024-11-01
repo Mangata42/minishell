@@ -50,10 +50,11 @@ t_ast_node *parse_pipeline(t_token **current_token)
 	return (left);
 }
 
-void parse_redirections(t_token **current_token, t_ast_node *command_node)
+void	parse_redirections(t_token **current_token, t_ast_node *command_node)
 {
-	t_token *token;
-	t_ast_node *redir_node;
+	t_token		*token;
+	t_ast_node	*redir_node;
+	t_ast_node	*tmp;
 
 	while (*current_token && ((*current_token)->type == TOKEN_REDIRECTION_IN 
 		|| (*current_token)->type == TOKEN_REDIRECTION_OUT 
@@ -65,18 +66,22 @@ void parse_redirections(t_token **current_token, t_ast_node *command_node)
 		if (!*current_token || (*current_token)->type != TOKEN_ARGUMENT)
 		{
 			ft_putstr_fd("minishell: syntax error near unexpected token\n", 2);
-			return;
+			return ;
 		}
-		redir_node = create_ast_node(token->type == TOKEN_REDIRECTION_IN ? AST_REDIRECTION_IN : token->type == TOKEN_REDIRECTION_OUT ? AST_REDIRECTION_OUT
-																							: token->type == TOKEN_APPEND			 ? AST_REDIRECTION_APPEND
-																																	 : AST_REDIRECTION_HEREDOC);
+		redir_node = create_ast_node(AST_REDIRECTION_IN);
+		if (token->type == TOKEN_REDIRECTION_OUT)
+			redir_node = create_ast_node(AST_REDIRECTION_OUT);
+		else if (token->type == TOKEN_APPEND)
+			redir_node = create_ast_node(AST_REDIRECTION_APPEND);
+		else if (token->type == TOKEN_HEREDOC)
+			redir_node = create_ast_node(AST_REDIRECTION_HEREDOC);
 		redir_node->filename = ft_strdup((*current_token)->value);
 		*current_token = (*current_token)->next;
 		if (!command_node->left)
 			command_node->left = redir_node;
 		else
 		{
-			t_ast_node *tmp = command_node->left;
+			tmp = command_node->left;
 			while (tmp->left)
 				tmp = tmp->left;
 			tmp->left = redir_node;
