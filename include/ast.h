@@ -5,37 +5,46 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/31 09:43:48 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/31 11:44:57 by fflamion         ###   ########.fr       */
+/*   Created: 2024/11/01 12:36:31 by fflamion          #+#    #+#             */
+/*   Updated: 2024/11/01 15:33:35 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AST_H
 # define AST_H
 
-#include "minishell.h"
+# include "lexer.h"
+# include "debugger.h"
+
+typedef enum e_ast_node_type
+{
+    AST_COMMAND,
+    AST_PIPE,
+    AST_AND,
+    AST_OR,
+    AST_REDIRECTION_IN,
+    AST_REDIRECTION_OUT,
+    AST_REDIRECTION_APPEND,
+    AST_REDIRECTION_HEREDOC
+}   t_ast_node_type;
 
 typedef struct s_ast_node
 {
-	t_token_type		type;
-	char				*value;
-	struct s_ast_node	*left;
-	struct s_ast_node	*right;
-	struct s_ast_node	*parent;
-}	t_ast_node;
+    t_ast_node_type     type;
+    char                **argv;
+    char                *filename;
+    struct s_ast_node   *left;
+    struct s_ast_node   *right;
+}   t_ast_node;
 
-typedef struct s_ast_list
-{
-	struct s_token		*first;
-	struct s_token		*last;
-	unsigned int		size;
-}	t_ast_list;
+t_ast_node  *create_ast_node(t_ast_node_type type);
+void        add_argument(t_ast_node *node, char *argument);
+void        free_ast(t_ast_node *node);
 
-//list
-t_ast_node	*create_ast_node(const char *value, t_token_type type);
-t_ast_list	*init_ast_list(void);
-void		free_ast_list(t_ast_list *list);
-void		free_ast_node(t_ast_node *node);
+//parser
+t_ast_node  *ast_parser(t_t_list *token_list);
 
-//
+//execution
+int execute_ast(t_ast_node *node, t_sh *shell);
+
 #endif
