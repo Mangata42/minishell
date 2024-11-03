@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:45 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/03 17:17:18 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/03 17:56:06 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ int	process_redirection(t_token **current_token, t_ast_node *command_node)
 
 	token = *current_token;
 	*current_token = (*current_token)->next;
-	if (token->type == TOKEN_HEREDOC && (!*current_token || \
-			(*current_token)->type != TOKEN_STRING))
+	if (token->type == TOKEN_HEREDOC && (!*current_token
+			|| (*current_token)->type != TOKEN_STRING))
 		return (handle_heredoc_error(current_token));
 	redir_node = create_redirection_node(token->type);
 	if (redir_node)
@@ -71,10 +71,10 @@ int	process_redirection(t_token **current_token, t_ast_node *command_node)
 
 void	parse_redirections(t_token **current_token, t_ast_node *command_node)
 {
-	while (*current_token && ((*current_token)->type == TOKEN_REDIRECTION_IN || \
-			(*current_token)->type == TOKEN_REDIRECTION_OUT || \
-			(*current_token)->type == TOKEN_APPEND || \
-			(*current_token)->type == TOKEN_HEREDOC))
+	while (*current_token && ((*current_token)->type == TOKEN_REDIRECTION_IN 
+			|| (*current_token)->type == TOKEN_REDIRECTION_OUT
+			|| (*current_token)->type == TOKEN_APPEND
+			|| (*current_token)->type == TOKEN_HEREDOC))
 	{
 		if (!process_redirection(current_token, command_node))
 			return ;
