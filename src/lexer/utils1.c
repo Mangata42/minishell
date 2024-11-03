@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:04:19 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/30 11:46:14 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/02 20:02:11 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	h_rin(char *input, uint16_t *i, t_t_list *t_list)
 		while (input[*i] && !ft_isspace(input[*i]) && j < 255)
 			delimiter[j++] = input[(*i)++];
 		delimiter[j] = '\0';
-		handle_heredoc(heredoc_token, delimiter);
+		add_token(t_list, create_token(delimiter, TOKEN_STRING));
 	}
 	else
 	{

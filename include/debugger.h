@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 21:57:07 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/01 18:20:07 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/02 12:05:16 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define DEBUGGER_H
 
 # include "minishell.h"
+# include "ast.h"
 
 # define RESET		"\033[0m"
 # define RED		"\033[31m"
@@ -26,5 +27,7 @@
 
 void	print_t_list(t_t_list *list);
 void	print_env(char **envp);
+void    print_ast(t_ast_node *node, int level);
+
 
 #endif

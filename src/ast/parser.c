@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:45 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/02 14:46:37 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/02 20:04:58 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,29 +68,38 @@ void parse_redirections(t_token **current_token, t_ast_node *command_node)
 	t_ast_node *redir_node;
 	t_ast_node *tmp;
 
-	while (*current_token && ((*current_token)->type == TOKEN_REDIRECTION_IN 
-		|| (*current_token)->type == TOKEN_REDIRECTION_OUT 
-		|| (*current_token)->type == TOKEN_APPEND 
-		|| (*current_token)->type == TOKEN_HEREDOC))
+	while (*current_token && ((*current_token)->type == TOKEN_REDIRECTION_IN || (*current_token)->type == TOKEN_REDIRECTION_OUT || (*current_token)->type == TOKEN_APPEND || (*current_token)->type == TOKEN_HEREDOC))
 	{
 		token = *current_token;
 		*current_token = (*current_token)->next;
-		if ((!*current_token 
-		|| (*current_token)->type != TOKEN_ARGUMENT)
-		&& !(*current_token)->type != TOKEN_HEREDOC )
+
+		// Vérification pour le heredoc
+		if (token->type == TOKEN_HEREDOC)
 		{
-			printf("minishell: curent_token: No such file or directory\n ici\n");
-			return;
+			if (!*current_token || (*current_token)->type != TOKEN_STRING)
+			{
+				printf("minishell: syntax error near unexpected token `newline`\n");
+				return;
+			}
+			// Appel de `handle_heredoc` pour créer le fichier temporaire
+			handle_heredoc(token, (*current_token)->value);
 		}
-		redir_node = create_ast_node(AST_REDIRECTION_IN);
-		if (token->type == TOKEN_REDIRECTION_OUT)
+
+		// Création du nœud de redirection pour l'AST
+		if (token->type == TOKEN_HEREDOC)
+			redir_node = create_ast_node(AST_REDIRECTION_HEREDOC);
+		else if (token->type == TOKEN_REDIRECTION_OUT)
 			redir_node = create_ast_node(AST_REDIRECTION_OUT);
 		else if (token->type == TOKEN_APPEND)
 			redir_node = create_ast_node(AST_REDIRECTION_APPEND);
-		else if (token->type == TOKEN_HEREDOC)
-			redir_node = create_ast_node(AST_REDIRECTION_HEREDOC);
-		redir_node->filename = ft_strdup((*current_token)->value);
+		else
+			redir_node = create_ast_node(AST_REDIRECTION_IN);
+
+		// Nom du fichier ou délimiteur (le nom du fichier heredoc est défini dans `handle_heredoc`)
+		redir_node->filename = ft_strdup(token->value);
 		*current_token = (*current_token)->next;
+
+		// Chaîner les redirections dans l'AST
 		if (!command_node->left)
 			command_node->left = redir_node;
 		else
