@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:34:38 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/31 09:23:11 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/03 16:42:13 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,9 @@ void	init_colors(t_colors *color_set)
 	color_set->colors[13] = "\033[0;37m";
 	color_set->colors[14] = "\033[0;90m";
 	color_set->colors[15] = "\033[1;97m";
-
 	color_set->color_count = 16;
 	color_set->index = 0;
 }
-
 
 void	handle_sigint(int signum)
 {

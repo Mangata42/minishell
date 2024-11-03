@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:43:43 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/10/31 22:10:25 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/03 17:17:39 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,8 @@
 # include "lexer.h"
 
 int		parser(t_t_list *token_list);
+
+//utils
+int		verif_pipe(t_token *pipe_token);
 
 #endif

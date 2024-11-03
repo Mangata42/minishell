@@ -5,17 +5,17 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/31 08:08:35 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/02 11:55:16 by fflamion         ###   ########.fr       */
+/*   Created: 2024/11/03 16:40:08 by fflamion          #+#    #+#             */
+/*   Updated: 2024/11/03 16:40:40 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-bool check_path(char *path, char *command)
+bool	check_path(char *path, char *command)
 {
-	char *full_path;
-	int exists;
+	char	*full_path;
+	int		exists;
 
 	full_path = ft_strjoin(path, "/");
 	if (!full_path)
@@ -28,12 +28,12 @@ bool check_path(char *path, char *command)
 	return (exists);
 }
 
-bool command_exists(char *command, char **envp)
+bool	command_exists(char *command, char **envp)
 {
-	char *path;
-	char **paths;
-	int i;
-	bool found;
+	char	*path;
+	char	**paths;
+	int		i;
+	bool	found;
 
 	path = get_env_value("PATH", envp);
 	if (!path)
@@ -52,7 +52,7 @@ bool command_exists(char *command, char **envp)
 	return (found);
 }
 
-void h_par(char c, uint16_t *i, t_t_list *t_list)
+void	h_par(char c, uint16_t *i, t_t_list *t_list)
 {
 	if (c == '(')
 		add_token(t_list, create_token("(", TOKEN_LPAREN));

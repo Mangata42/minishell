@@ -6,15 +6,15 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:42 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/02 20:05:04 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/03 16:51:42 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_ast_node *create_ast_node(t_ast_node_type type)
+t_ast_node	*create_ast_node(t_ast_node_type type)
 {
-	t_ast_node *node;
+	t_ast_node	*node;
 
 	node = malloc(sizeof(t_ast_node));
 	if (!node)
@@ -27,36 +27,46 @@ t_ast_node *create_ast_node(t_ast_node_type type)
 	return (node);
 }
 
-void add_argument(t_ast_node *node, char *argument)
+static char	**duplicate_argv(char **argv, int argc, char *argument)
 {
-	char **new_argv;
-	int argc;
-	int i;
+	char	**new_argv;
+	int		i;
 
-	argc = 0;
-	while (node->argv && node->argv[argc])
-		argc++;
 	new_argv = malloc(sizeof(char *) * (argc + 2));
 	if (!new_argv)
-		return;
+		return (NULL);
 	i = 0;
 	while (i < argc)
 	{
-		new_argv[i] = node->argv[i];
+		new_argv[i] = argv[i];
 		i++;
 	}
 	new_argv[i] = ft_strdup(argument);
 	new_argv[i + 1] = NULL;
+	return (new_argv);
+}
+
+void	add_argument(t_ast_node *node, char *argument)
+{
+	char	**new_argv;
+	int		argc;
+
+	argc = 0;
+	while (node->argv && node->argv[argc])
+		argc++;
+	new_argv = duplicate_argv(node->argv, argc, argument);
+	if (!new_argv)
+		return ;
 	free(node->argv);
 	node->argv = new_argv;
 }
 
-void free_ast(t_ast_node *node)
+void	free_ast(t_ast_node *node)
 {
-	int i;
+	int	i;
 
 	if (!node)
-		return;
+		return ;
 	if (node->argv)
 	{
 		i = 0;

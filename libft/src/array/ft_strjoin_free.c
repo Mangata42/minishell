@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 08:10:59 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/31 08:11:06 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/03 17:19:58 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,6 @@ char	*ft_strjoin_free(char *s1, const char *s2)
 	while (j < len2)
 		joined[i++] = s2[j++];
 	joined[i] = '\0';
-	free(s1); // Libère `s1` après utilisation
+	free(s1);
 	return (joined);
 }
