@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:34 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/02 20:04:55 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/03 14:48:55 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int execute_command_node(t_ast_node *node, t_sh *shell)
 	int status;
 
 	pid = fork();
-	if (pid == 0)
+	if (pid == 0) // processus enfant pid == 0
 	{
 		handle_redirections(node);
 		if (execvp(node->argv[0], node->argv) == -1)
@@ -48,7 +48,7 @@ int execute_command_node(t_ast_node *node, t_sh *shell)
 			exit(EXIT_FAILURE);
 		}
 	}
-	else if (pid > 0)
+	else if (pid > 0) // process parent pid > 0
 	{
 		waitpid(pid, &status, 0);
 		update_exit_status(shell, status);
@@ -63,32 +63,33 @@ int execute_command_node(t_ast_node *node, t_sh *shell)
 
 int execute_pipe_node(t_ast_node *node, t_sh *shell)
 {
-	int pipefd[2];
+	int pipefd[2]; // [0] pour lire et [1] pour ecrire
 	pid_t pid_left;
 	pid_t pid_right;
-	int status;
+	int status; // recup l etat de sortie des process enfant
 
 	if (pipe(pipefd) == -1)
 	{
 		perror("minishell");
 		return (-1);
 	}
-	pid_left = fork();
+	pid_left = fork(); // Processus de gauche
 	if (pid_left == 0)
 	{
-		dup2(pipefd[1], STDOUT_FILENO);
-		close(pipefd[0]);
-		close(pipefd[1]);
-		execute_ast(node->left, shell);
-		exit(shell->exit_status);
+		dup2(pipefd[1], STDOUT_FILENO); // Redirige la sortie standard vers le pipe
+		close(pipefd[0]);				// Ferme l'extrémité de lecture (inutile ici)
+		close(pipefd[1]);				// Ferme après duplication pour éviter les fuites
+		execute_ast(node->left, shell); // Exécute la commande de gauche
+		exit(shell->exit_status);		// Termine le processus enfant
 	}
-	pid_right = fork();
+
+	pid_right = fork(); // process droit
 	if (pid_right == 0)
 	{
 		dup2(pipefd[0], STDIN_FILENO);
 		close(pipefd[0]);
 		close(pipefd[1]);
-		execute_ast(node->right, shell);
+		execute_ast(node->right, shell);// et la la commande de droite
 		exit(shell->exit_status);
 	}
 	close(pipefd[0]);
