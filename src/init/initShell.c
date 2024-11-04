@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initShell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 10:23:12 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/30 11:34:46 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:25:01 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,32 @@
 
 void	initialize_shell(t_sh *shell, char **envp)
 {
+	size_t	i = -1;
+	size_t	y = -1;
+	char	*old_str_p = NULL;
+
+	if (!*envp){
+		shell->envp = malloc(sizeof(char *) * 4);
+		shell->envp[0] = getcwd(NULL, 0);
+		old_str_p = shell->envp[0];
+		shell->envp[0] = ft_strpreppend(shell->envp[0], "PWD=");
+		free(old_str_p);
+		shell->envp[1] = ft_strdup("SHLVL=1");
+		shell->envp[2] = ft_strdup("_=/usr/bin/env");
+		shell->envp[3] = NULL;
+		shell->env_entries = 3;
+		return ;
+	}
+	
+	while (envp[++i]) ;
+	shell->envp = malloc(sizeof(char *) * (i + 1));
+	shell->env_entries = i;
+	
+	while (++y < i)
+		shell->envp[y] = ft_strdup(envp[y]);
+		
+	shell->envp[y] = NULL;
 	shell->exit_status = 0;
-	shell->envp = envp;
 }
 
 void	update_exit_status(t_sh *shell, int status)
