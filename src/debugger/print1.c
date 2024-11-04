@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 19:05:11 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/03 19:09:37 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/04 15:27:22 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	print_ast(t_ast_node *node, int level)
 		print_ast(node->right, level + 1);
 }
 
-void	print_env(char **envp)
+void	print_env_debug(char **envp)
 {
 	int	i;
 
