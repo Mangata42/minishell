@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+         #
+#    By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/23 14:35:20 by nghaddar          #+#    #+#              #
-#    Updated: 2024/10/30 17:03:41 by nghaddar         ###   ########.fr        #
+#    Updated: 2024/11/04 10:58:45 by fflamion         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # CFLAGS = -Wall -Werror -Wextra -Iincludes -Ilibft -g
-CGLAGS = -g -I includes -I libft
+CGLAGS = -g -I includes -g3 -I libft
 
 LIBFT_TARGET = libft/libft.a
 
