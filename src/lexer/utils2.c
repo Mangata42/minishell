@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:09:54 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/31 08:57:49 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/04 13:45:45 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	h_cmd_arg(char *input, uint16_t *i, t_t_list *t_list, char **envp)
 	j = 0;
 	while (input[*i] && !ft_isspace(input[*i])
 		&& input[*i] != '|' && input[*i] != '>'
-		&& input[*i] != '<' && j < (int) sizeof(buffer) - 1)
+		&& input[*i] != '<' && j < (int) sizeof(buffer) - 1
+		&& input[*i] != '(' && input[*i] != ')')
 	{
 		buffer[j++] = input[(*i)++];
 	}
