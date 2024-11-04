@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 16:46:24 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/03 16:47:37 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/04 13:18:52 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	verif_pipe(t_token *pipe_token)
 	}
 	p_type = pipe_token->prev->type;
 	check_mask = (TOKEN_COMMAND
-			| TOKEN_VARIABLE | TOKEN_STRING | TOKEN_ARGUMENT);
+			| TOKEN_VARIABLE | TOKEN_STRING | TOKEN_ARGUMENT | TOKEN_RPAREN);
 	if (!(p_type & check_mask))
 	{
 		printf("minishell: syntax error near unexpected token `|'\n");
