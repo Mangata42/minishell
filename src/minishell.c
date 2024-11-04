@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:47:28 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/04 13:39:36 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/04 17:57:26 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,18 @@ int	process_input(char *input, t_sh *shell)
 	t_list = lexer(input, shell);
 	if (!t_list)
 		return (1);
-	print_t_list(t_list);
+	// print_t_list(t_list);
 	parser(t_list);
 	// if (parser(t_list))
 	// {
 	// 	free_token_list(t_list);
 	// 	return (1);
 	// }
-	// ast_root = ast_parser(t_list);
+	ast_root = ast_parser(t_list);
 	// print_ast(ast_root, 0);
-	// execute_ast(ast_root, shell);
-	// free_ast(ast_root);
-	// free_token_list(t_list);
+	execute_ast(ast_root, shell);
+	free_ast(ast_root);
+	free_token_list(t_list);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:48:46 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/04 13:39:10 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/04 13:53:31 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ int	check_parentheses_balance(t_t_list *token_list)
 		}
 		current_token = current_token->next;
 	}
-		printf("parenthesis balance : %d\n", balance);
 	if (balance != 0)
 	{
 		printf("minishell: syntax error: unmatched parentheses\n");
