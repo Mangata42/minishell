@@ -6,58 +6,79 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:07:26 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/04 17:58:28 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/05 18:35:55 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/builtins.h"
+#include "../../include/minishell.h"
+#include "../../include/shell.h"
 
-void	print_env(t_sh *shell)
+void	print_sorted_env(t_sh *shell)
 {
-	//need to print alphabetic order
+	t_var *sorted_end;
+	size_t i = 0;
+	size_t y = 0;
 	
-	char **env = shell->envp;
-
-	while (*env)
-		printf("%s\n", *env++);
+	sorted_end = malloc(sizeof(t_var) * (shell->env_size + 1));
+	while (i < shell->env_size)
+	{
+		;
+	}
 }
 
-void	add_var(t_sh *shell, char *new_var)
+void	mod_var(t_sh *shell, char *var_title, char *var_value)
 {
-	char 	**env = shell->envp;
-	char 	**new_env = NULL;
-	uint16_t	arr_size = shell->env_entries;
-	uint16_t	i = -1;
+	t_var *existing_value;
 
-	new_env = malloc(sizeof(char *) * arr_size + 2);
+	existing_value = var_exists(shell, var_title);
+	free(existing_value->value);
+	existing_value->value = ft_strdup(var_value);
+}
+
+void	add_var(t_sh *shell, char *var_title, char *var_value)
+{
+	t_var	*new_env;
+	size_t	i = 0;
+	
+	new_env = malloc(sizeof(t_var) * shell->env_size + 1);
 	if (!new_env)
 		return ;
-	
-	while (env[++i]){
-		new_env[i] = ft_strdup(env[i]);
-		free(env[i]);
+	while (i < shell->env_size - 1)
+	{
+		new_env[i].title = ft_strdup(shell->env[i].title);
+		new_env[i].value = ft_strdup(shell->env[i].value);
+		free(shell->env[i].title);
+		free(shell->env[i].value);
+		i++;
 	}
-	
-	new_env[i] = ft_strdup(new_var);
-	new_env[++i] = NULL;
-	shell->envp = new_env;
-	free(env);
+	new_env[i].title = ft_strdup(var_title);
+	new_env[i].value = ft_strdup(var_value);
+	new_env[i + 1].title = NULL;
+	new_env[i + 1].value = NULL;
+	shell->env_size++;
+	free(shell->env);
+	shell->env = new_env;
 }	
 
-void	export(t_sh *shell, char *new_var)
+void	builtin_export(t_sh *shell, char *new_var)
 {
+	char **split_str = NULL;
+
 	if (!new_var)
-	{
-		print_env(shell);
-		return ;
-	}
-
-	if (!ft_strchr(new_var, '=') || new_var[0] == '=')
-	{
+		print_sorted_env(shell);
+	if (!ft_strchr(new_var, '=') || !ft_isalpha(new_var[0]))
 		printf("minishell: export: %s not a valid identifier\n", new_var);
-		return ;
+	
+	split_str = ft_split(new_var, '=');
+	if (var_exists(shell, split_str[0])){
+		ft_putstr("var exists.\n");
+		mod_var(shell, split_str[0], split_str[1]);
 	}
-
 	else
-		add_var(shell, new_var);
+		add_var(shell, split_str[0], split_str[1]);
+	
+	// free(split_str[0]);
+	// free(split_str[1]);
+	// free(split_str);
+	return ;
 }
