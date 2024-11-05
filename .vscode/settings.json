@@ -1,5 +1,7 @@
 {
 	"files.associations": {
-		"compare": "cpp"
+		"compare": "cpp",
+		"shell.h": "c",
+		"minishell.h": "c"
 	}
 }

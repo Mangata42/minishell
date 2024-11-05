@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:10:57 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/04 17:43:10 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/05 15:14:51 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,20 @@
 
 int		builtin_echo(char *s, char optN);
 int		builtin_cd(char *path);
-void	print_env(t_sh *shell);
-void	add_var(t_sh *shell, char *new_var);
-void	export(t_sh *shell, char *new_var);
+
+// export
+void	print_sorted_env(t_sh *shell);
+void	mod_var(t_sh *shell, char *var_title, char *var_value);
+void	add_var(t_sh *shell, char *var_title, char *var_value);
+void	builtin_export(t_sh *shell, char *new_var);
+
+// export utils 1
+t_var	*remove_var(t_var *env, char *var_title);
+t_var	*copy_env(t_sh *shell);
+t_var	*var_exists(t_sh *shell, char *var_to_check);
+
+// unset
+void	builtin_unset(t_sh *shell, char *var_title);
+
 
 #endif

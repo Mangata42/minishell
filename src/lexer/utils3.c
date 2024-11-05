@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 12:36:26 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/30 11:43:03 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/05 11:08:12 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	h_exp(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
 	else if (input[*i] == '{')
 		handle_brace_expand(input, i, t_list);
 	else
-		h_alnum_ex(input, i, t_list, shell->envp);
+		h_alnum_ex(input, i, t_list, shell->env);
 }
 
 char	*parse_env_var(char *input, uint16_t *i, t_sh *shell)
@@ -93,7 +93,7 @@ char	*parse_env_var(char *input, uint16_t *i, t_sh *shell)
 		(*i)++;
 	}
 	var_name[var_len] = '\0';
-	env_value = get_env_value(var_name, shell->envp);
+	env_value = get_env_value(var_name, shell->env);
 	if (env_value)
 		return (env_value);
 	else
