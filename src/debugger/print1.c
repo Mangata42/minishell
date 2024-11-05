@@ -6,12 +6,12 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 19:05:11 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/03 19:09:37 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/05 19:07:21 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
 #include "../../include/debugger.h"
+#include "../../include/minishell.h"
 
 void	print_ast(t_ast_node *node, int level)
 {

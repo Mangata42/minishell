@@ -6,13 +6,14 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 08:12:14 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/05 08:25:38 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/05 19:17:35 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	w_c(pid_t pid, t_sh *shell, struct sigaction *orig_int, struct sigaction *orig_quit)
+int	w_c(pid_t pid, t_sh *shell, struct sigaction *orig_int,
+		struct sigaction *orig_quit)
 {
 	int					status;
 	struct sigaction	sa_ignore;

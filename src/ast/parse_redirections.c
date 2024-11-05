@@ -15,28 +15,27 @@
 int	is_redirection_token(t_token *token)
 {
 	return (token && (token->type == TOKEN_REDIRECTION_IN
-		|| token->type == TOKEN_REDIRECTION_OUT
-		|| token->type == TOKEN_APPEND
-		|| token->type == TOKEN_HEREDOC));
+			|| token->type == TOKEN_REDIRECTION_OUT
+			|| token->type == TOKEN_APPEND || token->type == TOKEN_HEREDOC));
 }
 
-void parse_redir(t_token **current_token, t_ast_node *command_node, t_sh *shell)
+void	parse_redir(t_token **curr_tok, t_ast_node *cmd_node, t_sh *shell)
 {
-	t_token *token;
-	t_ast_node *redir_node;
-	t_ast_node *tmp;
+	t_token		*token;
+	t_ast_node	*redir_node;
+	t_ast_node	*tmp;
 
-	while (is_redirection_token(*current_token))
+	while (is_redirection_token(*curr_tok))
 	{
-		token = *current_token;
-		*current_token = (*current_token)->next;
-		if ((!*current_token 
-		|| (*current_token)->type != TOKEN_ARGUMENT)
-		&& !(*current_token)->type != TOKEN_HEREDOC)
+		token = *curr_tok;
+		*curr_tok = (*curr_tok)->next;
+		if ((!*curr_tok || (*curr_tok)->type != TOKEN_ARGUMENT)
+			&& (*curr_tok)->type != TOKEN_HEREDOC)
 		{
-			printf("minishell: %s: Aucun fichier ou dossier de ce type\n", (*current_token)->value);
+			printf("minishell: %s: Aucun fichier ou dossier de ce type\n",
+				(*curr_tok)->value);
 			shell->exit_status = 1;
-			return;
+			return ;
 		}
 		redir_node = create_ast_node(AST_REDIRECTION_IN, shell);
 		if (token->type == TOKEN_REDIRECTION_OUT)
@@ -45,13 +44,13 @@ void parse_redir(t_token **current_token, t_ast_node *command_node, t_sh *shell)
 			redir_node = create_ast_node(AST_REDIRECTION_APPEND, shell);
 		else if (token->type == TOKEN_HEREDOC)
 			redir_node = create_ast_node(AST_REDIRECTION_HEREDOC, shell);
-		redir_node->filename = ft_strdup((*current_token)->value);
-		*current_token = (*current_token)->next;
-		if (!command_node->left)
-			command_node->left = redir_node;
+		redir_node->filename = ft_strdup((*curr_tok)->value);
+		*curr_tok = (*curr_tok)->next;
+		if (!cmd_node->left)
+			cmd_node->left = redir_node;
 		else
 		{
-			tmp = command_node->left;
+			tmp = cmd_node->left;
 			while (tmp->left)
 				tmp = tmp->left;
 			tmp->left = redir_node;

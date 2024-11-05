@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:34 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/05 08:25:38 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/05 19:17:37 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ int	execute_command_node(t_ast_node *node, t_sh *shell)
 // 		return (-1);
 // 	}
 // }
-
 
 int	execute_pipe_node(t_ast_node *node, t_sh *shell)
 {

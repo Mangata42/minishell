@@ -6,13 +6,13 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 06:29:51 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/05 06:54:01 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/05 19:08:51 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void init_colors(t_colors *color_set)
+void	init_colors(t_colors *color_set)
 {
 	color_set->colors[0] = "\033[0;31m";
 	color_set->colors[1] = "\033[1;31m";

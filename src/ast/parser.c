@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:45 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/05 18:02:24 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/05 19:05:23 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ t_ast_node	*parse_and_or_sequence(t_token **current_token, t_sh *shell)
 	t_token		*token;
 
 	left = parse_pipeline(current_token, shell);
-	while (*current_token
-		&& ((*current_token)->type == TOKEN_AND
+	while (*current_token && ((*current_token)->type == TOKEN_AND
 			|| (*current_token)->type == TOKEN_OR))
 	{
 		token = *current_token;

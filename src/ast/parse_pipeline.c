@@ -6,13 +6,13 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:45 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/05 18:04:03 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/05 19:06:22 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_ast_node	*parse_parentheses(t_token **current_token,t_sh *shell)
+t_ast_node	*parse_parentheses(t_token **current_token, t_sh *shell)
 {
 	t_ast_node	*node;
 	char		*token_value;

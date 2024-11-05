@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:47:28 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/05 18:37:07 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/05 19:07:48 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,7 @@ void	main_loop(t_sh *shell)
 
 	if (color_set.color_count == 0)
 		init_colors(&color_set);
-
 	setup_signals();
-
 	while (1)
 	{
 		printf("%s", color_set.colors[color_set.index]);
@@ -69,7 +67,6 @@ void	main_loop(t_sh *shell)
 		free(input);
 	}
 }
-
 
 int	main(void)
 {

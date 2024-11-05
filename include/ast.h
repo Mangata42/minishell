@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 12:36:31 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/05 18:03:46 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/05 19:21:26 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ void		add_argument(t_ast_node *node, char *argument);
 void		free_ast(t_ast_node *node);
 
 // parser
-t_ast_node  *ast_parser(t_t_list *token_list, t_sh *shell);
-t_ast_node  *parse_parentheses(t_token **current_token, t_sh *shell);
-t_ast_node  *parse_command(t_token **current_token, t_sh *shell);
-t_ast_node  *parse_pipeline(t_token **current_token, t_sh *shell);
-t_ast_node  *parse_and_or_sequence(t_token **current_token, t_sh *shell);
+t_ast_node	*ast_parser(t_t_list *token_list, t_sh *shell);
+t_ast_node	*parse_parentheses(t_token **current_token, t_sh *shell);
+t_ast_node	*parse_command(t_token **current_token, t_sh *shell);
+t_ast_node	*parse_pipeline(t_token **current_token, t_sh *shell);
+t_ast_node	*parse_and_or_sequence(t_token **current_token, t_sh *shell);
 
 // parse_redir
-void		parse_redir(t_token **current_token, t_ast_node *command_node, t_sh *shell);
+void		parse_redir(t_token **curr_t, t_ast_node *cmd_node, t_sh *sh);
 
 // parse_pipeline
 t_ast_node	*parse_pipeline(t_token **current_token, t_sh *shell);
