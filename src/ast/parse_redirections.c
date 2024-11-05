@@ -34,7 +34,8 @@ void parse_redir(t_token **current_token, t_ast_node *command_node, t_sh *shell)
 		|| (*current_token)->type != TOKEN_ARGUMENT)
 		&& !(*current_token)->type != TOKEN_HEREDOC )
 		{
-			printf("minishell: curent_token: No such file or directory\n");
+			printf("minishell: %s: Aucun fichier ou dossier de ce type\n", (*current_token)->value);
+			shell->exit_status = 1;
 			return;
 		}
 		redir_node = create_ast_node(AST_REDIRECTION_IN, shell);
