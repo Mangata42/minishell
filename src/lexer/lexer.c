@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:09:04 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/06 15:37:51 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/06 16:06:49 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	handle_token(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
 	else if (is_builtin_command(&input[*i]))
 		handle_builtin_command(input, i, t_list);
 	else
-		h_cmd_arg(input, i, t_list, shell->envp);
+		h_cmd_arg(input, i, t_list, shell->env);
 }
 
 t_t_list	*lexer(char *input, t_sh *shell)
