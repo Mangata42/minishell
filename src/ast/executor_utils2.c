@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 08:09:09 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/05 08:18:58 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/05 08:25:04 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	set_s_h(struct sigaction *sa, int signum, void (*handler)(int))
 	sigaction(signum, sa, NULL);
 }
 
-void	save_origl_s(struct sigaction *orig_int, struct sigaction *orig_quit)
+void	save_og_s(struct sigaction *orig_int, struct sigaction *orig_quit)
 {
 	sigaction(SIGINT, NULL, orig_int);
 	sigaction(SIGQUIT, NULL, orig_quit);

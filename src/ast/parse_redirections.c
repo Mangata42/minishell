@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_redirections.c                               :+:      :+:    :+:   */
+/*   parse_redir.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -20,7 +20,7 @@ int	is_redirection_token(t_token *token)
 		|| token->type == TOKEN_HEREDOC));
 }
 
-void parse_redirections(t_token **current_token, t_ast_node *command_node)
+void parse_redir(t_token **current_token, t_ast_node *command_node)
 {
 	t_token *token;
 	t_ast_node *redir_node;

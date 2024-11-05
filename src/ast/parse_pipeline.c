@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:45 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/03 20:17:32 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/05 08:22:16 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,6 @@ t_ast_node	*parse_command(t_token **current_token)
 		add_argument(node, (*current_token)->value);
 		*current_token = (*current_token)->next;
 	}
-	parse_redirections(current_token, node);
+	parse_redir(current_token, node);
 	return (node);
 }

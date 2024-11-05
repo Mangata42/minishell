@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:34 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/05 08:17:44 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/05 08:25:38 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	execute_command_node(t_ast_node *node, t_sh *shell)
 	struct sigaction	orig_int;
 	struct sigaction	orig_quit;
 
-	save_origl_s(&orig_int, &orig_quit);
+	save_og_s(&orig_int, &orig_quit);
 	pid = create_child_process(node);
 	if (pid < 0)
 	{
@@ -41,7 +41,7 @@ int	execute_command_node(t_ast_node *node, t_sh *shell)
 		return (-1);
 	}
 	if (pid > 0)
-		return (wait_for_child(pid, shell, &orig_int, &orig_quit));
+		return (w_c(pid, shell, &orig_int, &orig_quit));
 	return (0);
 }
 // int	execute_command_node(t_ast_node *node, t_sh *shell)

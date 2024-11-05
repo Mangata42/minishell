@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 12:36:31 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/05 08:20:04 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/05 08:27:24 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_ast_node	*parse_pipeline(t_token **current_token);
 t_ast_node	*parse_and_or_sequence(t_token **current_token);
 
 // parse_redir
-void parse_redirections(t_token **current_token, t_ast_node *command_node);
+void		parse_redir(t_token **current_token, t_ast_node *command_node);
 
 // parse_pipeline
 t_ast_node	*parse_pipeline(t_token **current_token);
@@ -70,13 +70,13 @@ void		handle_redirections(t_ast_node *node);
 
 // executor_utils2
 void		set_s_h(struct sigaction *sa, int signum, void (*handler)(int));
-void		save_origl_s(struct sigaction *orig_int, struct sigaction *orig_quit);
+void		save_og_s(struct sigaction *orig_int, struct sigaction *orig_quit);
 void		res_sig(struct sigaction *orig_int, struct sigaction *orig_quit);
 void		set_signals_for_parent(struct sigaction *sa_ignore);
 void		set_signals_for_child(struct sigaction *sa_default);
 
 // executor_utils3
-int			wait_for_child(pid_t pid, t_sh *shell, struct sigaction *orig_int, struct sigaction *orig_quit);
+int			w_c(pid_t p, t_sh *s, struct sigaction *b, struct sigaction *a);
 pid_t		create_child_process(t_ast_node *node);
 
 #endif
