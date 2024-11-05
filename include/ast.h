@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 12:36:31 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/03 20:05:00 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/05 08:20:04 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_ast_node
 	struct s_ast_node	*right;
 }	t_ast_node;
 
+// ast_list
 t_ast_node	*create_ast_node(t_ast_node_type type);
 void		add_argument(t_ast_node *node, char *argument);
 void		free_ast(t_ast_node *node);
@@ -48,6 +49,13 @@ t_ast_node	*parse_command(t_token **current_token);
 t_ast_node	*parse_pipeline(t_token **current_token);
 t_ast_node	*parse_and_or_sequence(t_token **current_token);
 
+// parse_redir
+void parse_redirections(t_token **current_token, t_ast_node *command_node);
+
+// parse_pipeline
+t_ast_node	*parse_pipeline(t_token **current_token);
+t_ast_node	*parse_parentheses(t_token **current_token);
+
 // execution
 int			execute_ast(t_ast_node *node, t_sh *shell);
 int			execute_command_node(t_ast_node *node, t_sh *shell);
@@ -55,16 +63,20 @@ int			execute_pipe_node(t_ast_node *node, t_sh *shell);
 int			execute_and_node(t_ast_node *node, t_sh *shell);
 int			execute_or_node(t_ast_node *node, t_sh *shell);
 
-// execution utils
+// executor_utils1
 void		handle_redir_in(t_ast_node *node);
 void		handle_redir_out(t_ast_node *node, int flags);
 void		handle_redirections(t_ast_node *node);
 
-// parse_redir
-void parse_redirections(t_token **current_token, t_ast_node *command_node);
+// executor_utils2
+void		set_s_h(struct sigaction *sa, int signum, void (*handler)(int));
+void		save_origl_s(struct sigaction *orig_int, struct sigaction *orig_quit);
+void		res_sig(struct sigaction *orig_int, struct sigaction *orig_quit);
+void		set_signals_for_parent(struct sigaction *sa_ignore);
+void		set_signals_for_child(struct sigaction *sa_default);
 
-// parse_pipeline
-t_ast_node	*parse_pipeline(t_token **current_token);
-t_ast_node	*parse_parentheses(t_token **current_token);
+// executor_utils3
+int			wait_for_child(pid_t pid, t_sh *shell, struct sigaction *orig_int, struct sigaction *orig_quit);
+pid_t		create_child_process(t_ast_node *node);
 
 #endif

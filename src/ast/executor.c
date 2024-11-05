@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:34 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/04 11:14:58 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/05 08:17:44 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,28 +29,83 @@ int	execute_ast(t_ast_node *node, t_sh *shell)
 
 int	execute_command_node(t_ast_node *node, t_sh *shell)
 {
-	pid_t	pid;
-	int		status;
+	pid_t				pid;
+	struct sigaction	orig_int;
+	struct sigaction	orig_quit;
 
-	pid = fork();
-	if (pid == 0)
+	save_origl_s(&orig_int, &orig_quit);
+	pid = create_child_process(node);
+	if (pid < 0)
 	{
-		handle_redirections(node);
-		if (execvp(node->argv[0], node->argv) == -1)
-		{
-			perror("minishell");
-			exit(EXIT_FAILURE);
-		}
+		perror("minishell");
+		return (-1);
 	}
-	else if (pid > 0)
-	{
-		waitpid(pid, &status, 0);
-		update_exit_status(shell, status);
-		return (shell->exit_status);
-	}
-	perror("minishell");
-	return (-1);
+	if (pid > 0)
+		return (wait_for_child(pid, shell, &orig_int, &orig_quit));
+	return (0);
 }
+// int	execute_command_node(t_ast_node *node, t_sh *shell)
+// {
+// 	pid_t				pid;
+// 	int					status;
+// 	struct sigaction	sa_ignore;
+// 	struct sigaction	sa_default;
+// 	struct sigaction	sa_orig_int;
+// 	struct sigaction	sa_orig_quit;
+
+// 	sa_ignore.sa_handler = SIG_IGN;
+// 	sigemptyset(&sa_ignore.sa_mask);
+// 	sa_ignore.sa_flags = 0;
+// 	sa_default.sa_handler = SIG_DFL;
+// 	sigemptyset(&sa_default.sa_mask);
+// 	sa_default.sa_flags = 0;
+
+// 	// Sauvegarder les gestionnaires de signaux originaux
+// 	sigaction(SIGINT, NULL, &sa_orig_int);
+// 	sigaction(SIGQUIT, NULL, &sa_orig_quit);
+
+// 	pid = fork();
+// 	if (pid == 0)
+// 	{
+// 		// Restaurer les signaux par défaut dans l'enfant
+// 		sigaction(SIGINT, &sa_default, NULL);
+// 		sigaction(SIGQUIT, &sa_default, NULL);
+
+// 		handle_redirections(node);
+// 		if (execvp(node->argv[0], node->argv) == -1)
+// 		{
+// 			perror("minishell");
+// 			exit(EXIT_FAILURE);
+// 		}
+// 	}
+// 	else if (pid > 0)
+// 	{
+// 		// Ignorer SIGINT et SIGQUIT pendant l'attente
+// 		sigaction(SIGINT, &sa_ignore, NULL);
+// 		sigaction(SIGQUIT, &sa_ignore, NULL);
+
+// 		waitpid(pid, &status, 0);
+// 		update_exit_status(shell, status);
+
+// 		// Restaurer les gestionnaires de signaux originaux
+// 		sigaction(SIGINT, &sa_orig_int, NULL);
+// 		sigaction(SIGQUIT, &sa_orig_quit, NULL);
+
+// 		// Vérifier si l'enfant a été interrompu par SIGINT
+// 		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+// 		{
+// 			write(1, "\n", 1);  // Affiche un retour à la ligne pour le prompt
+// 		}
+
+// 		return (shell->exit_status);
+// 	}
+// 	else
+// 	{
+// 		perror("minishell");
+// 		return (-1);
+// 	}
+// }
+
 
 int	execute_pipe_node(t_ast_node *node, t_sh *shell)
 {
