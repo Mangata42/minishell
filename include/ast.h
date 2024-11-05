@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 12:36:31 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/05 08:27:24 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/05 18:03:46 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,26 +35,27 @@ typedef struct s_ast_node
 	char				*filename;
 	struct s_ast_node	*left;
 	struct s_ast_node	*right;
+	t_sh				*shell;
 }	t_ast_node;
 
 // ast_list
-t_ast_node	*create_ast_node(t_ast_node_type type);
+t_ast_node	*create_ast_node(t_ast_node_type type, t_sh *shell);
 void		add_argument(t_ast_node *node, char *argument);
 void		free_ast(t_ast_node *node);
 
 // parser
-t_ast_node	*ast_parser(t_t_list *token_list);
-t_ast_node	*parse_parentheses(t_token **current_token);
-t_ast_node	*parse_command(t_token **current_token);
-t_ast_node	*parse_pipeline(t_token **current_token);
-t_ast_node	*parse_and_or_sequence(t_token **current_token);
+t_ast_node  *ast_parser(t_t_list *token_list, t_sh *shell);
+t_ast_node  *parse_parentheses(t_token **current_token, t_sh *shell);
+t_ast_node  *parse_command(t_token **current_token, t_sh *shell);
+t_ast_node  *parse_pipeline(t_token **current_token, t_sh *shell);
+t_ast_node  *parse_and_or_sequence(t_token **current_token, t_sh *shell);
 
 // parse_redir
-void		parse_redir(t_token **current_token, t_ast_node *command_node);
+void		parse_redir(t_token **current_token, t_ast_node *command_node, t_sh *shell);
 
 // parse_pipeline
-t_ast_node	*parse_pipeline(t_token **current_token);
-t_ast_node	*parse_parentheses(t_token **current_token);
+t_ast_node	*parse_pipeline(t_token **current_token, t_sh *shell);
+t_ast_node	*parse_parentheses(t_token **current_token, t_sh *shell);
 
 // execution
 int			execute_ast(t_ast_node *node, t_sh *shell);
