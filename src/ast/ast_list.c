@@ -6,13 +6,13 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:42 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/03 16:51:42 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/05 17:57:19 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_ast_node	*create_ast_node(t_ast_node_type type)
+t_ast_node	*create_ast_node(t_ast_node_type type, t_sh *shell)
 {
 	t_ast_node	*node;
 
@@ -24,6 +24,7 @@ t_ast_node	*create_ast_node(t_ast_node_type type)
 	node->filename = NULL;
 	node->left = NULL;
 	node->right = NULL;
+	node->shell = shell;
 	return (node);
 }
 
