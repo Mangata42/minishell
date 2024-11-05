@@ -29,11 +29,15 @@ void	parse_redir(t_token **curr_tok, t_ast_node *cmd_node, t_sh *shell)
 	{
 		token = *curr_tok;
 		*curr_tok = (*curr_tok)->next;
-		if ((!*curr_tok || (*curr_tok)->type != TOKEN_ARGUMENT)
-			&& (*curr_tok)->type != TOKEN_HEREDOC)
+		if (!*curr_tok || ((*curr_tok)->type != TOKEN_ARGUMENT
+			&& (*curr_tok)->type != TOKEN_HEREDOC))
 		{
-			printf("minishell: %s: Aucun fichier ou dossier de ce type\n",
-				(*curr_tok)->value);
+			if (*curr_tok != NULL) {
+				printf("minishell: %s: Aucun fichier ou dossier de ce type\n",
+					(*curr_tok)->value);
+			} else {
+				printf("minishell: Aucun fichier ou dossier de ce type\n");
+			}
 			shell->exit_status = 1;
 			return ;
 		}
