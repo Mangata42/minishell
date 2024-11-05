@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:45 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/03 21:57:05 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/05 10:16:10 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void parse_redir(t_token **current_token, t_ast_node *command_node)
 		*current_token = (*current_token)->next;
 		if ((!*current_token 
 		|| (*current_token)->type != TOKEN_ARGUMENT)
-		&& !(*current_token)->type != TOKEN_HEREDOC )
+		&& !(*current_token)->type != TOKEN_HEREDOC)
 		{
 			printf("minishell: curent_token: No such file or directory\n");
 			return;
