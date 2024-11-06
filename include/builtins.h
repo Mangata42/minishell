@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:10:57 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/06 15:51:43 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/06 15:52:22 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,15 @@ t_var	*var_exists(t_sh *shell, char *var_to_check);
 
 // unset
 void	builtin_unset(t_sh *shell, char *var_title);
+
+// pwd
+int		builtin_pwd();
+
+// env
+void	builtin_env(t_sh *shell);
+
+// exit
+void	builtin_exit(t_sh *shell, int n);
 
 
 #endif
