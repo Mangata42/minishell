@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/03 19:05:11 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/06 15:49:26 by nghaddar         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/11/06 15:55:54 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../include/debugger.h"
 #include "../../include/minishell.h"
@@ -25,6 +26,7 @@ void	print_ast(t_ast_node *node, int level)
 		print_ast(node->right, level + 1);
 }
 
+void	print_env_debug(char **envp)
 void	print_env_debug(char **envp)
 {
 	int	i;

@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 21:57:07 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/06 15:48:44 by nghaddar         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/11/06 15:54:50 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef DEBUGGER_H
 # define DEBUGGER_H
@@ -40,6 +41,7 @@ void		print_ast(t_ast_node *node, int level);
 void		print_node_info(t_ast_node *node, int level);
 void		print_node_type(t_ast_node *node);
 void		print_indentation(int level);
+void		print_env_debug(char **envp);
 void		print_env_debug(char **envp);
 
 #endif
