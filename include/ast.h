@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 12:36:31 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/05 19:21:26 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/06 12:44:17 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ t_ast_node	*parse_and_or_sequence(t_token **current_token, t_sh *shell);
 
 // parse_redir
 void		parse_redir(t_token **curr_t, t_ast_node *cmd_node, t_sh *sh);
+int			is_redirection_token(t_token *token);
 
 // parse_pipeline
 t_ast_node	*parse_pipeline(t_token **current_token, t_sh *shell);

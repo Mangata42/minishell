@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:45 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/05 19:06:22 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/06 12:40:52 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,38 @@ t_ast_node	*parse_pipeline(t_token **current_token, t_sh *shell)
 	return (left);
 }
 
+// t_ast_node	*parse_command(t_token **current_token, t_sh *shell)
+// {
+// 	t_ast_node	*node;
+
+// 	if (!*current_token)
+// 		return (NULL);
+// 	node = create_ast_node(AST_COMMAND, shell);
+// 	while (*current_token && ((*current_token)->type == TOKEN_COMMAND
+// 			|| (*current_token)->type == TOKEN_ARGUMENT
+// 			|| (*current_token)->type == TOKEN_STRING
+// 			|| (*current_token)->type == TOKEN_EXPAND))
+// 	{
+// 		add_argument(node, (*current_token)->value);
+// 		*current_token = (*current_token)->next;
+// 	}
+// 	parse_redir(current_token, node, shell);
+// 	return (node);
+// }
 t_ast_node	*parse_command(t_token **current_token, t_sh *shell)
 {
 	t_ast_node	*node;
 
-	if (!*current_token)
-		return (NULL);
+	// Initialiser le nœud de commande
 	node = create_ast_node(AST_COMMAND, shell);
+
+	// Analyser toutes les redirections avant de chercher la commande
+	while (*current_token && is_redirection_token(*current_token))
+	{
+		parse_redir(current_token, node, shell);
+	}
+
+	// Rechercher la commande principale et ses arguments après les redirections
 	while (*current_token && ((*current_token)->type == TOKEN_COMMAND
 			|| (*current_token)->type == TOKEN_ARGUMENT
 			|| (*current_token)->type == TOKEN_STRING
@@ -70,6 +95,12 @@ t_ast_node	*parse_command(t_token **current_token, t_sh *shell)
 		add_argument(node, (*current_token)->value);
 		*current_token = (*current_token)->next;
 	}
-	parse_redir(current_token, node, shell);
+
+	// Analyser d'autres redirections possibles après la commande et les arguments
+	while (*current_token && is_redirection_token(*current_token))
+	{
+		parse_redir(current_token, node, shell);
+	}
+
 	return (node);
 }

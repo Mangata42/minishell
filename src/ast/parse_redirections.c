@@ -32,7 +32,7 @@ void	parse_redir(t_token **curr_tok, t_ast_node *cmd_node, t_sh *shell)
 		if (!*curr_tok ||
 			((*curr_tok)->type != TOKEN_ARGUMENT
 				&& (*curr_tok)->type != TOKEN_HEREDOC
-				&& (*curr_tok)->type != TOKEN_STRING // Ajoutez cette condition
+				&& (*curr_tok)->type != TOKEN_STRING
 				&& (*curr_tok)->prev->type != TOKEN_ARGUMENT))
 		{
 			if (*curr_tok != NULL)
@@ -45,25 +45,13 @@ void	parse_redir(t_token **curr_tok, t_ast_node *cmd_node, t_sh *shell)
 			return ;
 		}
 		if (token->type == TOKEN_REDIRECTION_IN)
-		{
-			printf("\n\nredirection in\n\n");
 			redir_node = create_ast_node(AST_REDIRECTION_IN, shell);
-		}
 		if (token->type == TOKEN_REDIRECTION_OUT)
-		{
-			printf("\n\nredirection out\n\n");
 			redir_node = create_ast_node(AST_REDIRECTION_OUT, shell);
-		}
 		else if (token->type == TOKEN_APPEND)
-		{
-			printf("\n\nredirection append\n\n");
 			redir_node = create_ast_node(AST_REDIRECTION_APPEND, shell);
-		}
 		else if (token->type == TOKEN_HEREDOC)
-		{
-			printf("\n\nredirection heredoc\n\n");
 			redir_node = create_ast_node(AST_REDIRECTION_HEREDOC, shell);
-		}
 		redir_node->filename = ft_strdup((*curr_tok)->value);
 		*curr_tok = (*curr_tok)->next;
 		if (!cmd_node->left)
