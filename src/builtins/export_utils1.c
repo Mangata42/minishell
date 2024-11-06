@@ -6,12 +6,24 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 13:43:12 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/05 17:23:01 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/06 14:58:33 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/shell.h"
+
+void	swap_values(t_var *a, t_var *b)
+{
+	t_var tmp;
+
+    tmp.title = a->title;
+    tmp.value = a->value;
+    a->title = b->title;
+    a->value = b->value;
+    b->title = tmp.title;
+    b->value = tmp.value;
+}
 
 t_var	*remove_var(t_var *env, char *var_title)
 {

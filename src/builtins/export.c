@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:07:26 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/05 18:35:55 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/06 15:09:52 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,30 @@
 
 void	print_sorted_env(t_sh *shell)
 {
-	t_var *sorted_end;
-	size_t i = 0;
-	size_t y = 0;
-	
-	sorted_end = malloc(sizeof(t_var) * (shell->env_size + 1));
-	while (i < shell->env_size)
+	t_var	*env_copy;
+	int		has_swapped = 1;
+	size_t	i = 0;
+
+	env_copy = copy_env(shell);
+	while (has_swapped)
 	{
-		;
+		has_swapped = 0;
+		while (i < shell->env_size - 2)
+		{
+			if (ft_strcmp(env_copy[i].title, env_copy[i + 1].title) > 0)
+			{
+				swap_values(&env_copy[i], &env_copy[i + 1]);
+				has_swapped = 1;
+			}
+			i++;	
+		}
+		i = 0;
+	}
+	
+	while (env_copy->title)
+	{
+		printf("export %s=%s\n", env_copy->title, env_copy->value);
+		env_copy++;
 	}
 }
 
@@ -77,8 +93,8 @@ void	builtin_export(t_sh *shell, char *new_var)
 	else
 		add_var(shell, split_str[0], split_str[1]);
 	
-	// free(split_str[0]);
-	// free(split_str[1]);
-	// free(split_str);
+	free(split_str[0]);
+	free(split_str[1]);
+	free(split_str);
 	return ;
 }
