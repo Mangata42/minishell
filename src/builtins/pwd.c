@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:20:10 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/06 15:23:08 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/06 20:24:07 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int builtin_pwd()
+int	ft_pwd(void)
 {
 	char *buffer;
 

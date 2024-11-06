@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:50:53 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/05 18:44:43 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/06 20:10:15 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@
 # include <readline/history.h>
 
 # include "../libft/includes/libft.h"
-# include "funny.h"
 # include "builtins.h"
+# include "funny.h"
 # include "shell.h"
 # include "parser.h"
 # include "lexer.h"
-# include "builtins.h"
 # include "debugger.h"
 # include "signal.h"
 # include "ast.h"
+
 
 #endif

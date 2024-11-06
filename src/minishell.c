@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:47:28 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/06 16:10:25 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/06 20:13:45 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ int	process_input(char *input, t_sh *shell)
 	t_list = lexer(input, shell);
 	if (!t_list)
 		return (1);
-	print_t_list(t_list);
+	// print_t_list(t_list);
 	parser(t_list);
 	ast_root = ast_parser(t_list, shell);
-	print_ast(ast_root, 0);
+	// print_ast(ast_root, 0);
 	execute_ast(ast_root, shell);
 	free_ast(ast_root);
 	free_token_list(t_list);
