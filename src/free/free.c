@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/06 15:56:04 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/06 15:58:44 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,14 @@
 
 void	free_shell(t_sh *shell)
 {
-	int	i = 0;
-	int	i = 0;
+	// int	i = 0;
 
-	while (i < shell->env_size)
-	while (i < shell->env_size)
-	{
-		free(shell->env[i].title);
-		free(shell->env[i].value);
-		i++;
-		free(shell->env[i].title);
-		free(shell->env[i].value);
-		i++;
-	}
-	free(shell->env);
-	free(shell);
-	free(shell->env);
-	free(shell);
+	// while (i < shell->env_size)
+	// {
+	// 	free(shell->env[i].title);
+	// 	i++;
+
+	// }
+	// free(shell->env);
+	// free(shell);
 }
