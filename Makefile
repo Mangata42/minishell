@@ -6,11 +6,11 @@
 #    By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/23 14:35:20 by nghaddar          #+#    #+#              #
-#    Updated: 2024/11/06 22:35:39 by fflamion         ###   ########.fr        #
+#    Updated: 2024/11/06 23:39:22 by fflamion         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CFLAGS = -Wall -Werror -Wextra -Iincludes -Ilibft -g3
+CFLAGS = -Wall -Werror -Wextra -Iincludes -Ilibft -g
 # CGLAGS = -g -I includes -g3 -I libft
 
 LIBFT_TARGET = libft/libft.a
