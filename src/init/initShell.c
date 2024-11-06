@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 10:23:12 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/05 17:04:36 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/06 15:18:09 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,23 +32,26 @@ void	create_base_env(t_sh *shell)
 
 void	parse_env(t_sh *shell, char **envp)
 {
-	char	**split_str;
+	char	*buffer;
+	int		before_equal;
 	size_t	i = 0;
+	size_t	y = 0;
 
 	while (envp[i++]) ; 
 	shell->env = malloc(sizeof(t_var) * (i + 1));
 	shell->env_size = i;
 	i = 0;
-	while (*envp)
+
+	while (envp[y])
 	{
-		split_str = ft_split(*envp, '=');
-		shell->env[i].title = ft_strdup(split_str[0]);
-		shell->env[i].value = ft_strdup(split_str[1]);
-		free(split_str[0]);
-		free(split_str[1]);
-		free(split_str);
-		*envp++;
+		before_equal = ft_strchr(envp[y], '=') - envp[y];
+		buffer = malloc(before_equal + 1);
+		ft_strlcpy(buffer, envp[y], before_equal + 1);
+		shell->env[i].title = ft_strdup(buffer);
+		shell->env[i].value = ft_strdup(envp[y] + before_equal + 1);
+		y++;
 		i++;
+		free(buffer);
 	}
 	shell->env[i].title = NULL;
 	shell->env[i].value = NULL;
@@ -62,6 +65,7 @@ void	initialize_shell(t_sh *shell, char **envp)
 	else
 		parse_env(shell, envp);
 	
+	shell->envp = envp;
 	shell->exit_status = 0;
 }
 

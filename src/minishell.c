@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:47:28 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/06 15:50:40 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/06 15:51:57 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ int	process_input(char *input, t_sh *shell)
 	t_list = lexer(input, shell);
 	if (!t_list)
 		return (1);
-	// print_t_list(t_list);
+	print_t_list(t_list);
 	parser(t_list);
-	// ast_root = ast_parser(t_list);
-	// print_ast(ast_root, 0);
-	// execute_ast(ast_root, shell);
-	// free_ast(ast_root);
+	ast_root = ast_parser(t_list);
+	print_ast(ast_root, 0);
+	execute_ast(ast_root, shell);
+	free_ast(ast_root);
 	free_token_list(t_list);
 	return (0);
 }
@@ -57,7 +57,7 @@ void	main_loop(t_sh *shell)
 	}
 }
 
-void	print_env(t_sh *shell)
+static void	print_env(t_sh *shell)
 {
 	size_t i = 0;
 
@@ -74,9 +74,7 @@ int	main(void)
 	extern char	**environ;
 
 	initialize_shell(&shell, environ);
-	add_var(&shell, "TEST", "cestuntest");
-	print_sorted_env(&shell);
-	// main_loop(&shell);
+	main_loop(&shell);
 	// free_shell(&shell);
 	return (0);
 }

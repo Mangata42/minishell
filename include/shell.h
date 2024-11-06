@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 11:09:34 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/06 15:50:32 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/06 15:52:09 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct s_shell
 {
 	int		exit_status;
 	t_var	*env;
+	char	**envp;
 	size_t	env_size;
 }				t_sh;
 

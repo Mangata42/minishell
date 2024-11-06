@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:10:57 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/06 15:50:19 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/06 15:51:43 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	add_var(t_sh *shell, char *var_title, char *var_value);
 void	builtin_export(t_sh *shell, char *new_var);
 
 // export utils 1
+void	swap_values(t_var *a, t_var *b);
 t_var	*remove_var(t_var *env, char *var_title);
 t_var	*copy_env(t_sh *shell);
 t_var	*var_exists(t_sh *shell, char *var_to_check);
