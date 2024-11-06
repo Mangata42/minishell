@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:07:26 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/06 16:07:32 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/06 16:13:27 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ void	builtin_export(t_sh *shell, char *new_var)
 	
 	split_str = ft_split(new_var, '=');
 	if (var_exists(shell, split_str[0])){
-		ft_putstr("var exists.\n");
 		mod_var(shell, split_str[0], split_str[1]);
 	}
 	else
