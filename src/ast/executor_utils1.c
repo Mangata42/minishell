@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 16:53:15 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/05 19:17:12 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/06 13:48:28 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,49 @@ void	handle_redir_out(t_ast_node *node, int flags)
 	close(fd);
 }
 
+void    handle_redir_heredoc(t_ast_node *node)
+{
+    char    *line;
+    int     fd;
+    char    *delimiter;
+
+    // Créer un fichier temporaire pour le heredoc
+    fd = open("/tmp/heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+    if (fd == -1)
+    {
+        perror("minishell: heredoc");
+        exit(EXIT_FAILURE);
+    }
+
+    delimiter = node->filename;
+    while (1)
+    {
+        line = readline("> ");
+        if (!line)
+            break;
+        if (strcmp(line, delimiter) == 0)
+        {
+            free(line);
+            break;
+        }
+        write(fd, line, strlen(line));
+        write(fd, "\n", 1);
+        free(line);
+    }
+    close(fd);
+
+    // Réouvrir le fichier pour la lecture
+    fd = open("/tmp/heredoc_tmp", O_RDONLY);
+    if (fd == -1)
+    {
+        perror("minishell: heredoc");
+        exit(EXIT_FAILURE);
+    }
+    dup2(fd, STDIN_FILENO);
+    close(fd);
+    unlink("/tmp/heredoc_tmp");  // Supprimer le fichier temporaire
+}
+
 void	handle_redirections(t_ast_node *node)
 {
 	t_ast_node	*redir;
@@ -54,7 +97,7 @@ void	handle_redirections(t_ast_node *node)
 		else if (redir->type == AST_REDIRECTION_APPEND)
 			handle_redir_out(redir, O_WRONLY | O_CREAT | O_APPEND);
 		else if (redir->type == AST_REDIRECTION_HEREDOC)
-			handle_redir_in(redir);
+			handle_redir_heredoc(redir);
 		redir = redir->left;
 	}
 }
