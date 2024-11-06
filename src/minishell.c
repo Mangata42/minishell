@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:47:28 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/06 16:08:48 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/06 16:10:25 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	process_input(char *input, t_sh *shell)
 		return (1);
 	print_t_list(t_list);
 	parser(t_list);
-	ast_root = ast_parser(t_list);
+	ast_root = ast_parser(t_list, shell);
 	print_ast(ast_root, 0);
 	execute_ast(ast_root, shell);
 	free_ast(ast_root);
@@ -54,17 +54,6 @@ void	main_loop(t_sh *shell)
 				break ;
 		}
 		free(input);
-	}
-}
-
-static void	print_env(t_sh *shell)
-{
-	size_t i = 0;
-
-	while (shell->env[i].title)
-	{
-		printf("%s=%s\n", shell->env[i].title, shell->env[i].value);
-		i++;
 	}
 }
 

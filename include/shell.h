@@ -6,9 +6,10 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 11:09:34 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/06 16:08:32 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/06 16:10:18 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef SHELL_H
 # define SHELL_H
@@ -19,6 +20,7 @@ typedef struct s_var
 	char	*value;
 	size_t	index;
 }				t_var;
+
 
 typedef struct s_shell
 {
