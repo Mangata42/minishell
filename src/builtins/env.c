@@ -3,22 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:24:40 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/06 15:26:31 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/06 22:17:52 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	builtin_env(t_sh *shell)
+int	ft_env(t_sh *shell)
 {
-	size_t i = 0;
+	size_t	i;
 
-	while (i < shell->env_size)
+	i = 0;
+	while (i < shell->env_size - 1) // -1 pour éviter l'entrée NULL finale
 	{
-		printf("%s=%s\n", shell->env[i].title, shell->env[i].value);
+		if (shell->env[i].title && shell->env[i].value)
+			printf("%s=%s\n", shell->env[i].title, shell->env[i].value);
 		i++;
 	}
+	return (0);
 }

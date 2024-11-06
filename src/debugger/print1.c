@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   print1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 19:05:11 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/06 16:10:34 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/06 22:19:58 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../include/debugger.h"
 #include "../../include/minishell.h"

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initShell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 10:23:12 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/06 16:07:38 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/06 22:22:42 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	create_base_env(t_sh *shell)
 	shell->env = malloc(sizeof(t_var) * 4);
 	if (!shell->env)
 		return ;
-	
 	shell->env[0].title = ft_strdup("PWD");
 	shell->env[0].value = getcwd(NULL, 0);
 	shell->env[1].title = ft_strdup("SHLVL");
@@ -34,14 +33,16 @@ void	parse_env(t_sh *shell, char **envp)
 {
 	char	*buffer;
 	int		before_equal;
-	size_t	i = 0;
-	size_t	y = 0;
+	size_t	i;
+	size_t	y;
 
-	while (envp[i++]) ; 
+	i = 0;
+	y = 0;
+	while (envp[i++])
+		;
 	shell->env = malloc(sizeof(t_var) * (i + 1));
 	shell->env_size = i;
 	i = 0;
-
 	while (envp[y])
 	{
 		before_equal = ft_strchr(envp[y], '=') - envp[y];
@@ -61,10 +62,8 @@ void	initialize_shell(t_sh *shell, char **envp)
 {
 	if (!*envp)
 		create_base_env(shell);
-	
 	else
 		parse_env(shell, envp);
-	
 	shell->envp = envp;
 	shell->exit_status = 0;
 }
