@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 20:04:50 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/06 22:12:55 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/07 12:44:50 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,12 @@ int		ft_export(char **args, t_sh *shell);
 int		ft_unset(char **args, t_sh *shell);
 int		ft_env(t_sh *shell);
 int		ft_exit(char **args);
+
+// export utils
+void	free_split(char **split_str);
+void	swap_values(t_var *a, t_var *b);
+t_var	*remove_var(t_var *env, char *var_title);
+t_var	*copy_env(t_sh *shell);
+t_var	*var_exists(t_sh *shell, char *var_to_check);
 
 #endif

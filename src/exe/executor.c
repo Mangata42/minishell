@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:34 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/06 22:21:05 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/07 13:35:13 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ static int	execute_builtin(t_ast_node *node, t_sh *shell)
 		return (ft_cd(node->argv, shell));
 	if (!ft_strcmp(cmd, "pwd"))
 		return (ft_pwd());
-	// if (!ft_strcmp(cmd, "export"))
-	// 	return (ft_export(node->argv, shell));
+	if (!ft_strcmp(cmd, "export"))
+		return (ft_export(node->argv, shell));
 	// if (!ft_strcmp(cmd, "unset"))
 	// 	return (ft_unset(node->argv, shell));
 	if (!ft_strcmp(cmd, "env"))

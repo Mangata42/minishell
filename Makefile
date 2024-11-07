@@ -1,4 +1,3 @@
-
 CFLAGS = -Wall -Werror -Wextra -Iincludes -Ilibft -g
 # CGLAGS = -g -I includes -g3 -I libft
 
