@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 12:36:26 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/06 16:07:59 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/07 13:09:28 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	h_exp(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
 	{
 		status = ft_itoa(shell->exit_status);
 		add_token(t_list, create_token(status, TOKEN_EXPAND));
+		free(status);
 		(*i)++;
 	}
 	else if (input[*i] == '{')

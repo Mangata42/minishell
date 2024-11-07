@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:45 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/05 19:55:05 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/07 13:17:43 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_ast_node	*ast_parser(t_t_list *token_list, t_sh *shell)
 
 	current_token = token_list->first;
 	ast_root = parse_and_or_sequence(&current_token, shell);
+
 	return (ast_root);
 }
 

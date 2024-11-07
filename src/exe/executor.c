@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:34 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/07 13:47:18 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/07 14:51:12 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int	execute_command_node(t_ast_node *node, t_sh *shell)
 		shell->exit_status = status;
 		return (status);
 	}
-	// If not a builtin, proceed with normal command execution
 	save_og_s(&orig_int, &orig_quit);
 	pid = create_child_process(node);
 	if (pid < 0)
