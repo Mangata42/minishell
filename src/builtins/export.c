@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:07:26 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/07 13:26:58 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/07 13:41:50 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	add_var(t_sh *shell, char *var_title, char *var_value)
 	shell->env = new_env;
 }
 
-int		verify_arg(char *arg)
+static int	verify_arg(char *arg)
 {
 	size_t	i = -1;
 	char 	**str_split = NULL;
