@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 12:36:31 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/07 12:24:56 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/07 17:55:54 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int						execute_or_node(t_ast_node *node, t_sh *shell);
 void					handle_redir_in(t_ast_node *node);
 void					handle_redir_out(t_ast_node *node, int flags);
 void					handle_redirections(t_ast_node *node);
+void					handle_redir_heredoc(t_ast_node *node);
 
 // executor_utils2
 void					set_s_h(struct sigaction *sa, int signum,
