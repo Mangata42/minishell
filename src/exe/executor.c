@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:34 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/07 15:55:09 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/07 21:03:06 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,8 @@ int	execute_command_node(t_ast_node *node, t_sh *shell)
 	struct sigaction	orig_int;
 	struct sigaction	orig_quit;
 	int					status;
-
 	if (node->argv[0] && ft_isdigit(node->argv[0][0]))
 	{
-		fprintf(stderr, "%s: command not found\n", node->argv[0]);
 		shell->exit_status = 127;
 		return (127);
 	}

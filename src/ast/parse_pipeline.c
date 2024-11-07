@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_pipeline.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:45 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/07 14:45:45 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/07 21:06:05 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ t_ast_node	*parse_pipeline(t_token **current_token, t_sh *shell)
 t_ast_node	*parse_command(t_token **current_token, t_sh *shell)
 {
 	t_ast_node	*node;
-
 	node = create_ast_node(AST_COMMAND, shell);
 	while (*current_token && is_redirection_token(*current_token))
 	{

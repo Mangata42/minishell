@@ -6,12 +6,38 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:42 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/05 19:17:31 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/07 22:42:05 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+void	print_ast_node(t_ast_node *node)
+{
+	if (!node)
+	{
+		printf("Node is NULL\n");
+		return ;
+	}
+	printf("Node type: %d\n", node->type);
+	printf("Node argv: ");
+	if (node->argv)
+	{
+		for (int i = 0; node->argv[i]; i++)
+		{
+			printf("%s ", node->argv[i]);
+		}
+		printf("\n");
+	}
+	else
+	{
+		printf("NULL\n");
+	}
+	printf("Node filename: %s\n", node->filename ? node->filename : "NULL");
+	printf("Node left: %p\n", (void *)node->left);
+	printf("Node right: %p\n", (void *)node->right);
+	printf("Node shell: %p\n", (void *)node->shell);
+}
 t_ast_node	*create_ast_node(t_ast_node_type type, t_sh *shell)
 {
 	t_ast_node	*node;
