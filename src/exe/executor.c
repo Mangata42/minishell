@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:34 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/08 13:06:10 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/08 15:29:56 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,17 @@ int	execute_command_node(t_ast_node *node, t_sh *shell)
 	struct sigaction	orig_int;
 	struct sigaction	orig_quit;
 	int					status;
+	char				*cmd;
 
+	cmd = node->argv[0];
+	if (ft_isdigit(cmd[0])) // On vérifie si le premier caractère est un chiffre
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(node->argv[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
+		shell->exit_status = 127;
+		return (127);
+	}
 	if (is_builtin(node->argv[0]))
 	{
 		status = execute_builtin(node, shell);
