@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 12:36:26 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/07 13:09:28 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/08 13:01:14 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ void	h_exp(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
 	if (input[*i] == '?')
 	{
 		status = ft_itoa(shell->exit_status);
+		if (!status)
+			status = ft_strdup("0");
 		add_token(t_list, create_token(status, TOKEN_EXPAND));
 		free(status);
 		(*i)++;
