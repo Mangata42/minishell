@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:04:19 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/07 20:23:02 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/08 16:23:02 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,14 @@ void	h_d_q(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
 	(*i)++;
 	while (input[*i] && input[*i] != '\"')
 	{
-		if (input[*i] == '$')
+		if (input[*i] == '$' && input[*i + 1] == '?')
+		{
+			(*i) += 2;
+			env_value = ft_itoa(shell->exit_status);
+			while (*env_value && j < sizeof(buffer) - 1)
+				buffer[j++] = *env_value++;
+		}
+		else if (input[*i] == '$')
 		{
 			(*i)++;
 			env_value = parse_env_var(input, i, shell);
