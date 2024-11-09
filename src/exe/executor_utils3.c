@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 08:12:14 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/05 19:17:35 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/09 20:45:28 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,57 @@ int	w_c(pid_t pid, t_sh *shell, struct sigaction *orig_int,
 	return (shell->exit_status);
 }
 
-pid_t	create_child_process(t_ast_node *node)
-{
-	pid_t				pid;
-	struct sigaction	sa_default;
+// pid_t	create_child_process(t_ast_node *node)
+// {
+// 	pid_t				pid;
+// 	struct sigaction	sa_default;
 
-	pid = fork();
-	if (pid == 0)
-	{
-		set_signals_for_child(&sa_default);
-		handle_redirections(node);
-		if (execvp(node->argv[0], node->argv) == -1)
-		{
-			perror("minishell");
-			exit(EXIT_FAILURE);
-		}
-	}
-	return (pid);
+// 	pid = fork();
+// 	if (pid == 0)
+// 	{
+// 		set_signals_for_child(&sa_default);
+// 		handle_redirections(node);
+// 		if (execvp(node->argv[0], node->argv) == -1)
+// 		{
+// 			perror("minishell");
+// 			exit(EXIT_FAILURE);
+// 		}
+// 	}
+// 	return (pid);
+// }
+// executor_utils3.c
+
+pid_t create_child_process(t_ast_node *node)
+{
+    pid_t pid;
+    struct sigaction sa_default;
+
+    pid = fork();
+    if (pid == 0)
+    {
+        set_signals_for_child(&sa_default);
+        handle_redirections(node);
+        if (execvp(node->argv[0], node->argv) == -1)
+        {
+            // Vérifier si l'erreur est ENOENT (No such file or directory)
+            if (errno == ENOENT)
+            {
+                ft_putstr_fd("minishell: command not found: ", 2);
+                ft_putstr_fd(node->argv[0], 2);
+                ft_putstr_fd("\n", 2);
+                exit(127); // Code de sortie standard pour "command not found"
+            }
+            else
+            {
+                // Pour d'autres erreurs, vous pouvez utiliser perror ou personnaliser le message
+                ft_putstr_fd("minishell: ", 2);
+                ft_putstr_fd(node->argv[0], 2);
+                ft_putstr_fd(": ", 2);
+                ft_putstr_fd(strerror(errno), 2);
+                ft_putstr_fd("\n", 2);
+                exit(126); // Code de sortie standard pour d'autres erreurs
+            }
+        }
+    }
+    return (pid);
 }
