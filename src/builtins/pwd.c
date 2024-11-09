@@ -19,6 +19,7 @@ int	ft_pwd(void)
 	if (!getcwd(pwd, PATH_MAX))
 		return (ft_putstr_fd("minishell: pwd: error getting current directory\n",
 				2), 1);
-	printf("%s\n", pwd);
+	ft_putstr_fd(pwd, STDOUT_FILENO);
+	ft_putstr_fd("\n", STDOUT_FILENO);
 	return (0);
 }

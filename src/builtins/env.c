@@ -20,7 +20,13 @@ int	ft_env(t_sh *shell)
 	while (i < shell->env_size - 1) // -1 pour éviter l'entrée NULL finale
 	{
 		if (shell->env[i].title && shell->env[i].value)
-			printf("%s=%s\n", shell->env[i].title, shell->env[i].value);
+		{
+			ft_putstr_fd(shell->env[i].title, STDOUT_FILENO);
+			ft_putstr_fd("=", STDOUT_FILENO);
+			ft_putstr_fd(shell->env[i].value, STDOUT_FILENO);
+			ft_putstr_fd("\n", STDOUT_FILENO);
+		}
+			//printf("%s=%s\n", shell->env[i].title, shell->env[i].value);
 		i++;
 	}
 	return (0);
