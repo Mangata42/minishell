@@ -232,7 +232,7 @@ void	free_ast(t_ast_node *node)
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:45 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/09 11:59:07 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/09 13:28:55 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,48 +281,31 @@ t_ast_node	*parse_pipeline(t_token **current_token, t_sh *shell)
 	return (left);
 }
 
-t_ast_node *parse_command(t_token **current_token, t_sh *shell)
+t_ast_node	*parse_command(t_token **current_token, t_sh *shell)
 {
-    t_ast_node *node;
-    bool has_content = false;  // Nouveau flag pour tracker si on a du contenu
-
-    node = create_ast_node(AST_COMMAND, shell);
-    
-    // Pour chaque partie du parsing, on met has_content à true si on trouve quelque chose
-    
-    // 1. Redirections avant
-    while (*current_token && is_redirection_token(*current_token))
-    {
-        parse_redir(current_token, node, shell);
-        has_content = true;  // On a trouvé une redirection
-    }
-    
-    // 2. Commande et arguments
-    while (*current_token && ((*current_token)->type == TOKEN_COMMAND
-            || (*current_token)->type == TOKEN_ARGUMENT
-            || (*current_token)->type == TOKEN_STRING
-            || (*current_token)->type == TOKEN_EXPAND))
-    {
-        add_argument(node, (*current_token)->value);
-        has_content = true;  // On a trouvé une commande ou un argument
-        *current_token = (*current_token)->next;
-    }
-    
-    // 3. Redirections après
-    while (*current_token && is_redirection_token(*current_token))
-    {
-        parse_redir(current_token, node, shell);
-        has_content = true;  // On a trouvé une redirection
-    }
-
-    // Si on n'a rien trouvé du tout, on libère le nœud et on retourne NULL
-    if (!has_content)
-    {
-        free_ast(node);
-        return NULL;
-    }
-
-    return node;
+	t_ast_node	*node;
+	node = create_ast_node(AST_COMMAND, shell);
+	if ((*current_token)->type == TOKEN_HEREDOC)
+	{
+		add_argument(node, "test");
+	}
+	while (*current_token && is_redirection_token(*current_token))
+	{
+		parse_redir(current_token, node, shell);
+	}
+	while (*current_token && ((*current_token)->type == TOKEN_COMMAND
+			|| (*current_token)->type == TOKEN_ARGUMENT
+			|| (*current_token)->type == TOKEN_STRING
+			|| (*current_token)->type == TOKEN_EXPAND))
+	{
+		add_argument(node, (*current_token)->value);
+		*current_token = (*current_token)->next;
+	}
+	while (*current_token && is_redirection_token(*current_token))
+	{
+		parse_redir(current_token, node, shell);
+	}
+	return (node);
 }
 /* ************************************************************************** */
 /*                                                                            */
@@ -711,89 +694,6 @@ char	*get_env_value(const char *name, char **envp)
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 13:09:04 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/06 16:07:54 by nghaddar         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../../include/minishell.h"
-
-int	is_builtin_command(char *cmd)
-{
-	return (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "history")
-		|| !ft_strcmp(cmd, "exit") || !ft_strcmp(cmd, "alias")
-		|| !ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "unset"));
-}
-
-bool	is_whitespace(char c, uint16_t *i)
-{
-	if (ft_isspace(c))
-	{
-		(*i)++;
-		return (true);
-	}
-	return (false);
-}
-
-void	handle_token(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
-{
-	if (input[*i] == '|')
-		h_pipe(input, i, t_list);
-	else if (input[*i] == '>')
-		h_rout(input, i, t_list);
-	else if (input[*i] == '<')
-		h_rin(input, i, t_list);
-	else if (input[*i] == '\'')
-		h_s_q(input, i, t_list);
-	else if (input[*i] == '\"')
-		h_d_q(input, i, t_list, shell);
-	else if (input[*i] == '&' && input[*i + 1] == '&')
-		handle_and(i, t_list);
-	else if (input[*i] == '*')
-		handle_wildcards(i, t_list);
-	else if (input[*i] == '$')
-		h_exp(input, i, t_list, shell);
-	else if (input[*i] == '(' || input[*i] == ')')
-		h_par(input[*i], i, t_list);
-	else if (ft_strchr("!@#%^&_=+", input[*i]))
-		handle_inconnu(input, i, t_list);
-	else if (is_builtin_command(&input[*i]))
-		handle_builtin_command(input, i, t_list);
-	else
-		h_cmd_arg(input, i, t_list, shell->envp);
-}
-
-t_t_list	*lexer(char *input, t_sh *shell)
-{
-	t_t_list	*t_list;
-	uint16_t	i;
-
-	i = 0;
-	t_list = init_t_list();
-	if (!t_list)
-		return (NULL);
-	while (input[i] && is_whitespace(input[i], &i))
-		;
-	if (input[i] == '\0')
-		return (t_list);
-	i = 0;
-	while (input[i])
-	{
-		while (is_whitespace(input[i], &i))
-			;
-		if (input[i] == '\0')
-			break ;
-		handle_token(input, &i, t_list, shell);
-	}
-	return (t_list);
-}
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
 /*   T_ListUtils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
@@ -1050,12 +950,95 @@ void	h_par(char c, uint16_t *i, t_t_list *t_list)
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/24 13:09:04 by fflamion          #+#    #+#             */
+/*   Updated: 2024/11/06 16:07:54 by nghaddar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../include/minishell.h"
+
+int	is_builtin_command(char *cmd)
+{
+	return (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "history")
+		|| !ft_strcmp(cmd, "exit") || !ft_strcmp(cmd, "alias")
+		|| !ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "unset"));
+}
+
+bool	is_whitespace(char c, uint16_t *i)
+{
+	if (ft_isspace(c))
+	{
+		(*i)++;
+		return (true);
+	}
+	return (false);
+}
+
+void	handle_token(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
+{
+	if (input[*i] == '|')
+		h_pipe(input, i, t_list);
+	else if (input[*i] == '>')
+		h_rout(input, i, t_list);
+	else if (input[*i] == '<')
+		h_rin(input, i, t_list);
+	else if (input[*i] == '\'')
+		h_s_q(input, i, t_list);
+	else if (input[*i] == '\"')
+		h_d_q(input, i, t_list, shell);
+	else if (input[*i] == '&' && input[*i + 1] == '&')
+		handle_and(i, t_list);
+	else if (input[*i] == '*')
+		handle_wildcards(i, t_list);
+	else if (input[*i] == '$')
+		h_exp(input, i, t_list, shell);
+	else if (input[*i] == '(' || input[*i] == ')')
+		h_par(input[*i], i, t_list);
+	else if (ft_strchr("!@#%^&_=+", input[*i]))
+		handle_inconnu(input, i, t_list);
+	else if (is_builtin_command(&input[*i]))
+		handle_builtin_command(input, i, t_list);
+	else
+		h_cmd_arg(input, i, t_list, shell->envp);
+}
+
+t_t_list	*lexer(char *input, t_sh *shell)
+{
+	t_t_list	*t_list;
+	uint16_t	i;
+
+	i = 0;
+	t_list = init_t_list();
+	if (!t_list)
+		return (NULL);
+	while (input[i] && is_whitespace(input[i], &i))
+		;
+	if (input[i] == '\0')
+		return (t_list);
+	i = 0;
+	while (input[i])
+	{
+		while (is_whitespace(input[i], &i))
+			;
+		if (input[i] == '\0')
+			break ;
+		handle_token(input, &i, t_list, shell);
+	}
+	return (t_list);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
 /*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:04:19 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/09 11:37:14 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/09 12:05:57 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1140,7 +1123,6 @@ void	h_d_q(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
 	char	buffer[256];
 	char	*env_value;
 	size_t	j;
-	char	*temp;
 
 	j = 0;
 	(*i)++;
@@ -1150,19 +1132,14 @@ void	h_d_q(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
 		{
 			(*i) += 2;
 			env_value = ft_itoa(shell->exit_status);
-			if (env_value)
-			{
-				temp = env_value;
-				while (*env_value && j < sizeof(buffer) - 1)
-					buffer[j++] = *env_value++;
-				free(temp);
-			}
+			while (*env_value && j < sizeof(buffer) - 1)
+				buffer[j++] = *env_value++;
 		}
 		else if (input[*i] == '$')
 		{
 			(*i)++;
 			env_value = parse_env_var(input, i, shell);
-			while (env_value && *env_value && j < sizeof(buffer) - 1)
+			while (*env_value && j < sizeof(buffer) - 1)
 				buffer[j++] = *env_value++;
 		}
 		else if (j < sizeof(buffer) - 1)
@@ -1319,7 +1296,7 @@ int	verif_pipe(t_token *pipe_token)
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:48:46 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/07 20:23:28 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/09 13:59:51 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1362,7 +1339,7 @@ int	verif_operand_set(t_token *operand_token)
 	}
 	p_type = operand_token->prev->type;
 	check_mask = (TOKEN_ARGUMENT | TOKEN_STRING | TOKEN_WILDCARDS
-			| TOKEN_EXPAND | TOKEN_COMMAND);
+			| TOKEN_EXPAND | TOKEN_COMMAND | TOKEN_LPAREN);
 	if (!(p_type & check_mask))
 	{
 		printf("minishell: syntax error near unexpected token `%s'\n",
@@ -1442,7 +1419,7 @@ int	parser(t_t_list *token_list)
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:34:38 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/08 16:03:56 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/09 14:39:58 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1454,7 +1431,7 @@ void	handle_sigint(int sig)
 	{
 		write(1, "\n", 1);
 		rl_on_new_line();
-		rl_replace_line("", 0);
+		// rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }
@@ -2036,7 +2013,7 @@ pid_t	create_child_process(t_ast_node *node)
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:34 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/09 11:59:49 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/09 13:29:20 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -2102,11 +2079,6 @@ int	execute_command_node(t_ast_node *node, t_sh *shell)
 		ft_putstr_fd(": command not found\n", 2);
 		shell->exit_status = 127;
 		return (127);
-	}
-	if (!node->argv) // Si on n'a pas de commande (seulement des redirections)
-	{
-		handle_redirections(node); // On traite quand même les redirections
-		return (0);                  // On sort avec succès
 	}
 	if (is_builtin(node->argv[0]))
 	{
@@ -2190,7 +2162,7 @@ int	execute_or_node(t_ast_node *node, t_sh *shell)
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 16:53:15 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/07 11:13:51 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/09 13:29:10 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -2291,7 +2263,7 @@ void	handle_redirections(t_ast_node *node)
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:47:28 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/09 11:39:06 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/09 14:39:26 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -2308,7 +2280,7 @@ int	process_input(char *input, t_sh *shell)
 		return (1);
 	// print_t_list(t_list);
 	if (parser(t_list))
-		return (0);
+        return (0);
 	ast_root = ast_parser(t_list, shell);
 	// print_ast(ast_root, 0);
 	execute_ast(ast_root, shell);

@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:34 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/09 13:29:20 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/09 16:05:26 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,39 +56,80 @@ static int	execute_builtin(t_ast_node *node, t_sh *shell)
 	return (1);
 }
 
+// int	execute_command_node(t_ast_node *node, t_sh *shell)
+// {
+// 	pid_t				pid;
+// 	struct sigaction	orig_int;
+// 	struct sigaction	orig_quit;
+// 	int					status;
+// 	char				*cmd;
+
+// 	cmd = node->argv[0];
+// 	if (ft_isdigit(cmd[0])) // On vérifie si le premier caractère est un chiffre
+// 	{
+// 		ft_putstr_fd("minishell: ", 2);
+// 		ft_putstr_fd(node->argv[0], 2);
+// 		ft_putstr_fd(": command not found\n", 2);
+// 		shell->exit_status = 127;
+// 		return (127);
+// 	}
+// 	if (is_builtin(node->argv[0]))
+// 	{
+// 		status = execute_builtin(node, shell);
+// 		shell->exit_status = status;
+// 		return (status);
+// 	}
+// 	save_og_s(&orig_int, &orig_quit);
+// 	pid = create_child_process(node);
+// 	if (pid < 0)
+// 	{
+// 		perror("minishell");
+// 		return (-1);
+// 	}
+// 	if (pid > 0)
+// 		return (w_c(pid, shell, &orig_int, &orig_quit));
+// 	return (0);
+// }
 int	execute_command_node(t_ast_node *node, t_sh *shell)
 {
-	pid_t				pid;
-	struct sigaction	orig_int;
-	struct sigaction	orig_quit;
-	int					status;
-	char				*cmd;
+	int	original_stdin;
+	int	original_stdout;
+	int	status;
+		pid_t pid;
+		struct sigaction orig_int;
+		struct sigaction orig_quit;
 
-	cmd = node->argv[0];
-	if (ft_isdigit(cmd[0])) // On vérifie si le premier caractère est un chiffre
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(node->argv[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
-		shell->exit_status = 127;
-		return (127);
-	}
 	if (is_builtin(node->argv[0]))
 	{
+		// Save original file descriptors
+		original_stdin = dup(STDIN_FILENO);
+		original_stdout = dup(STDOUT_FILENO);
+		// Handle redirections
+		handle_redirections(node);
+		// Execute builtin
 		status = execute_builtin(node, shell);
+		// Restore original file descriptors
+		dup2(original_stdin, STDIN_FILENO);
+		dup2(original_stdout, STDOUT_FILENO);
+		close(original_stdin);
+		close(original_stdout);
 		shell->exit_status = status;
 		return (status);
 	}
-	save_og_s(&orig_int, &orig_quit);
-	pid = create_child_process(node);
-	if (pid < 0)
+	else
 	{
-		perror("minishell");
-		return (-1);
+		// Existing code for external commands
+		save_og_s(&orig_int, &orig_quit);
+		pid = create_child_process(node);
+		if (pid < 0)
+		{
+			perror("minishell");
+			return (-1);
+		}
+		if (pid > 0)
+			return (w_c(pid, shell, &orig_int, &orig_quit));
+		return (0);
 	}
-	if (pid > 0)
-		return (w_c(pid, shell, &orig_int, &orig_quit));
-	return (0);
 }
 
 int	execute_pipe_node(t_ast_node *node, t_sh *shell)

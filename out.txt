@@ -1,0 +1,10 @@
+total 196
+ 84 contenu_code.txt
+  0 include
+  0 libft
+  4 Makefile
+100 minishell
+  0 out.txt
+  4 readline.supp
+  4 README.md
+  0 src
