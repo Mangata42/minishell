@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:34 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/08 20:07:29 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/09 12:13:48 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ int	execute_and_node(t_ast_node *node, t_sh *shell)
 	int	status;
 
 	status = execute_ast(node->left, shell);
+	shell->exit_status = status;
 	if (status == 0)
 		return (execute_ast(node->right, shell));
 	return (status);
@@ -141,6 +142,7 @@ int	execute_or_node(t_ast_node *node, t_sh *shell)
 	int	status;
 
 	status = execute_ast(node->left, shell);
+	shell->exit_status = status;
 	if (status != 0)
 		return (execute_ast(node->right, shell));
 	return (status);
