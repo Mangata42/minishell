@@ -61,16 +61,17 @@ pid_t create_child_process(t_ast_node *node)
         {
             if (errno == ENOENT)
             {
+                ft_putstr_fd("minishell: ", 2);
                 ft_putstr_fd(node->argv[0], 2);
-                ft_putstr_fd("minishell: command not found", 2);
+                ft_putstr_fd(": command not found", 2);
                 ft_putstr_fd("\n", 2);
                 exit(127);
             }
             else
             {
+                ft_putstr_fd("minishell: ", 2);
                 ft_putstr_fd(node->argv[0], 2);
                 ft_putstr_fd(": ", 2);
-                ft_putstr_fd("minishell: ", 2);
                 ft_putstr_fd(strerror(errno), 2);
                 ft_putstr_fd("\n", 2);
                 exit(126);
