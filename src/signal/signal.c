@@ -6,7 +6,11 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:34:38 by fflamion          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/11/09 15:43:02 by nghaddar         ###   ########.fr       */
+=======
+/*   Updated: 2024/11/09 15:39:50 by nghaddar         ###   ########.fr       */
+>>>>>>> 830ca14 (fix parser, lexer, heredoc en mode RATATATA)
 /*                                                                            */
 /* ************************************************************************** */
 
