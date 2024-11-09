@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:14:04 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/09 18:52:05 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/09 18:55:18 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int ft_echo(char **args)
 	size_t	total_len = 0;
 	size_t	pos = 0;
 	size_t	len;
-	size_t	written;
 	char	**start;
 	char	*buffer;
 	char	**tmp;
@@ -110,7 +109,7 @@ int ft_echo(char **args)
 		buffer[pos++] = '\n';
 	buffer[pos] = '\0';
 	
-	written = write(1, buffer, pos);
+	write(1, buffer, pos);
 	free(buffer);
-	return (written);
+	return (0);
 }
