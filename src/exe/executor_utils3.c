@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 08:12:14 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/09 20:45:28 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/09 21:34:41 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,23 +59,21 @@ pid_t create_child_process(t_ast_node *node)
         handle_redirections(node);
         if (execvp(node->argv[0], node->argv) == -1)
         {
-            // Vérifier si l'erreur est ENOENT (No such file or directory)
             if (errno == ENOENT)
             {
                 ft_putstr_fd("minishell: command not found: ", 2);
                 ft_putstr_fd(node->argv[0], 2);
                 ft_putstr_fd("\n", 2);
-                exit(127); // Code de sortie standard pour "command not found"
+                exit(127);
             }
             else
             {
-                // Pour d'autres erreurs, vous pouvez utiliser perror ou personnaliser le message
                 ft_putstr_fd("minishell: ", 2);
                 ft_putstr_fd(node->argv[0], 2);
                 ft_putstr_fd(": ", 2);
                 ft_putstr_fd(strerror(errno), 2);
                 ft_putstr_fd("\n", 2);
-                exit(126); // Code de sortie standard pour d'autres erreurs
+                exit(126);
             }
         }
     }
