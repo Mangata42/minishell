@@ -206,7 +206,7 @@ void	free_ast(t_ast_node *node)
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:45 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/07 18:21:13 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/09 13:14:28 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,6 +260,10 @@ t_ast_node	*parse_command(t_token **current_token, t_sh *shell)
 	t_ast_node	*node;
 
 	node = create_ast_node(AST_COMMAND, shell);
+	if ((*current_token)->type == TOKEN_HEREDOC)
+	{
+		add_argument(node, "test");
+	}
 	while (*current_token && is_redirection_token(*current_token))
 	{
 		parse_redir(current_token, node, shell);
@@ -1009,7 +1013,7 @@ void	h_par(char c, uint16_t *i, t_t_list *t_list)
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:04:19 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/02 20:02:11 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/08 16:13:38 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1098,7 +1102,14 @@ void	h_d_q(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
 	(*i)++;
 	while (input[*i] && input[*i] != '\"')
 	{
-		if (input[*i] == '$')
+		if (input[*i] == '$' && input[*i + 1] == '?')
+		{
+			(*i) += 2;
+			env_value = ft_itoa(shell->exit_status);
+			while (*env_value && j < sizeof(buffer) - 1)
+				buffer[j++] = *env_value++;
+		}
+		else if (input[*i] == '$')
 		{
 			(*i)++;
 			env_value = parse_env_var(input, i, shell);
@@ -1381,10 +1392,10 @@ int	parser(t_t_list *token_list)
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:34:38 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/07 12:03:06 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/09 14:03:32 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1396,7 +1407,7 @@ void	handle_sigint(int sig)
 	{
 		write(1, "\n", 1);
 		rl_on_new_line();
-		// rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }
@@ -1973,12 +1984,161 @@ pid_t	create_child_process(t_ast_node *node)
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
+/*   executor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/01 18:12:34 by fflamion          #+#    #+#             */
+/*   Updated: 2024/11/09 12:13:48 by fflamion         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../include/minishell.h"
+
+int	execute_ast(t_ast_node *node, t_sh *shell)
+{
+	if (!node)
+		return (0);
+	if (node->type == AST_COMMAND)
+		return (execute_command_node(node, shell));
+	else if (node->type == AST_PIPE)
+		return (execute_pipe_node(node, shell));
+	else if (node->type == AST_AND)
+		return (execute_and_node(node, shell));
+	else if (node->type == AST_OR)
+		return (execute_or_node(node, shell));
+	return (0);
+}
+
+static int	is_builtin(char *cmd)
+{
+	return (!ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "cd") || !ft_strcmp(cmd,
+			"pwd") || !ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "unset")
+		|| !ft_strcmp(cmd, "env") || !ft_strcmp(cmd, "exit"));
+}
+
+static int	execute_builtin(t_ast_node *node, t_sh *shell)
+{
+	char	*cmd;
+
+	cmd = node->argv[0];
+	if (!ft_strcmp(cmd, "echo"))
+		return (ft_echo(node->argv));
+	if (!ft_strcmp(cmd, "cd"))
+		return (ft_cd(node->argv, shell));
+	if (!ft_strcmp(cmd, "pwd"))
+		return (ft_pwd());
+	if (!ft_strcmp(cmd, "export"))
+		return (ft_export(node->argv, shell));
+	if (!ft_strcmp(cmd, "unset"))
+		return (ft_unset(node->argv, shell));
+	if (!ft_strcmp(cmd, "env"))
+		return (ft_env(shell));
+	if (!ft_strcmp(cmd, "exit"))
+		return (ft_exit(node->argv));
+	return (1);
+}
+
+int	execute_command_node(t_ast_node *node, t_sh *shell)
+{
+	pid_t				pid;
+	struct sigaction	orig_int;
+	struct sigaction	orig_quit;
+	int					status;
+	char				*cmd;
+
+	cmd = node->argv[0];
+	if (ft_isdigit(cmd[0])) // On vérifie si le premier caractère est un chiffre
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(node->argv[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
+		shell->exit_status = 127;
+		return (127);
+	}
+	if (is_builtin(node->argv[0]))
+	{
+		status = execute_builtin(node, shell);
+		shell->exit_status = status;
+		return (status);
+	}
+	save_og_s(&orig_int, &orig_quit);
+	pid = create_child_process(node);
+	if (pid < 0)
+	{
+		perror("minishell");
+		return (-1);
+	}
+	if (pid > 0)
+		return (w_c(pid, shell, &orig_int, &orig_quit));
+	return (0);
+}
+
+int	execute_pipe_node(t_ast_node *node, t_sh *shell)
+{
+	int		pipefd[2];
+	pid_t	pid_left;
+	pid_t	pid_right;
+	int		status;
+
+	if (pipe(pipefd) == -1)
+		return (perror("minishell"), -1);
+	pid_left = fork();
+	if (pid_left == 0)
+	{
+		dup2(pipefd[1], STDOUT_FILENO);
+		close(pipefd[0]);
+		close(pipefd[1]);
+		execute_ast(node->left, shell);
+		exit(shell->exit_status);
+	}
+	pid_right = fork();
+	if (pid_right == 0)
+	{
+		dup2(pipefd[0], STDIN_FILENO);
+		close(pipefd[0]);
+		close(pipefd[1]);
+		execute_ast(node->right, shell);
+		exit(shell->exit_status);
+	}
+	close(pipefd[0]);
+	close(pipefd[1]);
+	waitpid(pid_left, &status, 0);
+	waitpid(pid_right, &status, 0);
+	update_exit_status(shell, status);
+	return (shell->exit_status);
+}
+
+int	execute_and_node(t_ast_node *node, t_sh *shell)
+{
+	int	status;
+
+	status = execute_ast(node->left, shell);
+	shell->exit_status = status;
+	if (status == 0)
+		return (execute_ast(node->right, shell));
+	return (status);
+}
+
+int	execute_or_node(t_ast_node *node, t_sh *shell)
+{
+	int	status;
+
+	status = execute_ast(node->left, shell);
+	shell->exit_status = status;
+	if (status != 0)
+		return (execute_ast(node->right, shell));
+	return (status);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
 /*   executor_utils1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 16:53:15 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/07 11:13:51 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/08 19:48:00 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -2074,149 +2234,12 @@ void	handle_redirections(t_ast_node *node)
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/01 18:12:34 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/08 13:06:10 by fflamion         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../../include/minishell.h"
-
-int	execute_ast(t_ast_node *node, t_sh *shell)
-{
-	if (!node)
-		return (0);
-	if (node->type == AST_COMMAND)
-		return (execute_command_node(node, shell));
-	else if (node->type == AST_PIPE)
-		return (execute_pipe_node(node, shell));
-	else if (node->type == AST_AND)
-		return (execute_and_node(node, shell));
-	else if (node->type == AST_OR)
-		return (execute_or_node(node, shell));
-	return (0);
-}
-
-static int	is_builtin(char *cmd)
-{
-	return (!ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "cd") || !ft_strcmp(cmd,
-			"pwd") || !ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "unset")
-		|| !ft_strcmp(cmd, "env") || !ft_strcmp(cmd, "exit"));
-}
-
-static int	execute_builtin(t_ast_node *node, t_sh *shell)
-{
-	char	*cmd;
-
-	cmd = node->argv[0];
-	if (!ft_strcmp(cmd, "echo"))
-		return (ft_echo(node->argv));
-	if (!ft_strcmp(cmd, "cd"))
-		return (ft_cd(node->argv, shell));
-	if (!ft_strcmp(cmd, "pwd"))
-		return (ft_pwd());
-	if (!ft_strcmp(cmd, "export"))
-		return (ft_export(node->argv, shell));
-	if (!ft_strcmp(cmd, "unset"))
-		return (ft_unset(node->argv, shell));
-	if (!ft_strcmp(cmd, "env"))
-		return (ft_env(shell));
-	if (!ft_strcmp(cmd, "exit"))
-		return (ft_exit(node->argv));
-	return (1);
-}
-
-int	execute_command_node(t_ast_node *node, t_sh *shell)
-{
-	pid_t				pid;
-	struct sigaction	orig_int;
-	struct sigaction	orig_quit;
-	int					status;
-
-	if (is_builtin(node->argv[0]))
-	{
-		status = execute_builtin(node, shell);
-		shell->exit_status = status;
-		return (status);
-	}
-	save_og_s(&orig_int, &orig_quit);
-	pid = create_child_process(node);
-	if (pid < 0)
-	{
-		perror("minishell");
-		return (-1);
-	}
-	if (pid > 0)
-		return (w_c(pid, shell, &orig_int, &orig_quit));
-	return (0);
-}
-
-int	execute_pipe_node(t_ast_node *node, t_sh *shell)
-{
-	int		pipefd[2];
-	pid_t	pid_left;
-	pid_t	pid_right;
-	int		status;
-
-	if (pipe(pipefd) == -1)
-		return (perror("minishell"), -1);
-	pid_left = fork();
-	if (pid_left == 0)
-	{
-		dup2(pipefd[1], STDOUT_FILENO);
-		close(pipefd[0]);
-		close(pipefd[1]);
-		execute_ast(node->left, shell);
-		exit(shell->exit_status);
-	}
-	pid_right = fork();
-	if (pid_right == 0)
-	{
-		dup2(pipefd[0], STDIN_FILENO);
-		close(pipefd[0]);
-		close(pipefd[1]);
-		execute_ast(node->right, shell);
-		exit(shell->exit_status);
-	}
-	close(pipefd[0]);
-	close(pipefd[1]);
-	waitpid(pid_left, &status, 0);
-	waitpid(pid_right, &status, 0);
-	update_exit_status(shell, status);
-	return (shell->exit_status);
-}
-
-int	execute_and_node(t_ast_node *node, t_sh *shell)
-{
-	int	status;
-
-	status = execute_ast(node->left, shell);
-	if (status == 0)
-		return (execute_ast(node->right, shell));
-	return (status);
-}
-
-int	execute_or_node(t_ast_node *node, t_sh *shell)
-{
-	int	status;
-
-	status = execute_ast(node->left, shell);
-	if (status != 0)
-		return (execute_ast(node->right, shell));
-	return (status);
-}
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:47:28 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/08 15:16:50 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/09 14:34:00 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -2231,8 +2254,9 @@ int	process_input(char *input, t_sh *shell)
 	t_list = lexer(input, shell);
 	if (!t_list)
 		return (1);
-	print_t_list(t_list);
-	parser(t_list);
+	// print_t_list(t_list);
+	if (parser(t_list))
+        return (0);
 	ast_root = ast_parser(t_list, shell);
 	// print_ast(ast_root, 0);
 	execute_ast(ast_root, shell);
@@ -2240,7 +2264,6 @@ int	process_input(char *input, t_sh *shell)
 	free_token_list(t_list);
 	return (0);
 }
-
 void	main_loop(t_sh *shell)
 {
 	char			*input;
