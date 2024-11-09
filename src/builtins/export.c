@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:07:26 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/07 13:41:50 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/09 23:10:35 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,34 +16,47 @@
 void	print_sorted_env(t_sh *shell)
 {
 	t_var	*env_copy;
-	int		has_swapped = 1;
-	size_t	i = 0;
+	int		has_swapped;
+	size_t	i;
 
+	has_swapped = 1;
+	i = 0;
+	size_t env_size = shell->env_size - 1; // Adjusted for zero-based index
 	env_copy = copy_env(shell);
+	if (!env_copy)
+		return ;
 	while (has_swapped)
 	{
 		has_swapped = 0;
-		while (i < shell->env_size - 2)
+		while (i < env_size - 1)
 		{
 			if (ft_strcmp(env_copy[i].title, env_copy[i + 1].title) > 0)
 			{
 				swap_values(&env_copy[i], &env_copy[i + 1]);
 				has_swapped = 1;
 			}
-			i++;	
+			i++;
 		}
 		i = 0;
 	}
-	while (env_copy->title)
+	while (i < env_size)
 	{
-		printf("export %s=\"%s\"\n", env_copy->title, env_copy->value);
-		env_copy++;
+		printf("export %s=\"%s\"\n", env_copy[i].title, env_copy[i].value);
+		i++;
 	}
+	i = 0;
+	while (i < env_size)
+	{
+		free(env_copy[i].title);
+		free(env_copy[i].value);
+		i++;
+	}
+	free(env_copy);
 }
 
 void	mod_var(t_sh *shell, char *var_title, char *var_value)
 {
-	t_var *existing_value;
+	t_var	*existing_value;
 
 	existing_value = var_exists(shell, var_title);
 	free(existing_value->value);
@@ -53,8 +66,9 @@ void	mod_var(t_sh *shell, char *var_title, char *var_value)
 void	add_var(t_sh *shell, char *var_title, char *var_value)
 {
 	t_var	*new_env;
-	size_t	i = 0;
-	
+	size_t	i;
+
+	i = 0;
 	new_env = malloc(sizeof(t_var) * shell->env_size + 1);
 	if (!new_env)
 		return ;
@@ -77,9 +91,11 @@ void	add_var(t_sh *shell, char *var_title, char *var_value)
 
 static int	verify_arg(char *arg)
 {
-	size_t	i = -1;
-	char 	**str_split = NULL;
+	size_t	i;
+	char	**str_split;
 
+	i = -1;
+	str_split = NULL;
 	str_split = ft_split(arg, '=');
 	if (!str_split)
 	{
@@ -107,11 +123,11 @@ static int	verify_arg(char *arg)
 	return (0);
 }
 
-int ft_export(char **args, t_sh *shell)
+int	ft_export(char **args, t_sh *shell)
 {
-	char 	**split_str = NULL;
-	int		status = 0;
-	size_t	i = 1;
+	char **split_str = NULL;
+	int status = 0;
+	size_t i = 1;
 
 	if (!args[i])
 		print_sorted_env(shell);
@@ -119,14 +135,15 @@ int ft_export(char **args, t_sh *shell)
 	{
 		if (verify_arg(args[i]))
 			return (1);
-		
+
 		split_str = ft_split(args[i], '=');
 		if (!split_str[1])
 		{
 			status = 0;
-			break;
+			break ;
 		}
-		if (var_exists(shell, split_str[0])){
+		if (var_exists(shell, split_str[0]))
+		{
 			mod_var(shell, split_str[0], split_str[1]);
 		}
 		else
