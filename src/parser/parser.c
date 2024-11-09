@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:48:46 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/07 20:23:28 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/09 13:59:51 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	verif_operand_set(t_token *operand_token)
 	}
 	p_type = operand_token->prev->type;
 	check_mask = (TOKEN_ARGUMENT | TOKEN_STRING | TOKEN_WILDCARDS
-			| TOKEN_EXPAND | TOKEN_COMMAND);
+			| TOKEN_EXPAND | TOKEN_COMMAND | TOKEN_LPAREN);
 	if (!(p_type & check_mask))
 	{
 		printf("minishell: syntax error near unexpected token `%s'\n",
