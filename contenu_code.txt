@@ -669,89 +669,6 @@ char	*get_env_value(const char *name, char **envp)
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 13:09:04 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/06 16:07:54 by nghaddar         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../../include/minishell.h"
-
-int	is_builtin_command(char *cmd)
-{
-	return (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "history")
-		|| !ft_strcmp(cmd, "exit") || !ft_strcmp(cmd, "alias")
-		|| !ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "unset"));
-}
-
-bool	is_whitespace(char c, uint16_t *i)
-{
-	if (ft_isspace(c))
-	{
-		(*i)++;
-		return (true);
-	}
-	return (false);
-}
-
-void	handle_token(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
-{
-	if (input[*i] == '|')
-		h_pipe(input, i, t_list);
-	else if (input[*i] == '>')
-		h_rout(input, i, t_list);
-	else if (input[*i] == '<')
-		h_rin(input, i, t_list);
-	else if (input[*i] == '\'')
-		h_s_q(input, i, t_list);
-	else if (input[*i] == '\"')
-		h_d_q(input, i, t_list, shell);
-	else if (input[*i] == '&' && input[*i + 1] == '&')
-		handle_and(i, t_list);
-	else if (input[*i] == '*')
-		handle_wildcards(i, t_list);
-	else if (input[*i] == '$')
-		h_exp(input, i, t_list, shell);
-	else if (input[*i] == '(' || input[*i] == ')')
-		h_par(input[*i], i, t_list);
-	else if (ft_strchr("!@#%^&_=+", input[*i]))
-		handle_inconnu(input, i, t_list);
-	else if (is_builtin_command(&input[*i]))
-		handle_builtin_command(input, i, t_list);
-	else
-		h_cmd_arg(input, i, t_list, shell->envp);
-}
-
-t_t_list	*lexer(char *input, t_sh *shell)
-{
-	t_t_list	*t_list;
-	uint16_t	i;
-
-	i = 0;
-	t_list = init_t_list();
-	if (!t_list)
-		return (NULL);
-	while (input[i] && is_whitespace(input[i], &i))
-		;
-	if (input[i] == '\0')
-		return (t_list);
-	i = 0;
-	while (input[i])
-	{
-		while (is_whitespace(input[i], &i))
-			;
-		if (input[i] == '\0')
-			break ;
-		handle_token(input, &i, t_list, shell);
-	}
-	return (t_list);
-}
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
 /*   T_ListUtils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
@@ -1008,6 +925,90 @@ void	h_par(char c, uint16_t *i, t_t_list *t_list)
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/24 13:09:04 by fflamion          #+#    #+#             */
+/*   Updated: 2024/11/09 19:01:57 by fflamion         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../include/minishell.h"
+
+int	is_builtin_command(char *cmd)
+{
+	// !ft_strcmp(cmd, "cd") ||
+	return (!ft_strcmp(cmd, "history")
+		|| !ft_strcmp(cmd, "exit") || !ft_strcmp(cmd, "alias")
+		|| !ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "unset"));
+}
+
+bool	is_whitespace(char c, uint16_t *i)
+{
+	if (ft_isspace(c))
+	{
+		(*i)++;
+		return (true);
+	}
+	return (false);
+}
+
+void	handle_token(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
+{
+	if (input[*i] == '|')
+		h_pipe(input, i, t_list);
+	else if (input[*i] == '>')
+		h_rout(input, i, t_list);
+	else if (input[*i] == '<')
+		h_rin(input, i, t_list);
+	else if (input[*i] == '\'')
+		h_s_q(input, i, t_list);
+	else if (input[*i] == '\"')
+		h_d_q(input, i, t_list, shell);
+	else if (input[*i] == '&' && input[*i + 1] == '&')
+		handle_and(i, t_list);
+	else if (input[*i] == '*')
+		handle_wildcards(i, t_list);
+	else if (input[*i] == '$')
+		h_exp(input, i, t_list, shell);
+	else if (input[*i] == '(' || input[*i] == ')')
+		h_par(input[*i], i, t_list);
+	else if (ft_strchr("!@#%^&_=", input[*i]))
+		handle_inconnu(input, i, t_list);
+	else if (is_builtin_command(&input[*i]))
+		handle_builtin_command(input, i, t_list);
+	else
+		h_cmd_arg(input, i, t_list, shell->envp);
+}
+
+t_t_list	*lexer(char *input, t_sh *shell)
+{
+	t_t_list	*t_list;
+	uint16_t	i;
+
+	i = 0;
+	t_list = init_t_list();
+	if (!t_list)
+		return (NULL);
+	while (input[i] && is_whitespace(input[i], &i))
+		;
+	if (input[i] == '\0')
+		return (t_list);
+	i = 0;
+	while (input[i])
+	{
+		while (is_whitespace(input[i], &i))
+			;
+		if (input[i] == '\0')
+			break ;
+		handle_token(input, &i, t_list, shell);
+	}
+	return (t_list);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
 /*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
@@ -1233,40 +1234,6 @@ char	*parse_env_var(char *input, uint16_t *i, t_sh *shell)
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_utils.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/03 16:46:24 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/04 13:18:52 by nghaddar         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../../include/minishell.h"
-
-int	verif_pipe(t_token *pipe_token)
-{
-	t_token_type	p_type;
-	int				check_mask;
-
-	if (!pipe_token->index || !pipe_token->next)
-	{
-		printf("minishell: syntax error near unexpected token `|'\n");
-		return (1);
-	}
-	p_type = pipe_token->prev->type;
-	check_mask = (TOKEN_COMMAND
-			| TOKEN_VARIABLE | TOKEN_STRING | TOKEN_ARGUMENT | TOKEN_RPAREN);
-	if (!(p_type & check_mask))
-	{
-		printf("minishell: syntax error near unexpected token `|'\n");
-		return (1);
-	}
-	return (0);
-}
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
@@ -1390,6 +1357,40 @@ int	parser(t_t_list *token_list)
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/03 16:46:24 by fflamion          #+#    #+#             */
+/*   Updated: 2024/11/04 13:18:52 by nghaddar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../include/minishell.h"
+
+int	verif_pipe(t_token *pipe_token)
+{
+	t_token_type	p_type;
+	int				check_mask;
+
+	if (!pipe_token->index || !pipe_token->next)
+	{
+		printf("minishell: syntax error near unexpected token `|'\n");
+		return (1);
+	}
+	p_type = pipe_token->prev->type;
+	check_mask = (TOKEN_COMMAND
+			| TOKEN_VARIABLE | TOKEN_STRING | TOKEN_ARGUMENT | TOKEN_RPAREN);
+	if (!(p_type & check_mask))
+	{
+		printf("minishell: syntax error near unexpected token `|'\n");
+		return (1);
+	}
+	return (0);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
@@ -1473,77 +1474,6 @@ int	ft_cd(char **args, t_sh *shell)
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 14:14:04 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/06 22:17:39 by fflamion         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../../include/minishell.h"
-
-int	ft_echo(char **args)
-{
-	int		i;
-	int		n_flag;
-	char	*str;
-
-	n_flag = 0;
-	i = 1;
-	while (args[i] && !ft_strncmp(args[i], "-n", 2))
-	{
-		str = args[i] + 1;
-		while (*str == 'n')
-			str++;
-		if (*str == '\0')
-			n_flag = 1;
-		else
-			break ;
-		i++;
-	}
-	while (args[i])
-	{
-		ft_putstr_fd(args[i], STDOUT_FILENO);
-		if (args[i + 1])
-			ft_putchar_fd(' ', STDOUT_FILENO);
-		i++;
-	}
-	if (!n_flag)
-		ft_putchar_fd('\n', STDOUT_FILENO);
-	return (0);
-}
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/06 15:24:40 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/06 22:17:52 by fflamion         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../../include/minishell.h"
-
-int	ft_env(t_sh *shell)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < shell->env_size - 1) // -1 pour éviter l'entrée NULL finale
-	{
-		if (shell->env[i].title && shell->env[i].value)
-			printf("%s=%s\n", shell->env[i].title, shell->env[i].value);
-		i++;
-	}
-	return (0);
-}
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
@@ -1578,30 +1508,6 @@ int	ft_exit(char **args)
 		return (1);
 	}
 	exit((unsigned char)exit_code);
-}
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/06 15:20:10 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/06 21:52:39 by fflamion         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../../include/minishell.h"
-
-int	ft_pwd(void)
-{
-	char	pwd[PATH_MAX];
-
-	if (!getcwd(pwd, PATH_MAX))
-		return (ft_putstr_fd("minishell: pwd: error getting current directory\n",
-				2), 1);
-	printf("%s\n", pwd);
-	return (0);
 }
 /* ************************************************************************** */
 /*                                                                            */
@@ -1892,6 +1798,101 @@ int		ft_unset(char **args, t_sh *shell)
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/24 14:14:04 by nghaddar          #+#    #+#             */
+/*   Updated: 2024/11/06 22:17:39 by fflamion         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../include/minishell.h"
+
+int	ft_echo(char **args)
+{
+	int		i;
+	int		n_flag;
+	char	*str;
+
+	n_flag = 0;
+	i = 1;
+	while (args[i] && !ft_strncmp(args[i], "-n", 2))
+	{
+		str = args[i] + 1;
+		while (*str == 'n')
+			str++;
+		if (*str == '\0')
+			n_flag = 1;
+		else
+			break ;
+		i++;
+	}
+	while (args[i])
+	{
+		ft_putstr_fd(args[i], STDOUT_FILENO);
+		if (args[i + 1])
+			ft_putchar_fd(' ', STDOUT_FILENO);
+		i++;
+	}
+	if (!n_flag)
+		ft_putchar_fd('\n', STDOUT_FILENO);
+	return (0);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/06 15:24:40 by nghaddar          #+#    #+#             */
+/*   Updated: 2024/11/06 22:17:52 by fflamion         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../include/minishell.h"
+
+int	ft_env(t_sh *shell)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < shell->env_size - 1) // -1 pour éviter l'entrée NULL finale
+	{
+		if (shell->env[i].title && shell->env[i].value)
+			printf("%s=%s\n", shell->env[i].title, shell->env[i].value);
+		i++;
+	}
+	return (0);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pwd.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/06 15:20:10 by nghaddar          #+#    #+#             */
+/*   Updated: 2024/11/06 21:52:39 by fflamion         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../include/minishell.h"
+
+int	ft_pwd(void)
+{
+	char	pwd[PATH_MAX];
+
+	if (!getcwd(pwd, PATH_MAX))
+		return (ft_putstr_fd("minishell: pwd: error getting current directory\n",
+				2), 1);
+	printf("%s\n", pwd);
+	return (0);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
 /*   executor_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
@@ -1989,7 +1990,7 @@ pid_t	create_child_process(t_ast_node *node)
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:34 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/09 12:13:48 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/09 15:50:26 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -2239,7 +2240,7 @@ void	handle_redirections(t_ast_node *node)
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:47:28 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/09 14:34:00 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/09 18:29:50 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -2411,29 +2412,6 @@ void		handle_builtin_command(char *input, uint16_t *i, t_t_list *t_list);
 // lexer utils5
 bool		command_exists(char *command, char **envp);
 void		h_par(char c, uint16_t *i, t_t_list *t_list);
-
-#endif
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/29 14:43:43 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/05 19:21:45 by fflamion         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#ifndef PARSER_H
-# define PARSER_H
-
-# include "lexer.h"
-
-int		parser(t_t_list *token_list);
-
-//utils
-int		verif_pipe(t_token *pipe_token);
 
 #endif
 /* ************************************************************************** */
@@ -2704,5 +2682,28 @@ void					set_signals_for_child(struct sigaction *sa_default);
 int						w_c(pid_t p, t_sh *s, struct sigaction *b,
 							struct sigaction *a);
 pid_t					create_child_process(t_ast_node *node);
+
+#endif
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/29 14:43:43 by nghaddar          #+#    #+#             */
+/*   Updated: 2024/11/05 19:21:45 by fflamion         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef PARSER_H
+# define PARSER_H
+
+# include "lexer.h"
+
+int		parser(t_t_list *token_list);
+
+//utils
+int		verif_pipe(t_token *pipe_token);
 
 #endif
