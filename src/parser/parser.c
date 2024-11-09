@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:48:46 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/09 13:59:51 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/09 15:12:38 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	verif_operand_set(t_token *operand_token)
 	}
 	p_type = operand_token->prev->type;
 	check_mask = (TOKEN_ARGUMENT | TOKEN_STRING | TOKEN_WILDCARDS
-			| TOKEN_EXPAND | TOKEN_COMMAND | TOKEN_LPAREN);
+			| TOKEN_EXPAND | TOKEN_COMMAND | TOKEN_RPAREN);
 	if (!(p_type & check_mask))
 	{
 		printf("minishell: syntax error near unexpected token `%s'\n",
@@ -61,8 +61,8 @@ int	verif_operand_set(t_token *operand_token)
 
 int	verif_unknown(t_token *unknown_token)
 {
-	printf("minishell: syntax error near unexpected token : `%s'\n",
-		unknown_token->value);
+	// printf("minishell: syntax error near unexpected token : `%s'\n",
+	// 	unknown_token->value);
 	return (1);
 }
 
@@ -100,6 +100,8 @@ int	parser(t_t_list *token_list)
 	t_token	*token_cursor;
 	int		status;
 
+	if (!token_list->size)
+		return (1);
 	token_cursor = token_list->first;
 	status = 0;
 	if (check_parentheses_balance(token_list))
@@ -113,6 +115,8 @@ int	parser(t_t_list *token_list)
 			status = verif_redir_in_out_set(token_cursor);
 		else if (token_cursor->type & (TOKEN_AND | TOKEN_OR))
 			status = verif_operand_set(token_cursor);
+		else if (token_cursor->type == TOKEN_RPAREN)
+			status = verif_rparen(token_cursor);
 		else if (token_cursor->type == TOKEN_INCONNU)
 			status = verif_unknown(token_cursor);
 		if (status)

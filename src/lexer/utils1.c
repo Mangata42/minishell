@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:04:19 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/09 12:05:57 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/09 15:32:58 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	h_rin(char *input, uint16_t *i, t_t_list *t_list)
 		while (input[*i] && ft_isspace(input[*i]))
 			(*i)++;
 		j = 0;
-		while (input[*i] && !ft_isspace(input[*i]) && j < 255)
+		while (input[*i] && input[*i] != '<' && input[*i] != '>' && !ft_isspace(input[*i]) && j < 255)
 			delimiter[j++] = input[(*i)++];
 		delimiter[j] = '\0';
 		if (ft_strlen(delimiter) > 0)
