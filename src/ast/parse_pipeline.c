@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:45 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/09 12:07:30 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/09 13:28:55 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,10 @@ t_ast_node	*parse_command(t_token **current_token, t_sh *shell)
 {
 	t_ast_node	*node;
 	node = create_ast_node(AST_COMMAND, shell);
+	if ((*current_token)->type == TOKEN_HEREDOC)
+	{
+		add_argument(node, "test");
+	}
 	while (*current_token && is_redirection_token(*current_token))
 	{
 		parse_redir(current_token, node, shell);
