@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:09:04 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/09 15:36:41 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/09 20:22:55 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	is_builtin_command(char *cmd)
 {
-	return (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "history")
+	// !ft_strcmp(cmd, "cd") ||
+	return (!ft_strcmp(cmd, "history")
 		|| !ft_strcmp(cmd, "exit") || !ft_strcmp(cmd, "alias")
 		|| !ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "unset"));
 }
@@ -49,7 +50,7 @@ void	handle_token(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
 		h_exp(input, i, t_list, shell);
 	else if (input[*i] == '(' || input[*i] == ')')
 		h_par(input[*i], i, t_list);
-	else if (ft_strchr("!@#%^&_=+:;", input[*i]))
+	else if (ft_strchr("!@#%^&_=", input[*i]))
 		handle_inconnu(input, i, t_list);
 	else if (is_builtin_command(&input[*i]))
 		handle_builtin_command(input, i, t_list);
