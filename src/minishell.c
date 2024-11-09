@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:47:28 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/09 22:20:02 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/09 23:38:50 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,17 @@ int	process_input(char *input, t_sh *shell)
 	if (!t_list)
 		return (1);
 	if (parser(t_list))
-        return (0);
+	{
+		free_token_list(t_list);
+		return (0);
+	}
 	ast_root = ast_parser(t_list, shell);
 	execute_ast(ast_root, shell);
 	free_ast(ast_root);
 	free_token_list(t_list);
 	return (0);
 }
+
 void	main_loop(t_sh *shell)
 {
 	char			*input;

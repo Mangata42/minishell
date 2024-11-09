@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:07:26 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/09 23:10:35 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/09 23:38:50 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,20 +125,23 @@ static int	verify_arg(char *arg)
 
 int	ft_export(char **args, t_sh *shell)
 {
-	char **split_str = NULL;
-	int status = 0;
-	size_t i = 1;
+	char	**split_str;
+	int		status;
+	size_t	i;
 
+	split_str = NULL;
+	status = 0;
+	i = 1;
 	if (!args[i])
 		print_sorted_env(shell);
 	while (args[i])
 	{
 		if (verify_arg(args[i]))
 			return (1);
-
 		split_str = ft_split(args[i], '=');
 		if (!split_str[1])
 		{
+			ft_free_split(split_str);
 			status = 0;
 			break ;
 		}
