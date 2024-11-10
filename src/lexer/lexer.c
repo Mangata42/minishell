@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:09:04 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/09 20:22:55 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/10 13:26:54 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 int	is_builtin_command(char *cmd)
 {
-	// !ft_strcmp(cmd, "cd") ||
-	return (!ft_strcmp(cmd, "history")
+	return (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "history")
 		|| !ft_strcmp(cmd, "exit") || !ft_strcmp(cmd, "alias")
 		|| !ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "unset"));
 }
