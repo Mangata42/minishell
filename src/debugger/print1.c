@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 19:05:11 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/06 22:19:58 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/10 14:14:28 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,31 @@ void	print_node_info(t_ast_node *node, int level)
 		printf("\n");
 	}
 	printf(RESET);
+}
+
+void	print_ast_node(t_ast_node *node)
+{
+	if (!node)
+	{
+		printf("Node is NULL\n");
+		return ;
+	}
+	printf("Node type: %d\n", node->type);
+	printf("Node argv: ");
+	if (node->argv)
+	{
+		for (int i = 0; node->argv[i]; i++)
+		{
+			printf("%s ", node->argv[i]);
+		}
+		printf("\n");
+	}
+	else
+	{
+		printf("NULL\n");
+	}
+	printf("Node filename: %s\n", node->filename ? node->filename : "NULL");
+	printf("Node left: %p\n", (void *)node->left);
+	printf("Node right: %p\n", (void *)node->right);
+	printf("Node shell: %p\n", (void *)node->shell);
 }
