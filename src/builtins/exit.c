@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:26:42 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/06 21:53:32 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/10 21:09:52 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	ft_exit(char **args)
 	long long	exit_code;
 	char		*endptr;
 
-	exit_code = 0;
 	printf("exit\n");
 	if (!args[1])
 		exit(0);

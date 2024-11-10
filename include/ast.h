@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 12:36:31 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/07 17:55:54 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/10 21:15:24 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,6 @@ void					set_signals_for_child(struct sigaction *sa_default);
 // executor_utils3
 int						w_c(pid_t p, t_sh *s, struct sigaction *b,
 							struct sigaction *a);
-pid_t					create_child_process(t_ast_node *node);
+pid_t					create_child_process(t_ast_node *node, t_sh *shell);
 
 #endif

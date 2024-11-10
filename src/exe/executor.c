@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:34 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/09 20:23:48 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/10 21:15:48 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	execute_command_node(t_ast_node *node, t_sh *shell)
 	{
 		// Existing code for external commands
 		save_og_s(&orig_int, &orig_quit);
-		pid = create_child_process(node);
+		pid = create_child_process(node, shell);
 		if (pid < 0)
 		{
 			perror("minishell");

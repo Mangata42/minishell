@@ -5,3 +5,21 @@
    ...
    obj:/usr/lib/x86_64-linux-gnu/libreadline.so.*
 }
+{
+    leak add_history
+   Memcheck:Leak
+    ...
+    fun:add_history
+}
+{
+    leak usrbin
+    Memcheck:Leak
+    ...
+    obj:/usr/bin/*
+}
+{
+    leak binbin
+    Memcheck:Leak
+    ...
+    obj:/bin/*
+}

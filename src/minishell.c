@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:47:28 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/10 20:00:48 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/10 22:01:52 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,14 @@ int	process_input(char *input, t_sh *shell)
 	// print_t_list(t_list);
 	if (parser(t_list))
 	{
+		free_shell(shell);
 		free_token_list(t_list);
 		return (0);
 	}
 	ast_root = ast_parser(t_list, shell);
+	free_token_list(t_list);
 	execute_ast(ast_root, shell);
 	free_ast(ast_root);
-	free_token_list(t_list);
 	return (0);
 }
 
@@ -49,15 +50,19 @@ void	main_loop(t_sh *shell)
 		color_set.index = (color_set.index + 1) % color_set.color_count;
 		if (!input)
 		{
-			ft_exit((char *[]){"exit", "42", NULL});
-			// printf("exit\n");
+			free(input);
+			free_shell(shell);
+			ft_exit((char *[]){"exit", "127", NULL});
 			break ;
 		}
 		if (*input)
 		{
 			add_history(input);
 			if (process_input(input, shell))
+			{
+				free(input);
 				break ;
+			}
 		}
 		free(input);
 	}

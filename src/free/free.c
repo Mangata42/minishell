@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:22:16 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/09 23:00:51 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/10 21:01:40 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	free_shell(t_sh *shell)
 	while (i < shell->env_size)
 	{
 		free(shell->env[i].title);
+		free(shell->env[i].value);
 		i++;
 	}
 	free(shell->env);

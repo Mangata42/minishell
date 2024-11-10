@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 08:12:14 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/10 14:34:34 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/10 21:17:03 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,12 @@ int	w_c(pid_t pid, t_sh *shell, struct sigaction *orig_int,
 	return (shell->exit_status);
 }
 
-void	handle_exec_error(t_ast_node *node)
+void	handle_exec_error(t_ast_node *node, t_sh *shell)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(node->argv[0], 2);
+	free_ast(node);
+	free_shell(shell);
 	if (errno == ENOENT)
 	{
 		ft_putstr_fd(": command not found\n", 2);
@@ -42,22 +44,23 @@ void	handle_exec_error(t_ast_node *node)
 	exit(126);
 }
 
-void	execute_child(t_ast_node *node, struct sigaction *sa_default)
+void	execute_child(t_ast_node *node, struct sigaction *sa_default,
+		t_sh *shell)
 {
 	set_signals_for_child(sa_default);
 	handle_redirections(node);
 	if (execvp(node->argv[0], node->argv) == -1)
-		handle_exec_error(node);
+		handle_exec_error(node, shell);
 }
 
-pid_t	create_child_process(t_ast_node *node)
+pid_t	create_child_process(t_ast_node *node, t_sh *shell)
 {
 	pid_t				pid;
 	struct sigaction	sa_default;
 
 	pid = fork();
 	if (pid == 0)
-		execute_child(node, &sa_default);
+		execute_child(node, &sa_default, shell);
 	return (pid);
 }
 

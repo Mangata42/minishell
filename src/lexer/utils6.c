@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 13:33:17 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/10 13:47:16 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/10 21:47:29 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ typedef struct s_process_data
 	t_sh		*shell;
 }				t_process_data;
 
-static void	handle_exit_status(uint16_t *i, char *buffer, size_t *j,
+void	handle_exit_status(uint16_t *i, char *buffer, size_t *j,
 		t_sh *shell)
 {
 	char	*env_value;
@@ -35,7 +35,7 @@ static void	handle_exit_status(uint16_t *i, char *buffer, size_t *j,
 	free(tmp);
 }
 
-static void	handle_env_var(uint16_t *i, char *buffer, size_t *j,
+void	handle_env_var(uint16_t *i, char *buffer, size_t *j,
 		t_process_data *data)
 {
 	char	*env_value;
@@ -48,7 +48,7 @@ static void	handle_env_var(uint16_t *i, char *buffer, size_t *j,
 		buffer[(*j)++] = *env_value++;
 }
 
-static void	process_double_quotes(uint16_t *i, char *buffer, size_t *j,
+void	process_double_quotes(uint16_t *i, char *buffer, size_t *j,
 		t_process_data *data)
 {
 	while (data->input[*i] && data->input[*i] != '\"')

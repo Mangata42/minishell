@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 16:53:15 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/10 14:35:53 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/10 21:22:04 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	handle_redir_in(t_ast_node *node)
 	if (fd == -1)
 	{
 		perror("minishell");
+		free_ast(node);
 		exit(EXIT_FAILURE);
 	}
 	dup2(fd, STDIN_FILENO);
@@ -34,6 +35,7 @@ void	handle_redir_out(t_ast_node *node, int flags)
 	if (fd == -1)
 	{
 		perror("minishell");
+		free_ast(node);
 		exit(EXIT_FAILURE);
 	}
 	dup2(fd, STDOUT_FILENO);
