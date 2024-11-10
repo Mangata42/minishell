@@ -1,8 +1,7 @@
 {
-   ignore_readline_leaks
-   Memcheck:Leak
-   match-leak-kinds: reachable
-   ...
+ignore_libreadline_leaks
+ Memcheck:Leak
+ ...
    obj:/usr/lib/x86_64-linux-gnu/libreadline.so.*
 }
 {

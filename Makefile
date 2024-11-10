@@ -74,7 +74,7 @@ NAME = minishell
 # CFLAGS = -Wall -Werror -Wextra -Iincludes -Ilibft -g
 CFLAGS = -Iincludes -Ilibft -g
 LIBFT_TARGET = libft/libft.a
-VALGRIND = valgrind --suppressions=readline.supp --trace-children=yes --track-fds=yes --leak-check=full --show-leak-kinds=all
+VALGRIND = valgrind -q --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./minishell
 
 # Fichiers sources et objets
 SRC_DIR = src
