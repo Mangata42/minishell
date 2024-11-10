@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:14:04 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/09 18:55:18 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/10 13:44:52 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,72 +43,66 @@
 // 	return (0);
 // }
 
-int is_n_option(const char *str) 
+int	is_n_option(const char *str)
 {
-	int i = 2;
+	int	i;
 
+	i = 2;
 	if (str[0] != '-' || str[1] != 'n')
-		return 0;
+		return (0);
 	while (str[i] == 'n')
 		i++;
 	return (str[i] == '\0');
 }
 
-char **check_option(char **args, int *n_flag) 
+char	**check_option(char **args, int *n_flag)
 {
 	*n_flag = 0;
-	
-	while (*args && is_n_option(*args)) {
+	while (*args && is_n_option(*args))
+	{
 		*n_flag = 1;
 		args++;
 	}
-	
 	return (args);
 }
 
-int ft_echo(char **args) 
+int	ft_echo(char **args)
 {
 	int		n_flag;
-	size_t	total_len = 0;
-	size_t	pos = 0;
+	size_t	total_len;
+	size_t	pos;
 	size_t	len;
 	char	**start;
 	char	*buffer;
 	char	**tmp;
-	
+
+	total_len = 0;
+	pos = 0;
 	if (!args || !*args)
-		return (write(1, "\n", 1) != 1);	
+		return (write(1, "\n", 1) != 1);
 	args++;
 	start = check_option(args, &n_flag);
 	tmp = start;
-	while (*tmp) 
+	while (*tmp)
 	{
 		total_len += ft_strlen(*tmp);
-		if (*(tmp + 1))
-			total_len++;
 		tmp++;
 	}
-	
 	if (!n_flag)
 		total_len++;
-		
 	buffer = malloc(total_len + 1);
 	if (!buffer)
 		return (1);
-	while (*start) 
+	while (*start)
 	{
 		len = ft_strlen(*start);
 		ft_memcpy(buffer + pos, *start, len);
 		pos += len;
-		if (*(start + 1)) 
-			buffer[pos++] = ' ';
 		start++;
 	}
-	
 	if (!n_flag)
 		buffer[pos++] = '\n';
 	buffer[pos] = '\0';
-	
 	write(1, buffer, pos);
 	free(buffer);
 	return (0);

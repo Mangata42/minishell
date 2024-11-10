@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:04:19 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/09 15:32:58 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/10 13:34:08 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,37 +86,37 @@ void	h_s_q(char *input, uint16_t *i, t_t_list *t_list)
 		fprintf(stderr, "Error: Missing closing single quote\n");
 }
 
-void	h_d_q(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
-{
-	char	buffer[256];
-	char	*env_value;
-	size_t	j;
+// void	h_d_q(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
+// {
+// 	char	buffer[256];
+// 	char	*env_value;
+// 	size_t	j;
 
-	j = 0;
-	(*i)++;
-	while (input[*i] && input[*i] != '\"')
-	{
-		if (input[*i] == '$' && input[*i + 1] == '?')
-		{
-			(*i) += 2;
-			env_value = ft_itoa(shell->exit_status);
-			while (*env_value && j < sizeof(buffer) - 1)
-				buffer[j++] = *env_value++;
-		}
-		else if (input[*i] == '$')
-		{
-			(*i)++;
-			env_value = parse_env_var(input, i, shell);
-			while (*env_value && j < sizeof(buffer) - 1)
-				buffer[j++] = *env_value++;
-		}
-		else if (j < sizeof(buffer) - 1)
-			buffer[j++] = input[(*i)++];
-	}
-	buffer[j] = '\0';
-	add_token(t_list, create_token(buffer, TOKEN_STRING));
-	if (input[*i] == '\"')
-		(*i)++;
-	else
-		printf("Error: Missing closing double quote\n");
-}
+// 	j = 0;
+// 	(*i)++;
+// 	while (input[*i] && input[*i] != '\"')
+// 	{
+// 		if (input[*i] == '$' && input[*i + 1] == '?')
+// 		{
+// 			(*i) += 2;
+// 			env_value = ft_itoa(shell->exit_status);
+// 			while (*env_value && j < sizeof(buffer) - 1)
+// 				buffer[j++] = *env_value++;
+// 		}
+// 		else if (input[*i] == '$')
+// 		{
+// 			(*i)++;
+// 			env_value = parse_env_var(input, i, shell);
+// 			while (*env_value && j < sizeof(buffer) - 1)
+// 				buffer[j++] = *env_value++;
+// 		}
+// 		else if (j < sizeof(buffer) - 1)
+// 			buffer[j++] = input[(*i)++];
+// 	}
+// 	buffer[j] = '\0';
+// 	add_token(t_list, create_token(buffer, TOKEN_STRING));
+// 	if (input[*i] == '\"')
+// 		(*i)++;
+// 	else
+// 		printf("Error: Missing closing double quote\n");
+// }
