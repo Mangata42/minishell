@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 16:53:15 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/09 13:29:10 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/10 14:35:53 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,47 +40,6 @@ void	handle_redir_out(t_ast_node *node, int flags)
 	close(fd);
 }
 
-void	handle_redir_heredoc(t_ast_node *node)
-{
-	char	*line;
-	int		fd;
-	char	*delimiter;
-
-	// Créer un fichier temporaire pour le heredoc
-	fd = open("/tmp/heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (fd == -1)
-	{
-		perror("minishell: heredoc");
-		exit(EXIT_FAILURE);
-	}
-	delimiter = node->filename;
-	while (1)
-	{
-		line = readline("> ");
-		if (!line)
-			break ;
-		if (ft_strcmp(line, delimiter) == 0)
-		{
-			free(line);
-			break ;
-		}
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
-	}
-	close(fd);
-	// Réouvrir le fichier pour la lecture
-	fd = open("/tmp/heredoc_tmp", O_RDONLY);
-	if (fd == -1)
-	{
-		perror("minishell: heredoc");
-		exit(EXIT_FAILURE);
-	}
-	dup2(fd, STDIN_FILENO);
-	close(fd);
-	unlink("/tmp/heredoc_tmp"); // Supprimer le fichier temporaire
-}
-
 void	handle_redirections(t_ast_node *node)
 {
 	t_ast_node	*redir;
@@ -99,3 +58,43 @@ void	handle_redirections(t_ast_node *node)
 		redir = redir->left;
 	}
 }
+// void	handle_redir_heredoc(t_ast_node *node)
+// {
+// 	char	*line;
+// 	int		fd;
+// 	char	*delimiter;
+
+// 	// Créer un fichier temporaire pour le heredoc
+// 	fd = open("/tmp/heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+// 	if (fd == -1)
+// 	{
+// 		perror("minishell: heredoc");
+// 		exit(EXIT_FAILURE);
+// 	}
+// 	delimiter = node->filename;
+// 	while (1)
+// 	{
+// 		line = readline("> ");
+// 		if (!line)
+// 			break ;
+// 		if (ft_strcmp(line, delimiter) == 0)
+// 		{
+// 			free(line);
+// 			break ;
+// 		}
+// 		write(fd, line, ft_strlen(line));
+// 		write(fd, "\n", 1);
+// 		free(line);
+// 	}
+// 	close(fd);
+// 	// Réouvrir le fichier pour la lecture
+// 	fd = open("/tmp/heredoc_tmp", O_RDONLY);
+// 	if (fd == -1)
+// 	{
+// 		perror("minishell: heredoc");
+// 		exit(EXIT_FAILURE);
+// 	}
+// 	dup2(fd, STDIN_FILENO);
+// 	close(fd);
+// 	unlink("/tmp/heredoc_tmp"); // Supprimer le fichier temporaire
+// }
