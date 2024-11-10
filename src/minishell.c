@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:47:28 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/10 17:49:33 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/10 20:00:48 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ void	main_loop(t_sh *shell)
 		color_set.index = (color_set.index + 1) % color_set.color_count;
 		if (!input)
 		{
-			printf("exit\n");
+			ft_exit((char *[]){"exit", "42", NULL});
+			// printf("exit\n");
 			break ;
 		}
 		if (*input)
