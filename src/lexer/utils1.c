@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:04:19 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/10 16:27:27 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/10 18:49:40 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,8 @@ void h_rin(char *input, uint16_t *i, t_t_list *t_list)
     {
         add_token(t_list, create_token("<<", TOKEN_HEREDOC));
         (*i) += 2;
-        // Ignore les espaces
         while (input[*i] && ft_isspace(input[*i]))
             (*i)++;
-        // Prend le premier mot comme délimiteur
         char buffer[256];
         int j = 0;
         while (input[*i] && !ft_isspace(input[*i]) && j < 255)
