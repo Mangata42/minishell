@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 21:57:07 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/06 22:25:09 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/10 16:12:35 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@ void		print_node_type(t_ast_node *node);
 void		print_indentation(int level);
 void		print_env_debug(char **envp);
 void		print_env_debug(char **envp);
+void	    print_ast_node(t_ast_node *node);
 
 #endif

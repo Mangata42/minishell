@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:04:19 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/10 13:47:32 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/10 16:27:27 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,32 +40,29 @@ void	h_rout(char *input, uint16_t *i, t_t_list *t_list)
 	}
 }
 
-void	h_rin(char *input, uint16_t *i, t_t_list *t_list)
+void h_rin(char *input, uint16_t *i, t_t_list *t_list)
 {
-	t_token	*heredoc_token;
-	char	delimiter[256];
-	int		j;
-
-	if (input[*i + 1] == '<')
-	{
-		heredoc_token = create_token("<<", TOKEN_HEREDOC);
-		add_token(t_list, heredoc_token);
-		(*i) += 2;
-		while (input[*i] && ft_isspace(input[*i]))
-			(*i)++;
-		j = 0;
-		while (input[*i] && input[*i] != '<' && input[*i] != '>'
-			&& !ft_isspace(input[*i]) && j < 255)
-			delimiter[j++] = input[(*i)++];
-		delimiter[j] = '\0';
-		if (ft_strlen(delimiter) > 0)
-			add_token(t_list, create_token(delimiter, TOKEN_STRING));
-	}
-	else
-	{
-		add_token(t_list, create_token("<", TOKEN_REDIRECTION_IN));
-		(*i)++;
-	}
+    if (input[*i + 1] == '<')
+    {
+        add_token(t_list, create_token("<<", TOKEN_HEREDOC));
+        (*i) += 2;
+        // Ignore les espaces
+        while (input[*i] && ft_isspace(input[*i]))
+            (*i)++;
+        // Prend le premier mot comme délimiteur
+        char buffer[256];
+        int j = 0;
+        while (input[*i] && !ft_isspace(input[*i]) && j < 255)
+            buffer[j++] = input[(*i)++];
+        buffer[j] = '\0';
+        if (j > 0)
+            add_token(t_list, create_token(buffer, TOKEN_STRING));
+    }
+    else
+    {
+        add_token(t_list, create_token("<", TOKEN_REDIRECTION_IN));
+        (*i)++;
+    }
 }
 
 void	h_s_q(char *input, uint16_t *i, t_t_list *t_list)
