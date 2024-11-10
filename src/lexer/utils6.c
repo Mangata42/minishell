@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 13:33:17 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/10 13:36:21 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/10 13:47:16 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	handle_exit_status(uint16_t *i, char *buffer, size_t *j,
 	tmp = env_value;
 	while (*env_value && *j < 255)
 		buffer[(*j)++] = *env_value++;
-	free(tmp); // On libère le pointeur original
+	free(tmp);
 }
 
 static void	handle_env_var(uint16_t *i, char *buffer, size_t *j,
@@ -64,9 +64,9 @@ static void	process_double_quotes(uint16_t *i, char *buffer, size_t *j,
 
 void	h_d_q(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
 {
-	char buffer[256];
-	size_t j;
-	t_process_data data;
+	char			buffer[256];
+	size_t			j;
+	t_process_data	data;
 
 	j = 0;
 	data.input = input;
