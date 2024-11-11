@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:47:28 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/11 10:21:37 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/11 12:59:09 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,6 @@ int	main(void)
 
 	initialize_shell(&shell, environ);
 	main_loop(&shell);
+	free_shell(&shell);
 	return (0);
 }

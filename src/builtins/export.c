@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:07:26 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/11 10:45:13 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/11 13:02:53 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	add_var(t_sh *shell, char *var_title, char *var_value)
 	size_t	i;
 
 	i = 0;
-	new_env = malloc(sizeof(t_var) * shell->env_size + 1);
+	new_env = malloc(sizeof(t_var) * (shell->env_size + 1));
 	if (!new_env)
 		return ;
 	while (i < shell->env_size - 1)
@@ -112,8 +112,9 @@ int	ft_export(char **args, t_sh *shell)
 			return (status);
 		i++;
 	}
-	while ((*shell->envp))
-		free((*shell->envp++));
+	i = -1;
+	while (shell->envp[++i])
+		free(shell->envp[i]);
 	free(shell->envp);
 	shell->envp = ret_env_array(shell);
 	return (status);
