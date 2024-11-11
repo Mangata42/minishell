@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 08:12:14 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/10 21:17:03 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/11 02:14:33 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,56 @@ void	handle_exec_error(t_ast_node *node, t_sh *shell)
 	exit(126);
 }
 
+char	*find_executable_path(char *command, t_sh *shell)
+{
+	char	*path_env;
+	char	**paths;
+	char	*full_path;
+	int		i;
+
+	i = 0;
+	path_env = get_env_value("PATH", shell->envp);
+	paths = ft_split(path_env, ':');
+	full_path = NULL;
+	if (!paths)
+		return (NULL);
+	while (paths[i] != NULL)
+	{
+		full_path = ft_strjoin(paths[i], "/");
+		full_path = ft_strjoin_free(full_path, command);
+		if (access(full_path, X_OK) == 0)
+		{
+			ft_free_split(paths);
+			return (full_path);
+		}
+		free(full_path);
+		i++;
+	}
+	ft_free_split(paths);
+	return (NULL);
+}
+
 void	execute_child(t_ast_node *node, struct sigaction *sa_default,
 		t_sh *shell)
 {
+	char		*path;
+	extern char	**environ;
+
 	set_signals_for_child(sa_default);
 	handle_redirections(node);
-	if (execvp(node->argv[0], node->argv) == -1)
+	path = find_executable_path(node->argv[0], shell);
+	if (!path)
+	{
 		handle_exec_error(node, shell);
+		exit(127);
+	}
+	if (execve(path, node->argv, environ) == -1)
+	{
+		free(path);
+		handle_exec_error(node, shell);
+		exit(126);
+	}
+	free(path);
 }
 
 pid_t	create_child_process(t_ast_node *node, t_sh *shell)
@@ -63,6 +106,15 @@ pid_t	create_child_process(t_ast_node *node, t_sh *shell)
 		execute_child(node, &sa_default, shell);
 	return (pid);
 }
+
+// void	execute_child(t_ast_node *node, struct sigaction *sa_default,
+// 		t_sh *shell)
+// {
+// 	set_signals_for_child(sa_default);
+// 	handle_redirections(node);
+// 	if (execvp(node->argv[0], node->argv) == -1)
+// 		handle_exec_error(node, shell);
+// }
 
 // pid_t	create_child_process(t_ast_node *node)
 // {
