@@ -6,53 +6,12 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:07:26 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/11 06:33:59 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/11 06:53:19 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/shell.h"
-
-void	print_sorted_env(t_sh *shell)
-{
-	t_var	*env_copy;
-	int		has_swapped;
-	size_t	i;
-
-	has_swapped = 1;
-	i = 0;
-	size_t env_size = shell->env_size - 1; // Adjusted for zero-based index
-	env_copy = copy_env(shell);
-	if (!env_copy)
-		return ;
-	while (has_swapped)
-	{
-		has_swapped = 0;
-		while (i < env_size - 1)
-		{
-			if (ft_strcmp(env_copy[i].title, env_copy[i + 1].title) > 0)
-			{
-				swap_values(&env_copy[i], &env_copy[i + 1]);
-				has_swapped = 1;
-			}
-			i++;
-		}
-		i = 0;
-	}
-	while (i < env_size)
-	{
-		printf("export %s=\"%s\"\n", env_copy[i].title, env_copy[i].value);
-		i++;
-	}
-	i = 0;
-	while (i < env_size)
-	{
-		free(env_copy[i].title);
-		free(env_copy[i].value);
-		i++;
-	}
-	free(env_copy);
-}
 
 void	mod_var(t_sh *shell, char *var_title, char *var_value)
 {
@@ -89,70 +48,153 @@ void	add_var(t_sh *shell, char *var_title, char *var_value)
 	shell->env = new_env;
 }
 
-static int	verify_arg(char *arg)
+int	process_export_arg(char *arg, t_sh *shell)
 {
-	size_t	i;
-	char	**str_split;
+	char	**split_str;
+	int		status;
 
-	i = -1;
-	str_split = NULL;
-	str_split = ft_split(arg, '=');
-	if (!str_split)
+	if (verify_arg(arg))
+		return (1);
+	split_str = ft_split(arg, '=');
+	if (!split_str[1])
 	{
-		while (arg[++i])
-		{
-			if (!ft_isalnum(arg[i]))
-			{
-				printf("minishell: export: %s not a valid identifier\n", arg);
-				return (1);
-			}
-		}
+		ft_free_split(split_str);
+		return (0);
 	}
+	if (var_exists(shell, split_str[0]))
+		mod_var(shell, split_str[0], split_str[1]);
 	else
-	{
-		while (str_split[0][++i])
-		{
-			if (!ft_isalnum(str_split[0][i]))
-			{
-				printf("minishell: export: %s not a valid identifier\n", arg);
-				free_split(str_split);
-				return (1);
-			}
-		}
-	}
+		add_var(shell, split_str[0], split_str[1]);
+	free_split(split_str);
 	return (0);
 }
 
 int	ft_export(char **args, t_sh *shell)
 {
-	char	**split_str;
 	int		status;
 	size_t	i;
 
-	split_str = NULL;
 	status = 0;
 	i = 1;
 	if (!args[i])
+	{
 		print_sorted_env(shell);
+		return (0);
+	}
 	while (args[i])
 	{
-		if (verify_arg(args[i]))
-			return (1);
-		split_str = ft_split(args[i], '=');
-		if (!split_str[1])
-		{
-			ft_free_split(split_str);
-			status = 0;
-			break ;
-		}
-		if (var_exists(shell, split_str[0]))
-		{
-			mod_var(shell, split_str[0], split_str[1]);
-		}
-		else
-			add_var(shell, split_str[0], split_str[1]);
+		status = process_export_arg(args[i], shell);
+		if (status)
+			return (status);
 		i++;
-		free_split(split_str);
 	}
 	return (status);
 }
+
+// int	ft_export(char **args, t_sh *shell)
+// {
+// 	char	**split_str;
+// 	int		status;
+// 	size_t	i;
+
+// 	split_str = NULL;
+// 	status = 0;
+// 	i = 1;
+// 	if (!args[i])
+// 		print_sorted_env(shell);
+// 	while (args[i])
+// 	{
+// 		if (verify_arg(args[i]))
+// 			return (1);
+// 		split_str = ft_split(args[i], '=');
+// 		if (!split_str[1])
+// 		{
+// 			ft_free_split(split_str);
+// 			status = 0;
+// 			break ;
+// 		}
+// 		if (var_exists(shell, split_str[0]))
+// 		{
+// 			mod_var(shell, split_str[0], split_str[1]);
+// 		}
+// 		else
+// 			add_var(shell, split_str[0], split_str[1]);
+// 		i++;
+// 		free_split(split_str);
+// 	}
+// 	return (status);
+// }
+// void	print_sorted_env(t_sh *shell)
+// {
+// 	t_var	*env_copy;
+// 	int		has_swapped;
+// 	size_t	i;
+
+// 	has_swapped = 1;
+// 	i = 0;
+// 	size_t env_size = shell->env_size - 1; // Adjusted for zero-based index
+// 	env_copy = copy_env(shell);
+// 	if (!env_copy)
+// 		return ;
+// 	while (has_swapped)
+// 	{
+// 		has_swapped = 0;
+// 		while (i < env_size - 1)
+// 		{
+// 			if (ft_strcmp(env_copy[i].title, env_copy[i + 1].title) > 0)
+// 			{
+// 				swap_values(&env_copy[i], &env_copy[i + 1]);
+// 				has_swapped = 1;
+// 			}
+// 			i++;
+// 		}
+// 		i = 0;
+// 	}
+// 	while (i < env_size)
+// 	{
+// 		printf("export %s=\"%s\"\n", env_copy[i].title, env_copy[i].value);
+// 		i++;
+// 	}
+// 	i = 0;
+// 	while (i < env_size)
+// 	{
+// 		free(env_copy[i].title);
+// 		free(env_copy[i].value);
+// 		i++;
+// 	}
+// 	free(env_copy);
+// }
+
+// static int	verify_arg(char *arg)
+// {
+// 	size_t	i;
+// 	char	**str_split;
+
+// 	i = -1;
+// 	str_split = NULL;
+// 	str_split = ft_split(arg, '=');
+// 	if (!str_split)
+// 	{
+// 		while (arg[++i])
+// 		{
+// 			if (!ft_isalnum(arg[i]))
+// 			{
+// 				printf("minishell: export: %s not a valid identifier\n", arg);
+// 				return (1);
+// 			}
+// 		}
+// 	}
+// 	else
+// 	{
+// 		while (str_split[0][++i])
+// 		{
+// 			if (!ft_isalnum(str_split[0][i]))
+// 			{
+// 				printf("minishell: export: %s not a valid identifier\n", arg);
+// 				free_split(str_split);
+// 				return (1);
+// 			}
+// 		}
+// 	}
+// 	return (0);
+// }

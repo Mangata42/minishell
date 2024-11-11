@@ -6,14 +6,14 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 13:11:54 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/11 06:35:09 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/11 06:54:04 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/shell.h"
 
-static int	verify_arg(char *arg)
+int	verify_arg(char *arg)
 {
 	if (!ft_isalpha(*arg))
 		return (1);
