@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 13:43:12 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/09 23:38:10 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/11 06:33:38 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,10 @@ t_var	*copy_env(t_sh *shell)
 {
 	t_var	*env_copy;
 	size_t	i;
+	size_t	env_size;
 
 	i = 0;
-	size_t env_size = shell->env_size - 1; // Adjusted for zero-based index
+	env_size = shell->env_size - 1;
 	env_copy = malloc(sizeof(t_var) * (env_size + 1));
 	if (!env_copy)
 		return (NULL);
@@ -78,3 +79,4 @@ t_var	*var_exists(t_sh *shell, char *var_to_check)
 	}
 	return (NULL);
 }
+// size_t env_size = shell->env_size - 1;  Adjusted for zero-based index

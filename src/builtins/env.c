@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:24:40 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/06 22:17:52 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/11 06:29:17 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_env(t_sh *shell)
 	size_t	i;
 
 	i = 0;
-	while (i < shell->env_size - 1) // -1 pour éviter l'entrée NULL finale
+	while (i < shell->env_size - 1)
 	{
 		if (shell->env[i].title && shell->env[i].value)
 		{
@@ -26,8 +26,8 @@ int	ft_env(t_sh *shell)
 			ft_putstr_fd(shell->env[i].value, STDOUT_FILENO);
 			ft_putstr_fd("\n", STDOUT_FILENO);
 		}
-			//printf("%s=%s\n", shell->env[i].title, shell->env[i].value);
 		i++;
 	}
 	return (0);
 }
+// -1 pour éviter l'entrée NULL finale
