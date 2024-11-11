@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 10:23:12 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/11 09:25:30 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/11 10:27:23 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	initialize_shell(t_sh *shell, char **envp)
 		create_base_env(shell);
 	else
 		parse_env(shell, envp);
-	shell->envp = envp;
+	shell->envp = ret_env_array(shell);
 	shell->exit_status = 0;
 }
 

@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:07:26 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/11 09:12:00 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/11 10:45:13 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,10 @@ int	ft_export(char **args, t_sh *shell)
 			return (status);
 		i++;
 	}
+	while ((*shell->envp))
+		free((*shell->envp++));
+	free(shell->envp);
+	shell->envp = ret_env_array(shell);
 	return (status);
 }
 
