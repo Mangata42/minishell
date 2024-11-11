@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:07:26 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/11 13:02:53 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/11 14:01:10 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static int	verify_arg(char *arg)
 
 	if (!ft_isalpha(arg[0]))
 	{
-			printf("minishell: export: %s not a valid identifier\n", arg);
-			return (1);
+		printf("minishell: export: %s not a valid identifier\n", arg);
+		return (1);
 	}
 	i = 1;
 	while (arg[i] && arg[i] != '=')
@@ -75,7 +75,6 @@ void	add_var(t_sh *shell, char *var_title, char *var_value)
 int	process_export_arg(char *arg, t_sh *shell)
 {
 	char	**split_str;
-	int		status;
 
 	if (verify_arg(arg))
 		return (1);

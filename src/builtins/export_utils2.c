@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 06:44:30 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/11 12:39:41 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/11 14:00:31 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,34 +72,4 @@ void	print_sorted_env(t_sh *shell)
 	sort_env_copy(env_copy, env_size);
 	print_env_vars(env_copy, env_size);
 	free_env_copy(env_copy, env_size);
-}
-
-char 	**ret_env_array(t_sh *shell)
-{
-	char	**env_arr;
-	size_t i;
-	size_t y;
-	size_t z;
-
-	env_arr = malloc(sizeof(char *) * shell->env_size);
-	if (!env_arr)
-		return (NULL);
-	i = 0;
-	while (i < shell->env_size - 1)
-	{
-		y = 0;
-		z = 0;
-		env_arr[i] = malloc(ft_strlen(shell->env[i].title) + ft_strlen(shell->env[i].value) + 2);
-		while (shell->env[i].title[z])
-			env_arr[i][y++] = shell->env[i].title[z++];
-		env_arr[i][y++] = '=';
-		z = 0;
-		while (shell->env[i].value[z])
-			env_arr[i][y++] = shell->env[i].value[z++];
-		env_arr[i][y] = 0;
-		i++;
-	}
-
-	env_arr[i] = NULL;
-	return (env_arr);
 }

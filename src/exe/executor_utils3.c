@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 08:12:14 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/11 09:36:51 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/11 14:42:36 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	execute_child(t_ast_node *node, struct sigaction *sa_default,
 		t_sh *shell)
 {
 	char		*path;
-	extern char	**environ;
 
 	set_signals_for_child(sa_default);
 	handle_redirections(node);
@@ -87,7 +86,7 @@ void	execute_child(t_ast_node *node, struct sigaction *sa_default,
 		handle_exec_error(node, shell);
 		exit(127);
 	}
-	if (execve(path, node->argv, environ) == -1)
+	if (execve(path, node->argv, shell->envp) == -1)
 	{
 		free(path);
 		handle_exec_error(node, shell);
