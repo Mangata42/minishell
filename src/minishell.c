@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:47:28 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/10 22:01:52 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/11 06:20:00 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,10 @@ void	main_loop(t_sh *shell)
 	char			*input;
 	static t_colors	color_set;
 
-	if (color_set.color_count == 0)
-		init_colors(&color_set);
 	setup_signals();
 	while (1)
 	{
-		printf("%s", color_set.colors[color_set.index]);
 		input = readline("minishell> ");
-		printf("%s", color_set.reset_color);
-		color_set.index = (color_set.index + 1) % color_set.color_count;
 		if (!input)
 		{
 			free(input);
