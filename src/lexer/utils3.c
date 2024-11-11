@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 13:34:12 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/08 13:34:14 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/11 09:31:58 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	handle_brace_expand(char *input, uint16_t *i, t_t_list *t_list)
 	}
 }
 
-void	h_alnum_ex(char *input, uint16_t *i, t_t_list *token_list, char **envp)
+void	h_alnum_ex(char *input, uint16_t *i, t_t_list *token_list, t_sh *shell)
 {
 	char			buffer[256];
 	unsigned int	j;
@@ -55,7 +55,7 @@ void	h_alnum_ex(char *input, uint16_t *i, t_t_list *token_list, char **envp)
 		(*i)++;
 	}
 	buffer[j] = '\0';
-	value = get_env_value(buffer, envp);
+	value = get_env_value(shell, buffer);
 	if (value)
 		add_token(token_list, create_token((value), TOKEN_EXPAND));
 	else
@@ -77,7 +77,7 @@ void	h_exp(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
 	else if (input[*i] == '{')
 		handle_brace_expand(input, i, t_list);
 	else
-		h_alnum_ex(input, i, t_list, shell->envp);
+		h_alnum_ex(input, i, t_list, shell);
 }
 
 char	*parse_env_var(char *input, uint16_t *i, t_sh *shell)
@@ -94,7 +94,7 @@ char	*parse_env_var(char *input, uint16_t *i, t_sh *shell)
 		(*i)++;
 	}
 	var_name[var_len] = '\0';
-	env_value = get_env_value(var_name, shell->envp);
+	env_value = get_env_value(shell, var_name);
 	if (env_value)
 		return (env_value);
 	else

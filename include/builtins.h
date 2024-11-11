@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 20:04:50 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/11 07:36:58 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/11 08:45:16 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	swap_values(t_var *a, t_var *b);
 t_var	*copy_env(t_sh *shell);
 t_var	*var_exists(t_sh *shell, char *var_to_check);
 void	print_sorted_env(t_sh *shell);
-int		verify_arg(char *arg);
+// int		verify_arg(char *arg);
 
 // unset utils
 void	remove_var(t_sh *shell, char *var_title);

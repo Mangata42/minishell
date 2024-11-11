@@ -3,15 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:07:26 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/11 06:53:19 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/11 09:12:00 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/shell.h"
+
+static int	verify_arg(char *arg)
+{
+	size_t	i;
+
+	if (!ft_isalpha(arg[0]))
+	{
+			printf("minishell: export: %s not a valid identifier\n", arg);
+			return (1);
+	}
+	i = 1;
+	while (arg[i] && arg[i] != '=')
+	{
+		if (!ft_isalnum(arg[i]))
+		{
+			printf("minishell: export: %s not a valid identifier\n", arg);
+			return (1);
+		}
+		i++;
+	}
+	if (!ft_strchr(arg, '='))
+		return (1);
+	return (0);
+}
 
 void	mod_var(t_sh *shell, char *var_title, char *var_value)
 {
@@ -65,7 +89,7 @@ int	process_export_arg(char *arg, t_sh *shell)
 		mod_var(shell, split_str[0], split_str[1]);
 	else
 		add_var(shell, split_str[0], split_str[1]);
-	free_split(split_str);
+	ft_free_split(split_str);
 	return (0);
 }
 
@@ -163,38 +187,4 @@ int	ft_export(char **args, t_sh *shell)
 // 		i++;
 // 	}
 // 	free(env_copy);
-// }
-
-// static int	verify_arg(char *arg)
-// {
-// 	size_t	i;
-// 	char	**str_split;
-
-// 	i = -1;
-// 	str_split = NULL;
-// 	str_split = ft_split(arg, '=');
-// 	if (!str_split)
-// 	{
-// 		while (arg[++i])
-// 		{
-// 			if (!ft_isalnum(arg[i]))
-// 			{
-// 				printf("minishell: export: %s not a valid identifier\n", arg);
-// 				return (1);
-// 			}
-// 		}
-// 	}
-// 	else
-// 	{
-// 		while (str_split[0][++i])
-// 		{
-// 			if (!ft_isalnum(str_split[0][i]))
-// 			{
-// 				printf("minishell: export: %s not a valid identifier\n", arg);
-// 				free_split(str_split);
-// 				return (1);
-// 			}
-// 		}
-// 	}
-// 	return (0);
 // }

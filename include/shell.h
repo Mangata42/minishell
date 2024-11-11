@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:13:29 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/06 22:13:35 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/11 09:25:34 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ typedef struct s_shell
 
 void		update_exit_status(t_sh *shell, int status);
 void		initialize_shell(t_sh *shell, char **envp);
-char		*get_env_value(const char *name, char **envp);
+char		*get_env_value(t_sh *shell, char *var_name);
 void		free_shell(t_sh *shell);
 #endif

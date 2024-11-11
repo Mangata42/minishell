@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:29:27 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/11 06:31:55 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/11 09:35:05 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*get_cd_path(char **args, t_sh *shell)
 
 	if (!args[1])
 	{
-		path = get_env_value("HOME", shell->envp);
+		path = get_env_value(shell, "HOME");
 		if (!path)
 			return (ft_putstr_fd("minishell: cd: HOME not set\n", 2), NULL);
 	}

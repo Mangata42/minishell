@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils5.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 16:40:08 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/03 16:40:40 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/11 09:29:58 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ bool	check_path(char *path, char *command)
 	return (exists);
 }
 
-bool	command_exists(char *command, char **envp)
+bool	command_exists(char *command, t_sh *shell)
 {
 	char	*path;
 	char	**paths;
 	int		i;
 	bool	found;
 
-	path = get_env_value("PATH", envp);
+	path = get_env_value(shell, "PATH");
 	if (!path)
 		return (false);
 	paths = ft_split(path, ':');

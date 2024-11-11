@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 08:12:14 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/11 02:14:33 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/11 09:36:51 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*find_executable_path(char *command, t_sh *shell)
 	int		i;
 
 	i = 0;
-	path_env = get_env_value("PATH", shell->envp);
+	path_env = get_env_value(shell, "PATH");
 	paths = ft_split(path_env, ':');
 	full_path = NULL;
 	if (!paths)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:09:54 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/05 19:19:44 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/11 09:34:15 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void		h_s_q(char *input, uint16_t *i, t_t_list *t_list);
 void		h_d_q(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell);
 
 // lexer utils2
-void		h_cmd_arg(char *input, uint16_t *i, t_t_list *t_list, char **invp);
+void		h_cmd_arg(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell);
 void		handle_and(uint16_t *i, t_t_list *t_list);
 void		handle_wildcards(uint16_t *i, t_t_list *t_list);
 
@@ -82,7 +82,7 @@ void		handle_inconnu(char *input, uint16_t *i, t_t_list *t_list);
 void		handle_builtin_command(char *input, uint16_t *i, t_t_list *t_list);
 
 // lexer utils5
-bool		command_exists(char *command, char **envp);
+bool		command_exists(char *command, t_sh *shell);
 void		h_par(char c, uint16_t *i, t_t_list *t_list);
 
 #endif

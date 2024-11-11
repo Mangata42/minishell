@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:09:04 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/10 13:26:54 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/11 09:27:34 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	handle_token(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
 	else if (is_builtin_command(&input[*i]))
 		handle_builtin_command(input, i, t_list);
 	else
-		h_cmd_arg(input, i, t_list, shell->envp);
+		h_cmd_arg(input, i, t_list, shell);
 }
 
 t_t_list	*lexer(char *input, t_sh *shell)

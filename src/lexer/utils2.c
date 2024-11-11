@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:09:54 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/11 07:36:04 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/11 09:33:21 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	is_first_token(t_t_list *t_list)
 				|| t_list->last->type == TOKEN_LPAREN)));
 }
 
-void	h_cmd_arg(char *input, uint16_t *i, t_t_list *t_list, char **envp)
+void	h_cmd_arg(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
 {
 	char	buffer[256];
 	int		j;
@@ -35,7 +35,7 @@ void	h_cmd_arg(char *input, uint16_t *i, t_t_list *t_list, char **envp)
 	buffer[j] = '\0';
 	if (is_first_token(t_list))
 	{
-		if (command_exists(buffer, envp))
+		if (command_exists(buffer, shell))
 			add_token(t_list, create_token(buffer, TOKEN_COMMAND));
 		else
 			add_token(t_list, create_token(buffer, TOKEN_ARGUMENT));
