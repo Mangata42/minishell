@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 02:32:08 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/11 02:33:30 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/11 06:38:58 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,29 +58,58 @@ int	execute_builtin_command(t_ast_node *node, t_sh *shell)
 	shell->exit_status = status;
 	return (status);
 }
+typedef struct s_exec_data
+{
+	struct sigaction	orig_int;
+	struct sigaction	orig_quit;
+	pid_t				pid;
+	int					status;
+}						t_exec_data;
+
+int	handle_external_command(t_ast_node *node, t_sh *shell)
+{
+	t_exec_data	data;
+
+	save_og_s(&data.orig_int, &data.orig_quit);
+	data.pid = create_child_process(node, shell);
+	if (data.pid < 0)
+	{
+		perror("minishell");
+		return (-1);
+	}
+	if (data.pid > 0)
+		return (w_c(data.pid, shell, &data.orig_int, &data.orig_quit));
+	return (0);
+}
 
 int	execute_command_node(t_ast_node *node, t_sh *shell)
 {
-	int					original_stdin;
-	int					original_stdout;
-	int					status;
-	pid_t				pid;
-	struct sigaction	orig_int;
-	struct sigaction	orig_quit;
-
 	if (is_builtin(node->argv[0]))
 		return (execute_builtin_command(node, shell));
-	else
-	{
-		save_og_s(&orig_int, &orig_quit);
-		pid = create_child_process(node, shell);
-		if (pid < 0)
-		{
-			perror("minishell");
-			return (-1);
-		}
-		if (pid > 0)
-			return (w_c(pid, shell, &orig_int, &orig_quit));
-		return (0);
-	}
+	return (handle_external_command(node, shell));
 }
+// int	execute_command_node(t_ast_node *node, t_sh *shell)
+// {
+// 	int					original_stdin;
+// 	int					original_stdout;
+// 	int					status;
+// 	pid_t				pid;
+// 	struct sigaction	orig_int;
+// 	struct sigaction	orig_quit;
+
+// 	if (is_builtin(node->argv[0]))
+// 		return (execute_builtin_command(node, shell));
+// 	else
+// 	{
+// 		save_og_s(&orig_int, &orig_quit);
+// 		pid = create_child_process(node, shell);
+// 		if (pid < 0)
+// 		{
+// 			perror("minishell");
+// 			return (-1);
+// 		}
+// 		if (pid > 0)
+// 			return (w_c(pid, shell, &orig_int, &orig_quit));
+// 		return (0);
+// 	}
+// }
