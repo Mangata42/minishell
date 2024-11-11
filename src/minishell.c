@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:47:28 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/11 06:20:00 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/11 07:36:24 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	process_input(char *input, t_sh *shell)
 	t_list = lexer(input, shell);
 	if (!t_list)
 		return (1);
-	// print_t_list(t_list);
 	if (parser(t_list))
 	{
 		free_shell(shell);
