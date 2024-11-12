@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 08:12:14 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/11 09:36:51 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/12 03:07:38 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,7 @@ char	*find_executable_path(char *command, t_sh *shell)
 void	execute_child(t_ast_node *node, struct sigaction *sa_default,
 		t_sh *shell)
 {
-	char		*path;
-	extern char	**environ;
+	char	*path;
 
 	set_signals_for_child(sa_default);
 	handle_redirections(node);
@@ -85,15 +84,19 @@ void	execute_child(t_ast_node *node, struct sigaction *sa_default,
 	if (!path)
 	{
 		handle_exec_error(node, shell);
+		free_shell(shell);
+		free_ast(node);
 		exit(127);
 	}
-	if (execve(path, node->argv, environ) == -1)
+	if (execve(path, node->argv, shell->envp) == -1)
 	{
 		free(path);
 		handle_exec_error(node, shell);
-		exit(126);
 	}
 	free(path);
+	free_shell(shell);
+	free_ast(node);
+	exit(0);
 }
 
 pid_t	create_child_process(t_ast_node *node, t_sh *shell)

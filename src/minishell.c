@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 09:47:28 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/11 17:15:07 by fflamion         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/11/12 03:22:56 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../include/minishell.h"
 
@@ -35,7 +36,6 @@ int	process_input(char *input, t_sh *shell)
 void	main_loop(t_sh *shell)
 {
 	char			*input;
-	static t_colors	color_set;
 
 	setup_signals();
 	while (1)
@@ -65,7 +65,6 @@ int	main(void)
 {
 	t_sh		shell;
 	extern char	**environ;
-	char **env;
 
 	initialize_shell(&shell, environ);
 	main_loop(&shell);

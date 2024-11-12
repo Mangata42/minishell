@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 02:29:37 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/11 02:35:00 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/12 03:08:13 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	execute_left_child(t_ast_node *node, t_sh *shell, int pipefd[2])
 		close(pipefd[0]);
 		close(pipefd[1]);
 		execute_ast(node->left, shell);
+		free_ast(node);
+		free_shell(shell);
 		exit(shell->exit_status);
 	}
 }
@@ -48,6 +50,8 @@ void	execute_right_child(t_ast_node *node, t_sh *shell, int pipefd[2])
 		close(pipefd[0]);
 		close(pipefd[1]);
 		execute_ast(node->right, shell);
+		free_ast(node);
+		free_shell(shell);
 		exit(shell->exit_status);
 	}
 }

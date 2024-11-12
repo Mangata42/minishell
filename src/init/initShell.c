@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 10:23:12 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/11 12:39:37 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/11 15:11:29 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,25 +76,9 @@ void	update_exit_status(t_sh *shell, int status)
 		shell->exit_status = 1;
 }
 
-// char	*get_env_value(const char *name, char **envp)
-// {
-// 	int		i;
-// 	size_t	len;
-
-// 	i = 0;
-// 	len = ft_strlen(name);
-// 	while (envp[i])
-// 	{
-// 		if (ft_strncmp(envp[i], name, len) == 0 && envp[i][len] == '=')
-// 			return (&envp[i][len + 1]);
-// 		i++;
-// 	}
-// 	return (NULL);
-// }
-
-char *get_env_value(t_sh *shell, char *var_name)
+char	*get_env_value(t_sh *shell, char *var_name)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (i < shell->env_size - 1)

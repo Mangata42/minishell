@@ -6,22 +6,47 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 02:32:08 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/11 06:38:58 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/12 02:05:19 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int	is_builtin(char *cmd)
+int	is_builtin(char *cmd)
 {
 	return (!ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "cd") || !ft_strcmp(cmd,
 			"pwd") || !ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "unset")
 		|| !ft_strcmp(cmd, "env") || !ft_strcmp(cmd, "exit"));
 }
 
-static int	execute_builtin(t_ast_node *node, t_sh *shell)
+char	**cp_argv(t_ast_node *node)
+{
+	int		i;
+	char	**argv;
+	int		j;
+
+	i = 0;
+	while (node->argv[i])
+		i++;
+	argv = malloc(sizeof(char *) * (i + 1));
+	if (!argv)
+		return (NULL);
+	j = 0;
+	while (j <= i)
+	{
+		if (node->argv[j])
+			argv[j] = ft_strdup(node->argv[j]);
+		else
+			argv[j] = NULL;
+		j++;
+	}
+	return (argv);
+}
+
+int	execute_builtin(t_ast_node *node, t_sh *shell)
 {
 	char	*cmd;
+	char	**args;
 
 	cmd = node->argv[0];
 	if (!ft_strcmp(cmd, "echo"))
@@ -37,7 +62,12 @@ static int	execute_builtin(t_ast_node *node, t_sh *shell)
 	if (!ft_strcmp(cmd, "env"))
 		return (ft_env(shell));
 	if (!ft_strcmp(cmd, "exit"))
-		return (ft_exit(node->argv));
+	{
+		free_shell(shell);
+		args = cp_argv(node);
+		free_ast(node);
+		return (ft_exit(args));
+	}
 	return (1);
 }
 

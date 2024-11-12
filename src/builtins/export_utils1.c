@@ -6,24 +6,12 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 13:43:12 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/11 06:33:38 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/12 02:10:13 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/shell.h"
-
-void	free_split(char **split_str)
-{
-	if (split_str)
-	{
-		if (split_str[0])
-			free(split_str[0]);
-		if (split_str[1])
-			free(split_str[1]);
-		free(split_str);
-	}
-}
 
 void	swap_values(t_var *a, t_var *b)
 {

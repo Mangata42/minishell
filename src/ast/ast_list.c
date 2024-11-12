@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:42 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/10 16:13:34 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/12 00:26:41 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_ast_node	*create_ast_node(t_ast_node_type type, t_sh *shell)
 	return (node);
 }
 
-static char	**duplicate_argv(char **argv, int argc, char *argument)
+char	**duplicate_argv(char **argv, int argc, char *argument)
 {
 	char	**new_argv;
 	int		i;

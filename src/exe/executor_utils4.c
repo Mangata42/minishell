@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:21:20 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/10 14:26:50 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/12 01:18:11 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	handle_redir_heredoc(t_ast_node *node)
 	if (fd == -1)
 	{
 		perror("minishell: heredoc");
+		free_ast(node);
 		exit(EXIT_FAILURE);
 	}
 	write_heredoc_content(fd, node->filename);
