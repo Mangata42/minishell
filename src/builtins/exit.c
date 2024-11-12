@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:26:42 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/11 15:55:34 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/12 02:11:37 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,17 @@ int	ft_exit(char **args)
 
 	printf("exit\n");
 	if (!args[1])
+	{
+		ft_free_split(args);
 		exit(0);
+	}
 	exit_code = strtoll(args[1], &endptr, 10);
 	if (*endptr != '\0' || args[1][0] == '\0')
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(args[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
+		ft_free_split(args);
 		exit(255);
 	}
 	if (args[2])
@@ -33,5 +37,6 @@ int	ft_exit(char **args)
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		return (1);
 	}
+	ft_free_split(args);
 	exit((unsigned char)exit_code);
 }
