@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 20:04:50 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/12 02:10:33 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/12 17:17:01 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "shell.h"
 # include <limits.h>
+# include "ast.h"
 
 // utils
 t_var	*copy_env(t_sh *shell);
@@ -25,7 +26,7 @@ int		ft_pwd(void);
 int		ft_export(char **args, t_sh *shell);
 int		ft_unset(char **args, t_sh *shell);
 int		ft_env(t_sh *shell);
-int		ft_exit(char **args);
+int		ft_exit(char **args, t_sh *shell, t_ast_node *node);
 
 // export utils
 void	swap_values(t_var *a, t_var *b);

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 12:36:31 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/10 21:15:24 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/12 17:16:51 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AST_H
 # define AST_H
 
-# include "debugger.h"
+// # include "debugger.h"
 # include "lexer.h"
 
 typedef enum e_ast_node_type
