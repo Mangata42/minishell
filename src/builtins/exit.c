@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:26:42 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/12 19:58:52 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/12 21:56:13 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	ft_exit(char **args, t_sh *shell, t_ast_node *node)
 	long long	exit_code;
 	char		*endptr;
 
+	endptr = NULL;
 	printf("exit\n");
 	if (!args[1])
 	{
