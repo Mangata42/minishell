@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 02:32:08 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/12 17:15:15 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/12 19:15:11 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	is_builtin(char *cmd);
+int						is_builtin(char *cmd);
 
 char	**cp_argv(t_ast_node *node)
 {
@@ -77,6 +77,7 @@ int	execute_builtin_command(t_ast_node *node, t_sh *shell)
 	shell->exit_status = status;
 	return (status);
 }
+
 typedef struct s_exec_data
 {
 	struct sigaction	orig_int;

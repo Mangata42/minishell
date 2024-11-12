@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:26:42 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/12 18:36:07 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/12 19:58:52 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void free_candies(t_sh *shell, t_ast_node *node)
+void	free_candies(t_sh *shell, t_ast_node *node)
 {
 	if (shell)
 		free_shell(shell);
@@ -38,7 +38,7 @@ int	ft_exit(char **args, t_sh *shell, t_ast_node *node)
 		ft_putstr_fd(args[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
 		free_candies(shell, node);
-		exit(255);
+		exit(2);
 	}
 	if (args[2])
 	{

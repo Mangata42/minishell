@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:13:29 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/11 09:25:34 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/12 17:56:28 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,5 @@ void		update_exit_status(t_sh *shell, int status);
 void		initialize_shell(t_sh *shell, char **envp);
 char		*get_env_value(t_sh *shell, char *var_name);
 void		free_shell(t_sh *shell);
+void		mod_var(t_sh *shell, char *var_title, char *var_value);
 #endif

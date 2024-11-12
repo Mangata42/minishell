@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 12:36:31 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/12 17:16:51 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/12 17:11:53 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AST_H
 # define AST_H
 
-// # include "debugger.h"
 # include "lexer.h"
 
 typedef enum e_ast_node_type
@@ -90,4 +89,6 @@ int						w_c(pid_t p, t_sh *s, struct sigaction *b,
 							struct sigaction *a);
 pid_t					create_child_process(t_ast_node *node, t_sh *shell);
 
+// executor_utils5
+char					*find_executable_path(char *command, t_sh *shell);
 #endif

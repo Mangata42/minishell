@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 20:04:50 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/12 17:17:01 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/12 19:16:27 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
+# include "ast.h"
 # include "shell.h"
 # include <limits.h>
-# include "ast.h"
 
 // utils
 t_var	*copy_env(t_sh *shell);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:50:53 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/11 13:07:35 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/12 15:12:26 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@
 # include "lexer.h"
 # include "parser.h"
 # include "builtins.h"
-# include "debugger.h"
 # include "signal.h"
 # include "ast.h"
 

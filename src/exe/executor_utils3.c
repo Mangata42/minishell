@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 08:12:14 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/12 04:00:56 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/12 17:12:02 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,34 +44,84 @@ void	handle_exec_error(t_ast_node *node, t_sh *shell)
 	exit(126);
 }
 
-char	*find_executable_path(char *command, t_sh *shell)
-{
-	char	*path_env;
-	char	**paths;
-	char	*full_path;
-	int		i;
+// char	*find_executable_path(char *command, t_sh *shell)
+// {
+// 	char	*path_env;
+// 	char	**paths;
+// 	char	*full_path;
+// 	int		i;
 
-	i = 0;
-	path_env = get_env_value(shell, "PATH");
-	paths = ft_split(path_env, ':');
-	full_path = NULL;
-	if (!paths)
-		return (NULL);
-	while (paths[i] != NULL)
-	{
-		full_path = ft_strjoin(paths[i], "/");
-		full_path = ft_strjoin_free(full_path, command);
-		if (access(full_path, X_OK) == 0)
-		{
-			ft_free_split(paths);
-			return (full_path);
-		}
-		free(full_path);
-		i++;
-	}
-	ft_free_split(paths);
-	return (NULL);
-}
+// 	i = 0;
+// 	path_env = get_env_value(shell, "PATH");
+// 	paths = ft_split(path_env, ':');
+// 	full_path = NULL;
+// 	if (!paths)
+// 		return (NULL);
+// 	while (paths[i] != NULL)
+// 	{
+// 		full_path = ft_strjoin(paths[i], "/");
+// 		full_path = ft_strjoin_free(full_path, command);
+// 		if (access(full_path, X_OK) == 0)
+// 		{
+// 			ft_free_split(paths);
+// 			return (full_path);
+// 		}
+// 		free(full_path);
+// 		i++;
+// 	}
+// 	ft_free_split(paths);
+// 	return (NULL);
+// }
+
+// char	*find_executable_path(char *command, t_sh *shell)
+// {
+// 	char	*path_env;
+// 	char	**paths;
+// 	char	*full_path;
+// 	int		i;
+
+// 	// Vérifier si la commande contient un '/'
+// 	if (ft_strchr(command, '/'))
+// 	{
+// 		// Tenter d'accéder directement au chemin fourni
+// 		if (access(command, X_OK) == 0)
+// 			return (ft_strdup(command));
+// 		else
+// 			return (NULL);
+// 	}
+// 	// Sinon, rechercher dans les répertoires du PATH
+// 	i = 0;
+// 	path_env = get_env_value(shell, "PATH");
+// 	if (!path_env)
+// 		return (NULL);
+// 	paths = ft_split(path_env, ':');
+// 	if (!paths)
+// 		return (NULL);
+// 	while (paths[i] != NULL)
+// 	{
+// 		full_path = ft_strjoin(paths[i], "/");
+// 		if (!full_path)
+// 		{
+// 			ft_free_split(paths);
+// 			return (NULL);
+// 		}
+// 		full_path = ft_strjoin_free(full_path, command);
+// 		if (!full_path)
+// 		{
+// 			ft_free_split(paths);
+// 			return (NULL);
+// 		}
+// 		if (access(full_path, X_OK) == 0)
+// 		{
+// 			ft_free_split(paths);
+// 			return (full_path);
+// 		}
+// 		free(full_path);
+// 		i++;
+// 	}
+// 	ft_free_split(paths);
+// 	return (NULL);
+// }
 
 void	execute_child(t_ast_node *node, struct sigaction *sa_default,
 		t_sh *shell)

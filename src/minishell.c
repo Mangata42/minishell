@@ -3,15 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/12 18:33:42 by nghaddar         ###   ########.fr       */
+/*   Created: 2024/11/12 15:14:57 by fflamion          #+#    #+#             */
+/*   Updated: 2024/11/12 19:16:11 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../include/minishell.h"
+
+void	shelllevel(t_sh *shell)
+{
+	int		shlvl;
+	char	*modvalue;
+	size_t	i;
+
+	i = -1;
+	while (shell->envp[++i])
+		free(shell->envp[i]);
+	free(shell->envp);
+	shlvl = ft_atoi(get_env_value(shell, "SHLVL"));
+	modvalue = ft_itoa(++shlvl);
+	mod_var(shell, "SHLVL", modvalue);
+	shell->envp = ret_env_array(shell);
+	free(modvalue);
+}
 
 int	process_input(char *input, t_sh *shell)
 {
@@ -35,7 +51,7 @@ int	process_input(char *input, t_sh *shell)
 
 void	main_loop(t_sh *shell)
 {
-	char			*input;
+	char	*input;
 
 	setup_signals();
 	while (1)
@@ -61,12 +77,19 @@ void	main_loop(t_sh *shell)
 	}
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **environ)
 {
-	t_sh		shell;
-	extern char	**environ;
+	t_sh	shell;
 
+	if (argc != 1)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(argv[1], 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		return (127);
+	}
 	initialize_shell(&shell, environ);
+	shelllevel(&shell);
 	main_loop(&shell);
 	free_shell(&shell);
 	return (0);
