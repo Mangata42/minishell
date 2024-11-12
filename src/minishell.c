@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/12 03:22:56 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/12 18:33:42 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	main_loop(t_sh *shell)
 		{
 			free(input);
 			free_shell(shell);
-			ft_exit((char *[]){"exit", "127", NULL});
+			ft_exit((char *[]){"exit", "127", NULL}, NULL, NULL);
 			break ;
 		}
 		if (*input)
