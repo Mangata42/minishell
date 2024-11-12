@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 02:32:08 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/12 22:05:03 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/12 22:40:20 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ int	handle_external_command(t_ast_node *node, t_sh *shell)
 
 int	execute_command_node(t_ast_node *node, t_sh *shell)
 {
+	if (node->argv == NULL)
+		return (-1);
 	if (is_builtin(node->argv[0]))
 		return (execute_builtin_command(node, shell));
 	if (!get_env_value(shell, "PATH"))
