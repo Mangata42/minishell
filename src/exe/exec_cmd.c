@@ -3,21 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 02:32:08 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/12 03:51:26 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/12 15:05:21 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	is_builtin(char *cmd)
-{
-	return (!ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "cd") || !ft_strcmp(cmd,
-			"pwd") || !ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "unset")
-		|| !ft_strcmp(cmd, "env") || !ft_strcmp(cmd, "exit"));
-}
+int	is_builtin(char *cmd);
 
 char	**cp_argv(t_ast_node *node)
 {

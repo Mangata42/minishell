@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils4.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:21:20 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/12 01:18:11 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/12 15:05:02 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,11 @@ void	handle_redir_heredoc(t_ast_node *node)
 	write_heredoc_content(fd, node->filename);
 	close(fd);
 	setup_heredoc_reading();
+}
+
+int	is_builtin(char *cmd)
+{
+	return (!ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "cd") || !ft_strcmp(cmd,
+			"pwd") || !ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "unset")
+		|| !ft_strcmp(cmd, "env") || !ft_strcmp(cmd, "exit"));
 }
