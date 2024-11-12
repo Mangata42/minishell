@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 02:32:08 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/12 15:05:21 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/12 16:02:38 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ char	**cp_argv(t_ast_node *node)
 int	execute_builtin(t_ast_node *node, t_sh *shell)
 {
 	char	*cmd;
-	char	**args;
 
 	cmd = node->argv[0];
 	if (!ft_strcmp(cmd, "echo"))
@@ -57,12 +56,7 @@ int	execute_builtin(t_ast_node *node, t_sh *shell)
 	if (!ft_strcmp(cmd, "env"))
 		return (ft_env(shell));
 	if (!ft_strcmp(cmd, "exit"))
-	{
-		free_shell(shell);
-		args = cp_argv(node);
-		free_ast(node);
-		return (ft_exit(args));
-	}
+		return (ft_exit(node->argv));
 	return (1);
 }
 
