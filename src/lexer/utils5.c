@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 16:40:08 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/12 15:20:03 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/13 09:33:37 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,37 @@ void	h_par(char c, uint16_t *i, t_t_list *t_list)
 	else if (c == ')')
 		add_token(t_list, create_token(")", TOKEN_RPAREN));
 	(*i)++;
+}
+
+int	match_pattern(const char *pattern, const char *str)
+{
+	if (*pattern == '\0')
+		return (*str == '\0');
+	if (*pattern == '*')
+	{
+		return (match_pattern(pattern + 1, str) || (*str
+				&& match_pattern(pattern, str + 1)));
+	}
+	if (*pattern == *str)
+		return (match_pattern(pattern + 1, str + 1));
+	return (0);
+}
+
+void	expand_wildcard(const char *pattern, t_t_list *t_list)
+{
+	struct dirent	*entry;
+	DIR				*dir;
+
+	dir = opendir(".");
+	if (!dir)
+	{
+		perror("opendir");
+		return ;
+	}
+	while ((entry = readdir(dir)) != NULL)
+	{
+		if (match_pattern(pattern, entry->d_name))
+			add_token(t_list, create_token(entry->d_name, TOKEN_ARGUMENT));
+	}
+	closedir(dir);
 }

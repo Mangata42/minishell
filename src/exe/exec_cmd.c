@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 02:32:08 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/12 22:40:20 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/13 11:01:01 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,14 +105,13 @@ int	handle_external_command(t_ast_node *node, t_sh *shell)
 int	execute_command_node(t_ast_node *node, t_sh *shell)
 {
 	if (node->argv == NULL)
-		return (-1);
-	if (is_builtin(node->argv[0]))
-		return (execute_builtin_command(node, shell));
-	if (!get_env_value(shell, "PATH"))
 	{
-		printf("minishell: %s: No such file or directory\n", node->argv[0]);
+		free_ast(node);
+		free_shell(shell);
 		return (-1);
 	}
+	if (is_builtin(node->argv[0]))
+		return (execute_builtin_command(node, shell));
 	return (handle_external_command(node, shell));
 }
 

@@ -44,7 +44,7 @@ void	handle_token(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
 	else if (input[*i] == '&' && input[*i + 1] == '&')
 		handle_and(i, t_list);
 	else if (input[*i] == '*')
-		handle_wildcards(i, t_list);
+		handle_wildcards(input, i, t_list);
 	else if (input[*i] == '$')
 		h_exp(input, i, t_list, shell);
 	else if (input[*i] == '(' || input[*i] == ')')

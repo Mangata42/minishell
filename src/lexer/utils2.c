@@ -50,8 +50,18 @@ void	handle_and(uint16_t *i, t_t_list *t_list)
 	(*i) += 2;
 }
 
-void	handle_wildcards(uint16_t *i, t_t_list *t_list)
+void	handle_wildcards(char *input, uint16_t *i, t_t_list *t_list)
 {
-	add_token(t_list, create_token("*", TOKEN_WILDCARDS));
-	(*i)++;
+	char	buffer[256];
+	size_t	y;
+
+	y = 0;
+	while (ft_isprint(input[*i]) && input[*i])
+	{
+		buffer[y] = input[*i];
+		(*i)++;
+		y++;
+	}
+	buffer[y] = '\0';
+	expand_wildcard(buffer, t_list);
 }

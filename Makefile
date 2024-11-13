@@ -71,8 +71,8 @@ endef
 
 # Variables
 NAME = minishell
-# CFLAGS = -Wall -Werror -Wextra -Iincludes -Ilibft -g
-CFLAGS = -Iincludes -Ilibft -g
+CFLAGS = -Wall -Werror -Wextra -Iincludes -Ilibft -g
+# CFLAGS = -Iincludes -Ilibft -g
 LIBFT_TARGET = libft/libft.a
 VALGRIND = valgrind -q --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./minishell
 
