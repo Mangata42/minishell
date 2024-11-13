@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 02:32:08 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/13 14:22:44 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/13 14:28:08 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ int	execute_builtin_command(t_ast_node *node, t_sh *shell)
 	close(original_stdin);
 	close(original_stdout);
 	shell->exit_status = status;
-	
 	return (status);
 }
 

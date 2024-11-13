@@ -6,7 +6,7 @@
 /*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 16:40:08 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/13 09:33:37 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/13 14:33:47 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,12 @@ void	expand_wildcard(const char *pattern, t_t_list *t_list)
 		perror("opendir");
 		return ;
 	}
-	while ((entry = readdir(dir)) != NULL)
+	entry = readdir(dir);
+	while (entry != NULL)
 	{
 		if (match_pattern(pattern, entry->d_name))
 			add_token(t_list, create_token(entry->d_name, TOKEN_ARGUMENT));
+		entry = readdir(dir);
 	}
 	closedir(dir);
 }
