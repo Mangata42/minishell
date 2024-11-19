@@ -44,6 +44,7 @@ int	process_input(char *input, t_sh *shell)
 	}
 	ast_root = ast_parser(t_list, shell);
 	free_token_list(t_list);
+	add_root(ast_root, ast_root);
 	execute_ast(ast_root, shell);
 	free_ast(ast_root);
 	return (0);

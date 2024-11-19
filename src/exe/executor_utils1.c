@@ -20,7 +20,7 @@ void	handle_redir_in(t_ast_node *node)
 	if (fd == -1)
 	{
 		perror("minishell");
-		free_ast(node);
+		free_ast(node->root);
 		exit(EXIT_FAILURE);
 	}
 	dup2(fd, STDIN_FILENO);
@@ -35,7 +35,7 @@ void	handle_redir_out(t_ast_node *node, int flags)
 	if (fd == -1)
 	{
 		perror("minishell");
-		free_ast(node);
+		free_ast(node->root);
 		exit(EXIT_FAILURE);
 	}
 	dup2(fd, STDOUT_FILENO);

@@ -24,6 +24,7 @@ t_ast_node	*create_ast_node(t_ast_node_type type, t_sh *shell)
 	node->filename = NULL;
 	node->left = NULL;
 	node->right = NULL;
+	node->root = NULL;
 	node->shell = shell;
 	return (node);
 }
@@ -64,6 +65,16 @@ void	add_argument(t_ast_node *node, char *argument)
 
 void	free_ast(t_ast_node *node)
 {
+	if (!node)
+		return ;
+	free_ast(node->left);
+	free_ast(node->right);
+	free_node(node);
+	node = NULL;
+}
+
+void free_node(t_ast_node *node)
+{
 	int	i;
 
 	if (!node)
@@ -80,7 +91,14 @@ void	free_ast(t_ast_node *node)
 	}
 	if (node->filename)
 		free(node->filename);
-	free_ast(node->left);
-	free_ast(node->right);
 	free(node);
+}
+
+void add_root(t_ast_node *node, t_ast_node *root)
+{
+	if(!node)
+		return ;
+	node->root = root;
+	add_root(node->left, root);
+	add_root(node->right, root);
 }

@@ -31,7 +31,7 @@ void	handle_exec_error(t_ast_node *node, t_sh *shell)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(node->argv[0], 2);
-	free_ast(node);
+	free_ast(node->root);
 	free_shell(shell);
 	if (errno == ENOENT)
 	{
@@ -135,7 +135,7 @@ void	execute_child(t_ast_node *node, struct sigaction *sa_default,
 	{
 		handle_exec_error(node, shell);
 		free_shell(shell);
-		free_ast(node);
+		free_ast(node->root);
 		exit(127);
 	}
 	if (execve(path, node->argv, shell->envp) == -1)
@@ -145,7 +145,7 @@ void	execute_child(t_ast_node *node, struct sigaction *sa_default,
 	}
 	free(path);
 	free_shell(shell);
-	free_ast(node);
+	free_ast(node->root);
 	exit(0);
 }
 
