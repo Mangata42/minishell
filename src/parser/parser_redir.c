@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 13:26:37 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/19 16:05:03 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/19 17:30:20 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 static void	handle_append_solo(t_token *redir_in_token)
 {
-	int fd;
-	
+	int	fd;
+
 	fd = open(redir_in_token->next->value, O_CREAT | O_RDWR, 0666);
 	redir_in_token->type = TOKEN_ARGUMENT;
 	redir_in_token->next->type = TOKEN_ARGUMENT;
-	free(redir_in_token->value); 
+	free(redir_in_token->value);
 	redir_in_token->value = ft_strdup("test");
 	close(fd);
 }

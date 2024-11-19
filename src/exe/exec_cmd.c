@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 02:32:08 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/19 13:10:55 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/19 17:31:42 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,12 @@ int	execute_builtin_command(t_ast_node *node, t_sh *shell)
 	int	original_stdout;
 	int	status;
 
-	original_stdin = dup(STDIN_FILENO);
-	original_stdout = dup(STDOUT_FILENO);
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
+	original_stdin = 0;
+	original_stdout = 0;
 	handle_redirections(node);
 	status = execute_builtin(node, shell);
 	dup2(original_stdin, STDIN_FILENO);
 	dup2(original_stdout, STDOUT_FILENO);
-	close(original_stdin);
-	close(original_stdout);
 	shell->exit_status = status;
 	return (status);
 }
