@@ -115,6 +115,7 @@ SRC_FILES = \
     src/minishell.c \
     src/parser/parser.c \
     src/parser/parser_utils.c \
+    src/parser/parser_redir.c \
     src/signal/signal.c
 OBJS = $(SRC_FILES:.c=.o)
 
