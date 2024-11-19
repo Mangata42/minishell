@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 02:32:08 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/13 11:01:01 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/19 13:10:55 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ int	execute_builtin_command(t_ast_node *node, t_sh *shell)
 
 	original_stdin = dup(STDIN_FILENO);
 	original_stdout = dup(STDOUT_FILENO);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	handle_redirections(node);
 	status = execute_builtin(node, shell);
 	dup2(original_stdin, STDIN_FILENO);

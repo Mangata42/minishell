@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:48:46 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/12 15:21:12 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/19 13:09:12 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+static void tkt(t_token *redir_in_token)
+{
+
+	open(redir_in_token->next->value, O_CREAT | O_RDWR, 0666);
+	redir_in_token->type = TOKEN_ARGUMENT;
+	redir_in_token->next->type = TOKEN_ARGUMENT;
+	free(redir_in_token->value);
+	redir_in_token->value = ft_strdup("test");
+		
+}
 
 int	verif_redir_in_out_set(t_token *redir_in_token)
 {
@@ -22,6 +33,14 @@ int	verif_redir_in_out_set(t_token *redir_in_token)
 		printf("minishell: syntax error near unexpected token `newline'\n");
 		return (1);
 	}
+
+	if (redir_in_token->type == TOKEN_APPEND)
+		if (!redir_in_token->prev || redir_in_token->prev->type & (TOKEN_AND | TOKEN_OR | TOKEN_LPAREN))
+		{
+			tkt(redir_in_token);
+			return (0);
+		}
+	
 	n_type = redir_in_token->next->type;
 	check_mask = TOKEN_STRING | TOKEN_COMMAND | TOKEN_EXPAND | TOKEN_ARGUMENT;
 	if (!(n_type & check_mask))
