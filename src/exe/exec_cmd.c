@@ -104,7 +104,7 @@ int	execute_command_node(t_ast_node *node, t_sh *shell)
 {
 	if (node->argv == NULL)
 	{
-		free_ast(node);
+		free_ast(node->root);
 		free_shell(shell);
 		return (-1);
 	}

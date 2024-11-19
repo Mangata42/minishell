@@ -33,7 +33,7 @@ void	execute_left_child(t_ast_node *node, t_sh *shell, int pipefd[2])
 		close(pipefd[0]);
 		close(pipefd[1]);
 		execute_ast(node->left, shell);
-		free_ast(node);
+		free_ast(node->root);
 		free_shell(shell);
 		exit(shell->exit_status);
 	}
@@ -50,7 +50,7 @@ void	execute_right_child(t_ast_node *node, t_sh *shell, int pipefd[2])
 		close(pipefd[0]);
 		close(pipefd[1]);
 		execute_ast(node->right, shell);
-		free_ast(node);
+		free_ast(node->root);
 		free_shell(shell);
 		exit(shell->exit_status);
 	}
