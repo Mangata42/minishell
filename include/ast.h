@@ -32,6 +32,7 @@ typedef struct s_ast_node
 	t_ast_node_type		type;
 	char				**argv;
 	char				*filename;
+	struct s_ast_node	*root;
 	struct s_ast_node	*left;
 	struct s_ast_node	*right;
 	t_sh				*shell;
@@ -41,6 +42,8 @@ typedef struct s_ast_node
 t_ast_node				*create_ast_node(t_ast_node_type type, t_sh *shell);
 void					add_argument(t_ast_node *node, char *argument);
 void					free_ast(t_ast_node *node);
+void					free_node(t_ast_node *node);
+void					add_root(t_ast_node *node, t_ast_node *root);
 
 // parser
 t_ast_node				*ast_parser(t_t_list *token_list, t_sh *shell);

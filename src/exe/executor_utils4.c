@@ -55,7 +55,7 @@ void	handle_redir_heredoc(t_ast_node *node)
 	if (fd == -1)
 	{
 		perror("minishell: heredoc");
-		free_ast(node);
+		free_ast(node->root);
 		exit(EXIT_FAILURE);
 	}
 	write_heredoc_content(fd, node->filename);
