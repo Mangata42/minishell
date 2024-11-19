@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 13:11:54 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/12 15:21:00 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/19 19:29:44 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,18 @@
 
 int	verify_arg(char *arg)
 {
-	if (!ft_isalpha(*arg))
+	size_t i;
+
+	i = 0;
+	while (arg[i] == '_')
+		i++;
+	if (i == 0 && !ft_isalpha(arg[i]))
 		return (1);
-	while (*arg)
+	while (arg[i])
 	{
-		if (!ft_isalnum(*arg))
+		if (!ft_isalnum(arg[i]))
 			return (1);
-		arg++;
+		i++;
 	}
 	return (0);
 }

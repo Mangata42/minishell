@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:18:59 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/12 15:19:02 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/19 19:14:29 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ void	handle_token(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
 		h_exp(input, i, t_list, shell);
 	else if (input[*i] == '(' || input[*i] == ')')
 		h_par(input[*i], i, t_list);
-	else if (ft_strchr("!@#%^&_=", input[*i]))
-		handle_inconnu(input, i, t_list);
 	else if (is_builtin_command(&input[*i]))
 		handle_builtin_command(input, i, t_list);
 	else

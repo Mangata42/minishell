@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:54:03 by fflamion          #+#    #+#             */
-/*   Updated: 2024/10/31 11:50:58 by fflamion         ###   ########.fr       */
+/*   Updated: 2024/11/19 19:14:50 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,6 @@ void	handle_heredoc(t_token *heredoc_token, char *delimiter)
 	close(fd);
 	free(heredoc_token->value);
 	heredoc_token->value = ft_strdup("heredoc.txt");
-}
-
-void	handle_inconnu(char *input, uint16_t *i, t_t_list *t_list)
-{
-	char	buffer[2];
-
-	buffer[0] = input[*i];
-	buffer[1] = '\0';
-	add_token(t_list, create_token(buffer, TOKEN_INCONNU));
-	(*i)++;
 }
 
 void	handle_builtin_command(char *input, uint16_t *i, t_t_list *t_list)
