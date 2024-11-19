@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:07:26 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/19 19:27:46 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/19 19:34:00 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 
 static int	verify_arg(char *arg)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (arg[i] == '_')
 		i++;
-
 	if (i == 0 && !ft_isalpha(arg[i]))
 	{
 		printf("minishell: export: %s not a valid identifier\n", arg);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fflamion <fflamion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 13:11:54 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/19 19:29:44 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/19 19:34:42 by fflamion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	verify_arg(char *arg)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (arg[i] == '_')
@@ -82,5 +82,5 @@ int	ft_unset(char **args, t_sh *shell)
 	}
 	return (0);
 }
-// if (!var_exists(shell, args[i])) //if variable does not exist, 
+// if (!var_exists(shell, args[i])) //if variable does not exist,
 // avoid useless copy
