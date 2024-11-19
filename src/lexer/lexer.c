@@ -29,6 +29,17 @@ bool	is_whitespace(char c, uint16_t *i)
 	return (false);
 }
 
+bool	is_wildcard(char *str)
+{
+	while (*str && *str != ' ')
+	{
+		if (*str == '*')
+			return (true);
+		str++;
+	}
+	return (false);
+}
+
 void	handle_token(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
 {
 	if (input[*i] == '|')
@@ -43,7 +54,7 @@ void	handle_token(char *input, uint16_t *i, t_t_list *t_list, t_sh *shell)
 		h_d_q(input, i, t_list, shell);
 	else if (input[*i] == '&' && input[*i + 1] == '&')
 		handle_and(i, t_list);
-	else if (input[*i] == '*')
+	else if (is_wildcard(input + *i))
 		handle_wildcards(input, i, t_list);
 	else if (input[*i] == '$')
 		h_exp(input, i, t_list, shell);

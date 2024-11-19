@@ -63,16 +63,21 @@ void	h_par(char c, uint16_t *i, t_t_list *t_list)
 
 int	match_pattern(const char *pattern, const char *str)
 {
-	if (*pattern == '\0')
-		return (*str == '\0');
-	if (*pattern == '*')
-	{
-		return (match_pattern(pattern + 1, str) || (*str
-				&& match_pattern(pattern, str + 1)));
-	}
-	if (*pattern == *str)
-		return (match_pattern(pattern + 1, str + 1));
-	return (0);
+	while (*pattern == '*' && *(pattern + 1) == '*')
+		pattern++;
+	if (*pattern == '*' && *(pattern + 1) == '\0')
+		return (1);
+	if (!*str && *pattern)
+		return (0);
+	if (!*str && !*pattern)
+		return (1);
+	if(*pattern == '*' && match_pattern(pattern + 1, str))
+		return (1);
+	if (*pattern == '*' && match_pattern(pattern, str + 1))
+		return (1);
+	if (*pattern == *str && match_pattern(pattern + 1, str + 1))
+		return (1);
+	return 0;
 }
 
 void	expand_wildcard(const char *pattern, t_t_list *t_list)
