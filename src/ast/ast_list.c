@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:12:42 by fflamion          #+#    #+#             */
-/*   Updated: 2024/11/19 17:54:21 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/19 18:41:59 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,34 +71,4 @@ void	free_ast(t_ast_node *node)
 	free_ast(node->right);
 	free_node(node);
 	node = NULL;
-}
-
-void free_node(t_ast_node *node)
-{
-	int	i;
-
-	if (!node)
-		return ;
-	if (node->argv)
-	{
-		i = 0;
-		while (node->argv[i])
-		{
-			free(node->argv[i]);
-			i++;
-		}
-		free(node->argv);
-	}
-	if (node->filename)
-		free(node->filename);
-	free(node);
-}
-
-void add_root(t_ast_node *node, t_ast_node *root)
-{
-	if(!node)
-		return ;
-	node->root = root;
-	add_root(node->left, root);
-	add_root(node->right, root);
 }

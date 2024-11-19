@@ -80,6 +80,7 @@ VALGRIND = valgrind -q --leak-check=full --show-leak-kinds=all --suppressions=re
 SRC_DIR = src
 SRC_FILES = \
     src/ast/ast_list.c \
+	src/ast/ast_free.c \
     src/ast/parse_pipeline.c \
     src/ast/parser.c \
     src/ast/parse_redirections.c \
