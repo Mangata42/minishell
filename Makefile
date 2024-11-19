@@ -78,7 +78,44 @@ VALGRIND = valgrind -q --leak-check=full --show-leak-kinds=all --suppressions=re
 
 # Fichiers sources et objets
 SRC_DIR = src
-SRC_FILES = $(shell find $(SRC_DIR) -name '*.c')
+SRC_FILES = \
+    src/ast/ast_list.c \
+    src/ast/parse_pipeline.c \
+    src/ast/parser.c \
+    src/ast/parse_redirections.c \
+    src/builtins/cd.c \
+    src/builtins/echo.c \
+    src/builtins/env.c \
+    src/builtins/exit.c \
+    src/builtins/export.c \
+    src/builtins/export_utils1.c \
+    src/builtins/export_utils2.c \
+    src/builtins/pwd.c \
+    src/builtins/unset.c \
+    src/exe/exec_cmd.c \
+    src/exe/exec_pipe.c \
+    src/exe/executor.c \
+    src/exe/executor_utils1.c \
+    src/exe/executor_utils2.c \
+    src/exe/executor_utils3.c \
+    src/exe/executor_utils4.c \
+    src/exe/executor_utils5.c \
+    src/free/free.c \
+    src/funny/fun.c \
+    src/init/initShell.c \
+    src/init/shell_utils.c \
+    src/lexer/lexer.c \
+    src/lexer/lexer_list.c \
+    src/lexer/utils1.c \
+    src/lexer/utils2.c \
+    src/lexer/utils3.c \
+    src/lexer/utils4.c \
+    src/lexer/utils5.c \
+    src/lexer/utils6.c \
+    src/minishell.c \
+    src/parser/parser.c \
+    src/parser/parser_utils.c \
+    src/signal/signal.c
 OBJS = $(SRC_FILES:.c=.o)
 
 # Règles de compilation
